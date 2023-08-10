@@ -38,6 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_jinja',
+
+    'admin_settings.apps.AdminSettingsConfig',
+    'cart_and_orders.apps.CartAndOrdersConfig',
+    'paymentapp.apps.PaymentappConfig',
+    'shopapp.apps.ShopappConfig',
 ]
 
 MIDDLEWARE = [
