@@ -10,3 +10,8 @@ class ProductReviewService:
         добавление отзыва к товару от конкретного пользователя
         """
         pass
+
+    def get_reviews_count(self, product_id):
+        """
+        получить количество отзывов для товара
+        """
