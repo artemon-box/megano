@@ -1,0 +1,14 @@
+{% extends 'base.jinja2' %}
+
+{% block title %} {{ seller.name }} {% endblock %}
+
+{% block content %}
+    <div>
+        {% cache  %}
+        <h1>{{ seller.name }}</h1>
+        <p>{{ seller.description }}</p>
+
+        <h2>Top Products</h2>
+
+    </div>
+{% endblock %}
