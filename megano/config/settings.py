@@ -25,7 +25,10 @@ SECRET_KEY = 'django-insecure-t43gvn83$n+gh3kt0!v9sj5$du8@o!ci9gb5sv%%q9ft^m6za^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', ]
+ALLOWED_HOSTS = [
+    '0.0.0.0',
+    '127.0.0.1',
+]
 
 
 # Application definition
@@ -38,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_jinja',
+
 
     'admin_settings.apps.AdminSettingsConfig',
     'cart_and_orders.apps.CartAndOrdersConfig',
@@ -63,6 +67,10 @@ TEMPLATES = [
         "DIRS": [BASE_DIR / 'templates'],
         "APP_DIRS": True,
         "OPTIONS": {
+            'context_processors': [
+                'shopapp.context_processors.categories_menu',
+                'shopapp.context_processors.random_active_banners',
+            ],
             # django-jinja defaults
             "match_extension": ".jinja2",
             "match_regex": None,
@@ -147,3 +155,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Время кэширования в секундах
+CATEGORY_MENU_CACHE_TIMEOUT = 86400
+BANNER_CACHE_TIMEOUT = 600
