@@ -3,4 +3,6 @@ from django.urls import path
 
 app_name = "cart_and_orders"
 
-urlpatterns = []
+urlpatterns = [
+
+]
