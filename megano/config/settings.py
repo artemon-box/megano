@@ -69,7 +69,7 @@ TEMPLATES = [
         "OPTIONS": {
             'context_processors': [
                 'shopapp.context_processors.categories_menu',
-                'shopapp.context_processors.random_active_banners',
+                'shopapp.context_processors.random_product_banners',
             ],
             # django-jinja defaults
             "match_extension": ".jinja2",

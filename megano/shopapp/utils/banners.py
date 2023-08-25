@@ -25,7 +25,7 @@ def get_random_active_product_banners():
             banner = {
                 'title': product.name,
                 'text': f"Get the {product.name} with great discount!",
-                'image_url': product.image.url,  # Замените на соответствующее поле из модели Product
+                'image_url': product.image.url,  # Заменить на соответствующее поле из модели Product
             }
             banners.append(banner)
 
