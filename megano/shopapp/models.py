@@ -46,8 +46,16 @@ class ProductSeller(models.Model):
 
 class Category(models.Model):
     """
-    модель категории товаров
+    Модель категории товаров
     """
+    name = models.CharField(max_length=255)
+    sort_index = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['sort_index']
 
 
 def seller_images_directory_path(instance, filename):
@@ -57,7 +65,7 @@ def seller_images_directory_path(instance, filename):
 
 class Seller(models.Model):
     """
-    Модель продавца
+    модель продавец
     """
     user = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL)
     name = models.CharField(max_length=100)

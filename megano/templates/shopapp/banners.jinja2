@@ -1,0 +1,43 @@
+<div class="Header-slider">
+    <div class="Slider Slider_main">
+        <div class="Slider-box slick-initialized slick-slider slick-dotted">
+            <div class="slick-list draggable">
+                <div class="slick-track">
+                    {% for banner in random_active_banners %}
+                    <div class="Slider-item slick-slide">
+                        <div class="Slider-content">
+                            <div class="row">
+                                <div class="row-block">
+                                    <strong class="Slider-title">{{ banner.title }}<span class="text_primary"> 5</span> mini Drone</strong>
+                                    <div class="Slider-text">{{ banner.description }}</div>
+                                    <div class="Slider-footer">
+                                        <a class="btn btn_primary" href="#" tabindex="0">Get Started</a>
+                                    </div>
+                                </div>
+                                <div class="row-block">
+                                    <div class="Slider-img"><img src="{{ banner.image.url }}" alt="{{ banner.title }}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="Slider-navigateWrap">
+            <div class="Slider-navigate">
+                <button class="slick-prev slick-arrow" aria-label="Previous" type="button">Previous</button>
+                <button class="slick-next slick-arrow" aria-label="Next" type="button">Next</button>
+                <ul class="slick-dots" role="tablist">
+                    {% for index in banner_indices %}
+                    <li role="presentation" {% if index == 1 %}class="slick-active"{% endif %}>
+                        <button type="button" role="tab" id="slick-slide-control{{ index }}" aria-controls="slick-slide{{ index }}" aria-label="{{ index }} of {{ banner_indices|length }}" tabindex="{% if index == 1 %}0{% else %}-1{% endif %}" aria-selected="{% if index == 1 %}true{% endif %}">
+                            {{ index }}
+                        </button>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

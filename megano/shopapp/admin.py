@@ -1,6 +1,12 @@
 from django.contrib import admin
+from shopapp.models import Product, ProductSeller, Category
 
-from shopapp.models import Product, ProductSeller
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'is_active', 'sort_index')
+    list_filter = ('is_active',)
+    search_fields = ('name',)
 
 
 @admin.register(Product)
