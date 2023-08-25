@@ -18,16 +18,6 @@ class SiteSettings(SingletonModel):
         default=20,
         help_text='Частота обновления банера, сек'
     )
-    sale_start = models.DateField(
-        default=None,
-        auto_now_add=False,
-        help_text='Дата начала акции/распродажи'
-    )
-    sale_end = models.DateField(
-        default=None,
-        auto_now_add=False,
-        help_text='Дата окончания акции/распродажи'
-    )
     goods_on_page = models.IntegerField(
         default=1,
         help_text='Кол-во товаров на странице'
