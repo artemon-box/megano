@@ -22,3 +22,18 @@ class DiscountService:
         получения списка скидок из определенной категории товаров во всем торговом центре с учетом профиля пользователя
         """
         pass
+
+    def get_discounts_for_products(self, product_ids: list):
+        """
+        получить все скидки на указанный список товаров или на один товар
+        """
+
+    def get_priority_discounts_for_products(self, product_ids: list):
+        """
+        получить приоритетную скидку на указанный список товаров или на один товар
+        """
+
+    def calculate_discount_price(self, product_id, price):
+        """
+        рассчитать цену со скидкой на товар с дополнительным необязательным параметром «Цена товара»
+        """
