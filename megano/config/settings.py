@@ -64,8 +64,7 @@ TEMPLATES = [
         "APP_DIRS": True,
         "OPTIONS": {
             # django-jinja defaults
-            "environment": "config.jinja2.environment",
-            # "match_extension": ".jinja2",
+            "match_extension": ".jinja2",
             "match_regex": None,
             "app_dirname": "templates",
             "constants": {
