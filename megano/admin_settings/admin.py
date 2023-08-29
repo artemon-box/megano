@@ -8,8 +8,6 @@ class SiteSettingsAdmin(admin.ModelAdmin):
         'max_discount',
         'cache_time',
         'banner_time',
-        'sale_start',
-        'sale_end',
         'goods_on_page',
         'max_file_size',
     ]
@@ -18,8 +16,6 @@ class SiteSettingsAdmin(admin.ModelAdmin):
         'max_discount',
         'cache_time',
         'banner_time',
-        'sale_start',
-        'sale_end',
         'goods_on_page',
         'max_file_size',
     ]
