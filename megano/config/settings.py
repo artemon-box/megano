@@ -25,9 +25,15 @@ SECRET_KEY = 'django-insecure-t43gvn83$n+gh3kt0!v9sj5$du8@o!ci9gb5sv%%q9ft^m6za^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', ]
+ALLOWED_HOSTS = []
 
+# Application definition
+AUTH_USER_MODEL = 'accountapp.User'
+AUTH_EMAIL_VERIFICATION = True
 
+DJANGO_ACCOUNT_SUPERUSER = {'email': 'team@skill.box', 'pass': '123'}
+DJANGO_ACCOUNT_MODERATOR = {'email': 'moderator@skill.box', 'pass': '123'}
+DJANGO_ACCOUNT_BUYER = {'email': 'buyer@skill.box', 'pass': '123'}
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,6 +49,7 @@ INSTALLED_APPS = [
     'cart_and_orders.apps.CartAndOrdersConfig',
     'paymentapp.apps.PaymentappConfig',
     'shopapp.apps.ShopappConfig',
+    'accountapp.apps.AccountappConfig',
 ]
 
 MIDDLEWARE = [
@@ -123,14 +130,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
