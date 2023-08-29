@@ -68,8 +68,8 @@ TEMPLATES = [
         "APP_DIRS": True,
         "OPTIONS": {
             'context_processors': [
-                'shopapp.context_processors.categories_menu',
-                'shopapp.context_processors.random_product_banners',
+                # 'shopapp.context_processors.categories_menu',
+                # 'shopapp.context_processors.random_product_banners',
             ],
             # django-jinja defaults
             "match_extension": ".jinja2",
@@ -159,3 +159,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Время кэширования в секундах
 CATEGORY_MENU_CACHE_TIMEOUT = 86400
 BANNER_CACHE_TIMEOUT = 600
+
+COMPARE_LIST_SESSION_ID = 'compare_list'
+

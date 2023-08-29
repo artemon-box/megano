@@ -67,7 +67,7 @@ class Seller(models.Model):
     """
     модель продавец
     """
-    user = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL)
+    user = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to=seller_images_directory_path)
     description = models.TextField(max_length=1000, blank=True)

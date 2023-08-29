@@ -1,5 +1,5 @@
 from .models import Category
-from megano.shopapp.utils.banners import get_random_active_product_banners
+from .utils.banners import get_random_active_product_banners
 
 
 def categories_menu(request):

@@ -1,7 +1,7 @@
 import random
 from django.core.cache import cache
 from django.conf import settings
-from megano.shopapp.models import Product
+from shopapp.models import Product
 
 
 def get_random_active_product_banners():
