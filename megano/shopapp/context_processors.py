@@ -3,7 +3,7 @@ from .utils.banners import get_random_active_product_banners
 
 
 def categories_menu(request):
-    active_categories = Category.objects.filter(active=True, products__active=True).order_by('sorting_index')
+    active_categories = Category.objects.order_by('sorting_index')
     return {'categories_menu': active_categories}
 
 
