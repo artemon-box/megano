@@ -4,21 +4,17 @@ CODENAME='codename'
 NAME='name'
 GROUP_SUPERUSER = 'superuser'
 GROUP_MODERATOR = 'moderator'
-GROUP_BUYER = 'buyer'
+GROUP_SELLER = 'seller'
 
-VIEW_PAGE_PERMISSIONS = {CODENAME: 'can_view_page', NAME: 'Просмотр страниц'}
-EDIT_CARD_PRODUCT_PERMISSIONS = {CODENAME: 'can_edit_card_product', NAME: 'Создание и изменение карточек товара'}
+PRM_VIEW_PAGE = {CODENAME: 'can_view_page', NAME: 'Просмотр страниц'}
+PRM_EDIT_CARD_PRODUCT = {CODENAME: 'can_edit_card_product', NAME: 'Создание и изменение карточек товара'}
 
 group_names = {
-    GROUP_SUPERUSER: [
-        VIEW_PAGE_PERMISSIONS,
-        EDIT_CARD_PRODUCT_PERMISSIONS,
-    ],
     GROUP_MODERATOR: [
-        VIEW_PAGE_PERMISSIONS,
+        PRM_VIEW_PAGE,
     ],
-    GROUP_BUYER: [
-        VIEW_PAGE_PERMISSIONS,
+    GROUP_SELLER: [
+        PRM_VIEW_PAGE,
     ],
 }
 

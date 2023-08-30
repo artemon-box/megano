@@ -33,7 +33,7 @@ AUTH_EMAIL_VERIFICATION = True
 
 DJANGO_ACCOUNT_SUPERUSER = {'email': 'team@skill.box', 'pass': '123'}
 DJANGO_ACCOUNT_MODERATOR = {'email': 'moderator@skill.box', 'pass': '123'}
-DJANGO_ACCOUNT_BUYER = {'email': 'buyer@skill.box', 'pass': '123'}
+DJANGO_ACCOUNT_SELLER = {'email': 'seller@skill.box', 'pass': '123'}
 # Application definition
 
 INSTALLED_APPS = [
