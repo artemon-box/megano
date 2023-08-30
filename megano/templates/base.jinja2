@@ -20,12 +20,14 @@
 
 <body class="Site">
     {% block header %}
+        {% include 'header.jinja2' %}
     {% endblock %}
 
     {% block content %}
     {% endblock %}
 
     {% block footer %}
+        {% include 'footer.jinja2' %}
     {% endblock %}
 
     <script src="{{ static('assets/plg/jQuery/jquery-3.5.0.slim.min.js') }}"></script>

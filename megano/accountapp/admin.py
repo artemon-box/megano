@@ -4,8 +4,8 @@ from django.contrib.auth import get_user_model
 
 @admin.register(get_user_model())
 class MyUserAdmin(admin.ModelAdmin):
-    list_display = ('email', 'first_name', 'last_name',
+    list_display = ('email', 'name',
                     'is_staff')
-    search_fields = ('first_name', 'last_name', 'email')
+    search_fields = ('name', 'email')
     ordering = ('email',)
 
