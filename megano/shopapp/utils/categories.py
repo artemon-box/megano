@@ -13,7 +13,7 @@ def get_cached_active_categories():
     # Если данные отсутствуют в кэше, выполнить запрос к базе данных
     if cached_categories is None:
         # Получение активных категорий и сортировка по индексу сортировки
-        active_categories = Category.objects.filter(is_active=True).order_by('sort_index')
+        active_categories = Category.objects.filter().order_by('sort_index')
 
         # Кэширование данных на указанное время
         cache_timeout = getattr(settings, 'CATEGORY_MENU_CACHE_TIMEOUT', 86400)

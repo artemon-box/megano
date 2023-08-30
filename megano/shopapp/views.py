@@ -18,3 +18,11 @@ def category_menu_view(request):
 
     # Возвращение данных в шаблон
     return render(request, 'category_menu.jinja2', {'active_categories': cached_menu})
+
+
+def test_base_template(request):
+    return render(request, 'base.jinja2', {})
+
+
+def test_registr_template(request):
+    return render(request, 'registr.jinja2', {})
