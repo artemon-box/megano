@@ -14,7 +14,7 @@ def get_random_active_product_banners():
     # Если данные отсутствуют в кэше, выполнить запрос к базе данных
     if cached_banners is None:
         # Получение случайных активных товаров (предполагая, что у товаров есть поле is_active)
-        active_products = Product.objects.filter(is_active=True)
+        active_products = Product.objects.filter(available=True)
 
         # Получение трех случайных товаров из активных товаров
         random_products = random.sample(list(active_products), 3)
