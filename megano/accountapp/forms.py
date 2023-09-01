@@ -17,3 +17,11 @@ class RegistrationForm(forms.Form):
         if len(password) < 8:  # Пример минимальной длины пароля
             self.add_error('password', "Пароль должен содержать не менее 8 символов.")
         return password
+
+
+class PasswordResetForm(forms.Form):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'user-input'}))
+
+
+class PasswordNewForm(forms.Form):
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'user-input'}))

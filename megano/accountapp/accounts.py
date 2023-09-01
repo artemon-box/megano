@@ -2,23 +2,23 @@ from .permissions_and_groups import set_group_user, GROUP_SELLER, GROUP_MODERATO
 from django.contrib.auth import get_user_model
 
 
-def cmd_create_superuser(email,password):
+def cmd_create_superuser(email, password):
     """
     Команда создать суперюзера
     """
     return get_user_model().objects.create_superuser(email=email, password=password)
 
 
-def cmd_create_moderator(email,password):
+def cmd_create_moderator(email, password):
     """
     Команда создать модератора
     """
-    user = get_user_model().objects.create_user(email=email, password=password)
+    user = get_user_model().objects.create_user(email=email, password=password, is_staff=True)
     set_group_user(user, GROUP_MODERATOR)
     return user
 
 
-def cmd_create_seller(email,password):
+def cmd_create_seller(email, password):
     """
     Команда создать продавца
     """
