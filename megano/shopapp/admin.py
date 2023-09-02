@@ -1,6 +1,11 @@
 from django.contrib import admin
+from shopapp.models import Product, ProductSeller, Category
 
-from shopapp.models import Product, ProductSeller
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'sort_index')
+    search_fields = ('name',)
 
 
 @admin.register(Product)

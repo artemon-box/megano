@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 
@@ -45,11 +46,31 @@ class ProductSeller(models.Model):
 
 class Category(models.Model):
     """
-    модель категории товаров
+    Модель категории товаров
     """
+    name = models.CharField(max_length=255)
+    sort_index = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['sort_index']
+
+
+def seller_images_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/sellers/image_<id>/
+    return 'sellers/image_{0}/{1}'.format(instance.id, filename)
 
 
 class Seller(models.Model):
     """
     модель продавец
     """
+    user = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True)
+    name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to=seller_images_directory_path)
+    description = models.TextField(max_length=1000, blank=True)
+    email = models.EmailField(max_length=254)
+    phone = models.CharField(max_length=12)
+    address = models.CharField(max_length=200)

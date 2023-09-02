@@ -16,3 +16,9 @@ class ComparedProductsService:
         удаление товара из списка сравниваемых для конкретного пользователя
         """
         pass
+
+    def get_count_of_compared_products(self, user_id):
+        """
+        получение количество товаров в списке сравнения
+        """
+        pass

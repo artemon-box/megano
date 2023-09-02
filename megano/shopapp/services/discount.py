@@ -23,17 +23,17 @@ class DiscountService:
         """
         pass
 
-    def get_discounts_for_products(self, product_ids: list):
+    def get_all_discount_list_products_or_product(self, products):
         """
-        получить все скидки на указанный список товаров или на один товар
-        """
-
-    def get_priority_discounts_for_products(self, product_ids: list):
-        """
-        получить приоритетную скидку на указанный список товаров или на один товар
+        Получить все скидки на указанный список товаров или на один товар
         """
 
-    def calculate_discount_price(self, product_id, price):
+    def get_priority_discount(self, products):
         """
-        рассчитать цену со скидкой на товар с дополнительным необязательным параметром «Цена товара»
+        Получить приоритетную скидку на указанный список товаров или на один товар
+        """
+
+    def calculate_discount_price_product(self, product, base_price=None):
+        """
+        Рассчитать цену со скидкой на товар с дополнительным необязательным параметром Цена товара
         """

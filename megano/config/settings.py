@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure-t43gvn83$n+gh3kt0!v9sj5$du8@o!ci9gb5sv%%q9ft^m6za^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '0.0.0.0',
+    '127.0.0.1',
+]
+
 
 # Application definition
 AUTH_USER_MODEL = 'accountapp.User'
@@ -79,6 +83,10 @@ TEMPLATES = [
         "DIRS": [BASE_DIR / 'templates'],
         "APP_DIRS": True,
         "OPTIONS": {
+            'context_processors': [
+                'shopapp.context_processors.categories_menu',
+                'shopapp.context_processors.random_product_banners',
+            ],
             # django-jinja defaults
             "match_extension": ".jinja2",
             "match_regex": None,
@@ -139,13 +147,14 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'ru-ru'
+LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
 USE_TZ = True
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -162,3 +171,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Время кэширования в секундах
+CATEGORY_MENU_CACHE_TIMEOUT = 86400
+BANNER_CACHE_TIMEOUT = 600
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': BASE_DIR,
+    }
+}
