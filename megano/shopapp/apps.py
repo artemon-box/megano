@@ -6,5 +6,5 @@ class ShopappConfig(AppConfig):
     name = 'shopapp'
 
     def ready(self):
-        import signals
+      import shopapp.signals
 
