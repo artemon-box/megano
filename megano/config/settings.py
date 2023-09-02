@@ -159,3 +159,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Время кэширования в секундах
 CATEGORY_MENU_CACHE_TIMEOUT = 86400
 BANNER_CACHE_TIMEOUT = 600
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': BASE_DIR,
+    }
+}
