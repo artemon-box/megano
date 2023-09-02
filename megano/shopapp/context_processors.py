@@ -1,9 +1,9 @@
 from .models import Category
-from megano.shopapp.utils.banners import get_random_active_product_banners
+from shopapp.utils.banners import get_random_active_product_banners
 
 
 def categories_menu(request):
-    active_categories = Category.objects.order_by('sorting_index')
+    active_categories = Category.objects.all()
     return {'categories_menu': active_categories}
 
 

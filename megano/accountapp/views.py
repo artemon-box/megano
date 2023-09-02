@@ -109,7 +109,7 @@ class PasswordResetConfirm(View):
             delta = date.today() - password_reset_code.created_at.date()
             if delta.days > PasswordResetCode.objects.get_expiry_period():
                 password_reset_code.delete()
-                raise PasswordResetCode.DoesNotExist()
+                raise PasswordResetCode.DoesNotExist
 
             form = self.form_class()
             return render(request, self.TEMPLATE_NAME, {'form': form})

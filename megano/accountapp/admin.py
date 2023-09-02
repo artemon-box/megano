@@ -66,6 +66,11 @@ class GroupAdmin(origGroupAdmin):
     management of users within a group.
     """
     form = GroupAdminForm
+    def has_view_permission(self, request, obj=None):
+        print('hh')
+        if request.user.groups.filter(name=GROUP_MODERATOR).exists():
+            return True
+        return super().has_change_permission(request, obj)
 
     def has_change_permission(self, request, obj=None):
         if request.user.groups.filter(name=GROUP_MODERATOR).exists():

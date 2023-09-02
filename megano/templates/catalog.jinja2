@@ -95,6 +95,7 @@
               <a class="Card-picture" href="#"> {# ссылка на product_detail #}
                   <h2>Изображение отсуствует</h2>
               </a>
+            {% endif %}
           <div class="Card-content">
             <strong class="Card-title">
                 <a href="#">{{ product.name }}</a> {# ссылка на product_detail #}
@@ -110,7 +111,7 @@
             </div>
             <div class="Card-hover">
                 <a class="Card-btn" href="#"> {# добавить в корзину #}
-                    <img src="{{ static(assets/img/icons/card/cart.svg) }}" alt="cart.svg"/>
+                    <img src="{{ static('assets/img/icons/card/cart.svg') }}" alt="cart.svg"/>
                 </a>
                  <a class="Card-btn" href="#"> {# добавить в список сравнения #}
                     <img src="#" alt="#"/>
@@ -119,14 +120,15 @@
             </div>
           </div>
           </div>
-        {% empty %}
-            <h4>Товар отсутствует!</h4>
         {% endfor %}
+        {% if not products %}
+            <h4>Товар отсутствует!</h4>
+        {% endif %}
     </div>
     <div class="Pagination">
         <div class="Pagination-ins">
             {% if products.has_previous %}
-                <a class="Pagination-element Pagination-element_prev" href="?page={{ products.previous_page_number }}"><img src="{{ static(assets/img/icons/prevPagination.svg) }}" alt="prevPagination.svg" /></a>
+                <a class="Pagination-element Pagination-element_prev" href="?page={{ products.previous_page_number }}"><img src="{{ static('assets/img/icons/prevPagination.svg') }}" alt="prevPagination.svg" /></a>
                 <a class="Pagination-element" href="?page={{ products.previous_page_number }}"><span class="Pagination-text">{{ products.previous_page_number }}</span></a>
             {% endif %}
                 <a class="Pagination-element Pagination-element_current" href="?page={{ products.number }}"><span class="Pagination-text">{{ products.number }}</span></a>
@@ -134,7 +136,7 @@
                 <!-- <a class="Pagination-element" href="#"><span class="Pagination-text">2</span></a>
                 <a class="Pagination-element" href="#"><span class="Pagination-text">3</span></a> -->
                 <a class="Pagination-element" href="?page={{ products.next_page_number }}"><span class="Pagination-text">{{ products.next_page_number }}</span></a>
-                <a class="Pagination-element Pagination-element_prev" href="?page={{ products.next_page_number }}"><img src="{{ static(assets/img/icons/nextPagination.svg) }}" alt="nextPagination.svg" /></a>
+                <a class="Pagination-element Pagination-element_prev" href="?page={{ products.next_page_number }}"><img src="{{ static('assets/img/icons/nextPagination.svg') }}" alt="nextPagination.svg" /></a>
             {% endif %}
         </div>
     </div>
