@@ -42,7 +42,7 @@ class ComparedProductsService:
         self.compare_list.clear()
         self.save()
 
-    def get_count_of_compared_products(self, user_id):
+    def get_count_of_compared_products(self):
         """
         получение количество товаров в списке сравнения
         """
