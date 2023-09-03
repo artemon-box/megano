@@ -1,7 +1,12 @@
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpRequest
 from django.shortcuts import render
 from django.conf import settings  # Импорт настроек
 from django.core.cache import cache
-from .models import Category
+from django.core.paginator import Paginator
+from django.views import View
+from .models import Category, Product
+from .services.compared_products import ComparedProductsService
 
 
 def category_menu_view(request):
@@ -20,9 +25,85 @@ def category_menu_view(request):
     return render(request, 'category_menu.jinja2', {'active_categories': cached_menu})
 
 
-def test_base_template(request):
-    return render(request, 'base.jinja2', {})
+def catalog_list(request: HttpRequest):
+    filter_form = {}
+    if request.method == 'POST':
+        price = request.POST.get('price')
+        price_from = price.split(';')[0]  # цена от
+        price_to = price.split(';')[1]  # цена до
+        title = request.POST.get('title')  # название товара
+        available = request.POST.get('available')  # товар в наличии
+
+        qs = Product.objects.all().filter(price__gte=price_from).filter(price__lte=price_to)
+        if title:
+            qs = qs.filter(name__icontains=title)
+        if available:
+            qs = qs.filter(available=True)
+
+        filter_form['price'] = price
+        filter_form['available'] = available
+        filter_form['title'] = title
+
+        cache.set('qs', qs, 360)
+        cache.set('filter_form', filter_form, 360)
+    if cache.get('qs'):
+        qs = cache.get('qs')
+    else:
+        qs = Product.objects.all()
+    if request.GET.get('sort'):
+        qs = qs.order_by(request.GET.get('sort'))
+        cache.set('qs', qs, 360)
+    filter_form = cache.get('filter_form')
+
+    # Пагинация
+    paginator = Paginator(qs, 10)  # Show 10 contacts per page.
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {
+        'products': page_obj,
+        'filter_form': filter_form
+    }
+    return render(request, 'catalog.jinja2', context=context)
 
 
-def test_registr_template(request):
-    return render(request, 'registr.jinja2', {})
+class AddToComparison(View):
+    """
+    добавить товар в список сравниваемых товаров
+    """
+
+    def get(self, request, **kwargs):
+        compare_list = ComparedProductsService(request)
+        product = get_object_or_404(Product, id=kwargs['product_id'])
+        compare_list.add_to_compared_products(product)
+        return redirect(request.META.get('HTTP_REFERER'))
+
+
+class RemoveFromComparison(View):
+    """
+    удалить товар из списка сравниваемых товаров
+    """
+
+    def get(self, request, **kwargs):
+        compare_list = ComparedProductsService(request)
+        product = get_object_or_404(Product, id=kwargs['product_id'])
+        if product in compare_list:
+            compare_list.remove_from_compared_products(product)
+        return redirect('shopapp:compare_list')
+
+
+class ComparisonOfProducts(View):
+    """
+    вывести список сравниваемых товаров
+    """
+    temlate_name = 'shopapp/comparison.jinja2'
+
+    def get(self, request):
+        compare_list = ComparedProductsService(request)
+        return render(
+            request,
+            self.temlate_name,
+            {
+                'title': 'тут будет сравнение товаров',
+                'compare_list': compare_list
+            }
+        )

@@ -1,0 +1,9 @@
+{% extends 'base.jinja2' %}
+
+{% block content %}
+    {% if compare_list %}
+    <h2>{{ title }}</h2>
+    {% else %}
+    <h2>Товары для сравнения не выбраны.</h2>
+    {% endif %}
+{% endblock %}
