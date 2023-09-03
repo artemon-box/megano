@@ -17,7 +17,10 @@ def get_random_active_product_banners():
         active_products = Product.objects.filter(available=True)
 
         # Получение трех случайных товаров из активных товаров
-        random_products = random.sample(list(active_products), 3)
+        try:
+            random_products = random.sample(list(active_products), 3)
+        except ValueError:
+            random_products = []
 
         # Создание списка баннеров на основе случайных товаров
         banners = []
