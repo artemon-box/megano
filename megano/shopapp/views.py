@@ -104,6 +104,6 @@ class ComparisonOfProducts(View):
             self.temlate_name,
             {
                 'title': 'тут будет сравнение товаров',
-                # 'compare_list': compare_list,
+                'compare_list': compare_list,
             }
         )
