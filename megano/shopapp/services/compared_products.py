@@ -19,21 +19,21 @@ class ComparedProductsService:
         """
         return self.compare_list[:max_items]
 
-    def add_to_compared_products(self, product):
+    def add_to_compared_products(self, product_id):
         """
         добавление товара в список сравниваемых
         """
-        if product not in self.compare_list:
-            self.compare_list.append(product)
-        self.save()
+        if product_id not in self.compare_list:
+            self.compare_list.append(product_id)
+            self.save()
 
-    def remove_from_compared_products(self, product):
+    def remove_from_compared_products(self, product_id):
         """
         удаление товара из списка сравниваемых
         """
-        if product in self.compare_list:
-            self.compare_list.remove(product)
-        self.save()
+        if product_id in self.compare_list:
+            self.compare_list.remove(product_id)
+            self.save()
 
     def clear(self):
         """
@@ -42,7 +42,7 @@ class ComparedProductsService:
         self.compare_list.clear()
         self.save()
 
-    def get_count_of_compared_products(self):
+    def __len__(self):
         """
         получение количество товаров в списке сравнения
         """

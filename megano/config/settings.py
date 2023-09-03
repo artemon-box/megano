@@ -86,6 +86,7 @@ TEMPLATES = [
             'context_processors': [
                 'shopapp.context_processors.categories_menu',
                 'shopapp.context_processors.random_product_banners',
+                'shopapp.context_processors.compare_list',
             ],
             # django-jinja defaults
             "match_extension": ".jinja2",

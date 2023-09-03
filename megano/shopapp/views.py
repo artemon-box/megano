@@ -73,8 +73,7 @@ class AddToComparison(View):
 
     def get(self, request, **kwargs):
         compare_list = ComparedProductsService(request)
-        product = get_object_or_404(Product, id=kwargs['product_id'])
-        compare_list.add_to_compared_products(product)
+        compare_list.add_to_compared_products(kwargs['product_id'])
         return redirect(request.META.get('HTTP_REFERER'))
 
 
@@ -85,9 +84,7 @@ class RemoveFromComparison(View):
 
     def get(self, request, **kwargs):
         compare_list = ComparedProductsService(request)
-        product = get_object_or_404(Product, id=kwargs['product_id'])
-        if product in compare_list:
-            compare_list.remove_from_compared_products(product)
+        compare_list.remove_from_compared_products(kwargs['product_id'])
         return redirect('shopapp:compare_list')
 
 
@@ -99,11 +96,12 @@ class ComparisonOfProducts(View):
 
     def get(self, request):
         compare_list = ComparedProductsService(request)
+        compare_list = compare_list.get_compared_products()
+        compared_products = [get_object_or_404(Product, id=product_id) for product_id in compare_list]
         return render(
             request,
             self.temlate_name,
             {
-                'title': 'тут будет сравнение товаров',
-                'compare_list': compare_list,
+                'compared_products': compared_products,
             }
         )
