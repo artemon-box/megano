@@ -32,6 +32,22 @@ ALLOWED_HOSTS = [
 
 
 # Application definition
+AUTH_USER_MODEL = 'accountapp.User'
+AUTH_EMAIL_VERIFICATION = True
+
+DJANGO_ACCOUNT_SUPERUSER = {'email': 'team@skill.box', 'pass': '123'}
+DJANGO_ACCOUNT_MODERATOR = {'email': 'moderator@skill.box', 'pass': '123'}
+DJANGO_ACCOUNT_SELLER = {'email': 'seller@skill.box', 'pass': '123'}
+
+EMAIL_FROM = 'antonyhunter1001@gmail.com'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 465 #465-SSL 587
+EMAIL_HOST_USER = 'antonyhunter1001@gmail.com'
+EMAIL_HOST_PASSWORD = 'dvhluaxcehnxjvem'
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -42,11 +58,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_jinja',
 
-
     'admin_settings.apps.AdminSettingsConfig',
     'cart_and_orders.apps.CartAndOrdersConfig',
     'paymentapp.apps.PaymentappConfig',
     'shopapp.apps.ShopappConfig',
+    'accountapp.apps.AccountappConfig',
 ]
 
 MIDDLEWARE = [
@@ -155,6 +171,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': BASE_DIR,
+    }
+}
 
 # Время кэширования в секундах
 CATEGORY_MENU_CACHE_TIMEOUT = 86400

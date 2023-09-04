@@ -4,13 +4,13 @@ from .models import Product, ProductSeller, Category, Seller, ExtraImage
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('name', 'sort_index')
     search_fields = ('name',)
 
 
-class ExtraImageInline(admin.StackedInline):  # Или использовать admin.StackedInline для другого стиля отображения
+class ExtraImageInline(admin.StackedInline):
     model = ExtraImage
-    extra = 3  # Количество пустых форм для добавления extra_images по умолчанию
+    extra = 3
 
 
 @admin.register(Product)
@@ -19,6 +19,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ['available', 'category']
     search_fields = ['name', 'category']
     prepopulated_fields = {'slug': ('name',)}
+    raw_id_fields = ['category']
     ordering = ['name', 'category']
     inlines = [ExtraImageInline]
 

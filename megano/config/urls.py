@@ -21,11 +21,12 @@ from config import settings
 
 
 urlpatterns = [
-    path('', include('shopapp.urls')),
     path('admin/', admin.site.urls),
     path('settings/', include('admin_settings.urls')),
     path('cart/', include('cart_and_orders.urls')),
     path('payment/', include('paymentapp.urls')),
+    path('shop/', include('shopapp.urls')),
+    path('', include('accountapp.urls')),
 ]
 
 if settings.DEBUG:

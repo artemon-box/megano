@@ -17,7 +17,10 @@ def get_random_active_product_banners():
         active_products = Product.objects.filter(available=True)
 
         # Получение трех случайных товаров из активных товаров
-        banners = random.sample(list(active_products), 3)
+        try:
+            banners = random.sample(list(active_products), 3)
+        except ValueError:
+            banners = []
 
         cache_timeout = getattr(settings, 'PRODUCT_BANNER_CACHE_TIMEOUT', 600)  # 10 минут (в секундах)
         cache.set(cache_key, banners, cache_timeout)
