@@ -1,5 +1,8 @@
 from django.contrib import admin
-from .models import Product, ProductSeller, Category, Seller, ExtraImage
+from django.contrib.admin import forms
+from taggit.models import Tag
+
+from .models import Product, ProductSeller, Category, Seller, ExtraImage, ProductReview
 
 
 @admin.register(Category)
@@ -28,14 +31,15 @@ class ProductAdmin(admin.ModelAdmin):
 class SellerAdmin(admin.ModelAdmin):
     list_display = ['name', 'user', 'slug', 'description']
     list_filter = ['name', 'delivery_method', 'payment_method']
-    search_fields = ['name',]
+    search_fields = ['name']
     prepopulated_fields = {'slug': ('name',)}
     ordering = ['name', 'delivery_method', 'payment_method']
 
 
 @admin.register(ProductSeller)
 class ProductSellerAdmin(admin.ModelAdmin):
-    list_display = ['id', 'product', 'seller', 'price', 'quantity']
+    list_display = ('id', 'product', 'seller', 'price', 'quantity')
 
 
 admin.site.register(ExtraImage)
+admin.site.register(ProductReview)

@@ -16,6 +16,4 @@ def get_cached_product_by_slug(product_slug):
 
         cached_product = product
 
-        print('------Successfully cached details')
-
     return cached_product

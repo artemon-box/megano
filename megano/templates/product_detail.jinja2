@@ -1,5 +1,7 @@
 {% extends 'base.jinja2' %}
 
+<script src="{{ static('assets/js/scripts.js') }}"></script>
+
 {% block content %}
 
     <div class="Middle Middle_top">
@@ -9,23 +11,28 @@
                     <div class="ProductCard">
                         <div class="ProductCard-look">
                             <div class="ProductCard-photo">
-                                <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-height: 400px; max-width: 400px;" />
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" />
                             </div>
                             <div class="ProductCard-picts">
-                                <a class="ProductCard-pict ProductCard-pict_ACTIVE" href="{{ product.image.url }}">
-                                    <img src="{{ product.extra_images.url }}" alt="{{ product.name }}" />
-                                </a>
-                                <a class="ProductCard-pict" href="{{ product.image.url }}">
+                                <a class="ProductCard-pict ProductCard-pict_ACTIVE" href="{{ product.image.url }}" >
                                     <img src="{{ product.image.url }}" alt="{{ product.name }}" />
                                 </a>
-                                <a class="ProductCard-pict" href="{{ product.image.url }}">
-                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" />
-                                </a>
+                                {% set first_image = true %}
+                                {% for extra_image in extra_images %}
+                                    <a class="ProductCard-pict
+                                        {% if first_image %}
+                                            ProductCard-pict
+                                                {% set first_image = false %}
+                                        {% endif %}
+                                        " href="{{ extra_image.image.url }}">
+                                        <img src="{{ extra_image.image.url }}" alt="{{ product.name }}" />
+                                    </a>
+                                {% endfor %}
                             </div>
                         </div>
                         <div class="ProductCard-desc">
                             <div class="ProductCard-header">
-                                <h2 class="ProductCard-title">{{ product.description }}
+                                <h2 class="ProductCard-title">{{ product.name }}
                                 </h2>
                                 <div class="ProductCard-info">
                                     <div class="ProductCard-cost">
@@ -63,7 +70,12 @@
                             <div class="ProductCard-footer">
                                 <div class="ProductCard-tags">
                                     <strong class="ProductCard-tagsTitle">Тэги:</strong>
-{#                                    <a href="#">Аксессуары</a>,<a href="#">Дизайн</a>,<a href="#">Игры</a>#}
+                                    {% for tag in tags %}
+                                        <a href="#" class="Tags-link">{{ tag.name }}</a>
+                                            {% if not loop.last %}
+                                                ,
+                                            {% endif %}
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
@@ -92,22 +104,22 @@
                                 </p><img class="pict pict_right" src="{{ product.image.url }}" alt="{{ product.name }}">
                                 <div class="clearfix">
                                 </div>
-                                <div class="table">
-                                    <table>
-                                        <tbody><tr>
-                                            <th>Характеристика
-                                            </th>
-                                            <th>Значение
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td>Тип устройства
-                                            </td>
-                                            <td>Ноутбук
-                                            </td>
-                                        </tr>
-                                    </tbody></table>
-                                </div>
+{#                                <div class="table">#}
+{#                                    <table>#}
+{#                                        <tbody><tr>#}
+{#                                            <th>Характеристика#}
+{#                                            </th>#}
+{#                                            <th>Значение#}
+{#                                            </th>#}
+{#                                        </tr>#}
+{#                                        <tr>#}
+{#                                            <td>Тип устройства#}
+{#                                            </td>#}
+{#                                            <td>Ноутбук#}
+{#                                            </td>#}
+{#                                        </tr>#}
+{#                                    </tbody></table>#}
+{#                                </div>#}
                             </div>
                             <div class="Tabs-block" id="sellers" style="display: none;">
                                 <div class="Section-content">
@@ -186,37 +198,51 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="Tabs-block" id="reviews" style="">
+                           <div class="Tabs-block" id="reviews" style="">
                                 <header class="Section-header">
-                                    <h3 class="Section-title">{{ reviews_count }} отзыв
+                                    <h3 class="Section-title">
+                                        <span class="Comment-date">
+                                            {% if product_reviews %}
+                                                {{ reviews_count }} отзыв{{ reviews_count != 1 and 'ов' or '' }}
+                                            {% else %}
+                                                0 Отзывов
+                                            {% endif %}
+                                        </span>
                                     </h3>
                                 </header>
-{#                                {% for review in reviews %}#}
-{#                                    <div class="Comments">#}
-{#                                        <div class="Comment">#}
-{#                                            <div class="Comment-column Comment-column_pict">#}
-{#                                                <div class="Comment-avatar">#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                            <div class="Comment-column">#}
-{#                                                <header class="Comment-header">#}
-{#                                                    <div>#}
-{#                                                        <strong class="Comment-title">{{ review.user.name }}#}
-{#                                                        </strong><span class="Comment-date">{{ review.uploaded}}</span>#}
-{#                                                    </div>#}
-{#                                                </header>#}
-{#                                                <div class="Comment-content">{{ review.text }}#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                {% endfor %}#}
+                                <div class="Comments" id="comments-section">
+                                    {% if product_reviews %}
+                                        {% for review in product_reviews %}
+                                            <div class="Comment">
+                                                <div class="Comment-column Comment-column_pict">
+                                                    <div class="Comment-avatar">
+{#                                                        <img src="{{ review.user.image.url }}" alt="{{ review.user.username }}" class="rounded-circle">#}
+                                                    </div>
+                                                </div>
+                                                <div class="Comment-column">
+                                                    <header class="Comment-header">
+                                                        <div>
+                                                            <strong class="Comment-title">{{ review.user.name }}</strong>
+                                                            <span class="Comment-date">
+                                                                    {{ review.created_at.strftime('%B %d / %Y / %H:%M') }}
+                                                            </span>
+                                                        </div>
+                                                    </header>
+                                                    <div class="Comment-content">{{ review.text }}</div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                            <div id="show-more-button">
+                                                <button class="btn btn_primary" id="show-more">Показать ещё</button>
+                                            </div>
+                                    {% endif %}
+                                </div>
                                 <header class="Section-header Section-header_product">
                                     <h3 class="Section-title">Добавить отзыв
                                     </h3>
                                 </header>
                                 <div class="Tabs-addComment">
-                                    <form method="post" action="{{ url( 'shopapp:product_detail', product.slug) }}">
+                                    <form class="form" action="{{ url( 'shopapp:product_detail', product.slug) }}" method="post">
                                         {% csrf_token %}
                                         <div class="form-group">
                                             <textarea class="form-textarea" name="review_text" id="review" placeholder="Отзыв"></textarea>

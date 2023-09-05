@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
+from taggit.managers import TaggableManager
 
 
 def product_images_directory_path(instance, filename):
@@ -13,16 +14,29 @@ def product_extra_images_directory_path(instance, filename):
     return 'products/image_{0}/extra_images/{1}'.format(instance.product.slug, filename)
 
 
+def seller_images_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/sellers/image_<slug>/
+    return 'sellers/image_{0}/{1}'.format(instance.slug, filename)
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Product(models.Model):
     """ Модель товаров """
 
-    category = models.ForeignKey('Category', related_name='products', on_delete=models.CASCADE)
+    category = models.ForeignKey('Category', related_name='products', on_delete=models.DO_NOTHING)
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200)
     image = models.ImageField(upload_to=product_images_directory_path, blank=True)
     description = models.TextField(blank=True)
     available = models.BooleanField(default=True)
     sellers = models.ManyToManyField('Seller', through='ProductSeller')
+    tags = TaggableManager()
 
     class Meta:
         ordering = ['name']
@@ -38,12 +52,25 @@ class Product(models.Model):
         return reverse('shopapp:product_detail', args=[self.id, self.slug])
 
 
+class ProductReview(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True)
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Review by {self.user} for {self.product}"
+
+
 class ExtraImage(models.Model):
     """
     Модель, содержащая в себе дополнительные изображения для каждого товара
     """
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='extra_images', default=None)
     image = models.ImageField(upload_to=product_extra_images_directory_path, blank=True)
+
+    def __str__(self):
+        return 'Extra images: ' + self.product.name
 
 
 class ProductSeller(models.Model):
@@ -60,11 +87,6 @@ class ProductSeller(models.Model):
         verbose_name = 'товар у прордавца'
         verbose_name_plural = 'товары у продавцов'
         unique_together = ('product', 'seller',)
-
-
-def seller_images_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/sellers/image_<slug>/
-    return 'sellers/image_{0}/{1}'.format(instance.slug, filename)
 
 
 class Seller(models.Model):
@@ -102,6 +124,7 @@ class Category(models.Model):
     """
     name = models.CharField(max_length=255)
     sort_index = models.PositiveIntegerField(db_index=True)
+    tags = TaggableManager()
 
     def __str__(self):
         return self.name
@@ -111,5 +134,3 @@ class Category(models.Model):
         indexes = [
             models.Index(fields=['sort_index'])
         ]
-
-
