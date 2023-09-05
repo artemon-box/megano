@@ -44,7 +44,7 @@ EMAIL_FROM = 'antonyhunter1001@gmail.com'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 465 #465-SSL 587
 EMAIL_HOST_USER = 'antonyhunter1001@gmail.com'
-EMAIL_HOST_PASSWORD = 'dvhluaxcehnxjvem'
+EMAIL_HOST_PASSWORD = 'ruamhhgnbprtmiyj'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 # Application definition
@@ -147,7 +147,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
 
@@ -183,3 +183,5 @@ CACHES = {
         'LOCATION': BASE_DIR,
     }
 }
+
+FOLDER_FIXTURES = 'fixtures'

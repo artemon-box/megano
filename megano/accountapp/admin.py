@@ -1,7 +1,5 @@
 from django import forms
 from django.contrib import admin
-from django.contrib.auth import get_user_model
-from django.contrib.auth.admin import GroupAdmin
 from .models import PasswordResetCode
 from django.contrib.auth.admin import GroupAdmin as origGroupAdmin
 from django.contrib.auth.models import Group
@@ -17,15 +15,21 @@ class MyUserAdmin(admin.ModelAdmin):
     search_fields = ['name', 'email', ]
     ordering = ('-is_staff', 'email', )
 
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = super().get_fieldsets(request, obj)
+        current_user = request.user
+
+        if current_user.groups.filter(name=GROUP_MODERATOR).exists():
+            fields_moderator = [field for field in self.fields if field != 'is_superuser']
+            return (
+                (None, {'fields': fields_moderator}),
+            )
+        return fieldsets
+
     def get_groups(self, obj):
         return ", ".join([group.name for group in obj.groups.all()]) if obj.groups.exists() else ""
 
     get_groups.short_description = 'ГРУППА'
-
-    def has_change_permission(self, request, obj=None):
-        if request.user.groups.filter(name=GROUP_MODERATOR).exists():
-            return True
-        return super().has_change_permission(request, obj)
 
 
 @admin.register(PasswordResetCode)
@@ -36,20 +40,22 @@ class MyUserAdmin(admin.ModelAdmin):
 
 class GroupAdminForm(forms.ModelForm):
     """
-    ModelForm that adds an additional multiple select field for managing
-    the users in the group.
+    ModelForm, который добавляет дополнительное поле множественного выбора
+    для управления пользователями в группе.
     """
     users = forms.ModelMultipleChoiceField(
-        get_user_model().objects.all(),
-        widget=admin.widgets.FilteredSelectMultiple('Users', False),
+        get_user_model().objects.filter(is_superuser=False).all(),
+        widget=admin.widgets.FilteredSelectMultiple('Пользователи', False),
         required=False,
         )
 
     def __init__(self, *args, **kwargs):
-        super(GroupAdminForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         if self.instance.pk:
             initial_users = self.instance.user_set.values_list('pk', flat=True)
             self.initial['users'] = initial_users
+            if not kwargs['user'].is_superuser:
+                self.fields['permissions'].widget = forms.HiddenInput()
 
     def save(self, *args, **kwargs):
         kwargs['commit'] = True
@@ -60,24 +66,19 @@ class GroupAdminForm(forms.ModelForm):
         self.instance.user_set.add(*self.cleaned_data['users'])
 
 
-class GroupAdmin(origGroupAdmin):
+class NewGroupAdmin(origGroupAdmin):
     """
-    Customized GroupAdmin class that uses the customized form to allow
-    management of users within a group.
+    Настраиваемый класс GroupAdmin, использующий настраиваемую форму
+    для управления пользователями внутри группы.
     """
     form = GroupAdminForm
-    def has_view_permission(self, request, obj=None):
-        print('hh')
-        if request.user.groups.filter(name=GROUP_MODERATOR).exists():
-            return True
-        return super().has_change_permission(request, obj)
 
-    def has_change_permission(self, request, obj=None):
-        if request.user.groups.filter(name=GROUP_MODERATOR).exists():
-            return True
-        return super().has_change_permission(request, obj)
+    def get_form_kwargs(self, request, obj=None, **kwargs):
+        result = super().get_form_kwargs(request, obj, **kwargs)
+        result['user'] = request.user
+        return result
 
 
 admin.site.unregister(Group)
-admin.site.register(Group, GroupAdmin)
+admin.site.register(Group, NewGroupAdmin)
 
