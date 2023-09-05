@@ -26,6 +26,7 @@ class SiteSettings(SingletonModel):
         default=100,
         help_text='Максимальный размер загружаемого файла, мБ'
     )
+
     # send_bill = models.BooleanField(
     #     default=False,
     #     help_text='Отправить чек после оплаты'
@@ -36,4 +37,4 @@ class SiteSettings(SingletonModel):
     # )
 
     class Meta:
-        db_table = 'site_settings' # имя таблицы
+        db_table = 'site_settings'  # имя таблицы

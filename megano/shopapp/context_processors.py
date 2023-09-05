@@ -1,5 +1,6 @@
 from .models import Category
 from shopapp.utils.banners import get_random_active_product_banners
+from .services.compared_products import ComparedProductsService
 
 
 def categories_menu(request):
@@ -18,3 +19,6 @@ def random_product_banners(request):
 
     return context
 
+
+def compare_list(request):
+    return {'compare_list': ComparedProductsService(request)}
