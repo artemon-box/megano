@@ -5,7 +5,7 @@ class CartService:
         """
         pass
 
-    def add_to_cart(self, user_id, product_id):
+    def add_to_cart(self, user_id, product_slug, quantity):
         """
         добавление товара в корзину для конкретного пользователя
         """

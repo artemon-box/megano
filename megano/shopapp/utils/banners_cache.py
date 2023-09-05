@@ -18,21 +18,13 @@ def get_random_active_product_banners():
 
         # Получение трех случайных товаров из активных товаров
         try:
-            random_products = random.sample(list(active_products), 3)
+            if len(active_products) >= 3:
+                banners = random.sample(list(active_products), 3)
+            else:
+                banners = list(active_products)
         except ValueError:
-            random_products = []
+            banners = []
 
-        # Создание списка баннеров на основе случайных товаров
-        banners = []
-        for product in random_products:
-            banner = {
-                'title': product.name,
-                'text': f"Get the {product.name} with great discount!",
-                'image_url': product.image.url,  # Заменить на соответствующее поле из модели Product
-            }
-            banners.append(banner)
-
-        # Кэширование данных на указанное время
         cache_timeout = getattr(settings, 'PRODUCT_BANNER_CACHE_TIMEOUT', 600)  # 10 минут (в секундах)
         cache.set(cache_key, banners, cache_timeout)
 
