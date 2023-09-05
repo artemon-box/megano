@@ -1,22 +1,23 @@
+from django.shortcuts import get_object_or_404
 from django.http import HttpRequest
-from django.shortcuts import render
-from django.conf import settings  # Импорт настроек
 from django.core.cache import cache
-from .models import Category, Product, ProductReview
+from .models import ProductReview
 from django.core.paginator import Paginator
 from django.db.models import Avg
 
 from cart_and_orders.services.cart import CartService
 from .forms import AddToCartForm, ProductReviewForm
-from .models import Product, Seller, ProductSeller
+from .models import ProductSeller
 from .services.discount import DiscountService
 from .services.product_review import ProductReviewService
 from .utils.details_cache import get_cached_product_by_slug
 from .services.recently_viewed import RecentlyViewedService
 
 from django.shortcuts import render, redirect
+
 from django.views import View
 from .models import Product
+from .services.compared_products import ComparedProductsService
 
 
 class ProductDetailView(View):
@@ -126,3 +127,44 @@ def catalog_list(request: HttpRequest):
         'filter_form': filter_form
     }
     return render(request, 'catalog.jinja2', context=context)
+
+
+class AddToComparison(View):
+    """
+    добавить товар в список сравниваемых товаров
+    """
+
+    def get(self, request, **kwargs):
+        compare_list = ComparedProductsService(request)
+        compare_list.add_to_compared_products(kwargs['product_id'])
+        return redirect(request.META.get('HTTP_REFERER'))
+
+
+class RemoveFromComparison(View):
+    """
+    удалить товар из списка сравниваемых товаров
+    """
+
+    def get(self, request, **kwargs):
+        compare_list = ComparedProductsService(request)
+        compare_list.remove_from_compared_products(kwargs['product_id'])
+        return redirect('shopapp:compare_list')
+
+
+class ComparisonOfProducts(View):
+    """
+    вывести список сравниваемых товаров
+    """
+    temlate_name = 'shopapp/comparison.jinja2'
+
+    def get(self, request):
+        compare_list = ComparedProductsService(request)
+        compare_list = compare_list.get_compared_products()
+        compared_products = [get_object_or_404(Product, id=product_id) for product_id in compare_list]
+        return render(
+            request,
+            self.temlate_name,
+            {
+                'compared_products': compared_products,
+            }
+        )

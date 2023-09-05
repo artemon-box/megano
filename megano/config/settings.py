@@ -87,6 +87,7 @@ TEMPLATES = [
             'context_processors': [
                 'shopapp.context_processors.categories_menu',
                 'shopapp.context_processors.random_product_banners',
+                'shopapp.context_processors.compare_list',
             ],
             # django-jinja defaults
             "match_extension": ".jinja2",
@@ -173,6 +174,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Время кэширования в секундах
+CATEGORY_MENU_CACHE_TIMEOUT = 86400
+BANNER_CACHE_TIMEOUT = 600
+PRODUCT_CACHE_TIMEOUT = 86400
+
+COMPARE_LIST_SESSION_ID = 'compare_list'
 
 CACHES = {
     'default': {
@@ -180,8 +187,3 @@ CACHES = {
         'LOCATION': BASE_DIR,
     }
 }
-
-# Время кэширования в секундах
-CATEGORY_MENU_CACHE_TIMEOUT = 86400
-BANNER_CACHE_TIMEOUT = 600
-PRODUCT_CACHE_TIMEOUT = 86400

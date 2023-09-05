@@ -19,7 +19,6 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from config import settings
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('settings/', include('admin_settings.urls')),

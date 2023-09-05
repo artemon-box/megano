@@ -1,3 +1,4 @@
+from .services.compared_products import ComparedProductsService
 from shopapp.utils.banners_cache import get_random_active_product_banners
 from shopapp.utils.categories_cache import get_cached_active_categories
 
@@ -28,3 +29,6 @@ def random_product_banners(request):
 
     return context
 
+
+def compare_list(request):
+    return {'compare_list': ComparedProductsService(request)}
