@@ -22,7 +22,6 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ['available', 'category']
     search_fields = ['name', 'category']
     prepopulated_fields = {'slug': ('name',)}
-    raw_id_fields = ['category']
     ordering = ['name', 'category']
     inlines = [ExtraImageInline]
 

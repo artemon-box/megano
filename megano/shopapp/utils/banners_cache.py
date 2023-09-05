@@ -27,7 +27,7 @@ def get_random_active_product_banners():
 
         cache_timeout = getattr(settings, 'PRODUCT_BANNER_CACHE_TIMEOUT', 600)  # 10 минут (в секундах)
         cache.set(cache_key, banners, cache_timeout)
-        print(banners)
+
         cached_banners = banners
 
     return cached_banners
