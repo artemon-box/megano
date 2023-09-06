@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'paymentapp.apps.PaymentappConfig',
     'shopapp.apps.ShopappConfig',
     'accountapp.apps.AccountappConfig',
+    'profileapp.apps.ProfileappConfig',
 ]
 
 MIDDLEWARE = [
