@@ -44,7 +44,7 @@ EMAIL_FROM = 'antonyhunter1001@gmail.com'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 465 #465-SSL 587
 EMAIL_HOST_USER = 'antonyhunter1001@gmail.com'
-EMAIL_HOST_PASSWORD = 'dvhluaxcehnxjvem'
+EMAIL_HOST_PASSWORD = 'ruamhhgnbprtmiyj'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 # Application definition
@@ -87,7 +87,6 @@ TEMPLATES = [
             'context_processors': [
                 'shopapp.context_processors.categories_menu',
                 'shopapp.context_processors.random_product_banners',
-                'shopapp.context_processors.compare_list',
             ],
             # django-jinja defaults
             "match_extension": ".jinja2",
@@ -187,3 +186,5 @@ CACHES = {
         'LOCATION': BASE_DIR,
     }
 }
+
+FOLDER_FIXTURES = 'fixtures'

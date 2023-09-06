@@ -23,7 +23,7 @@ def cmd_create_seller(email, password):
     Команда создать продавца
     """
     user = get_user_model().objects.create_user(email=email, password=password)
-    set_group_user(user, GROUP_SELLER)
+    #set_group_user(user, GROUP_SELLER)
     return user
 
 

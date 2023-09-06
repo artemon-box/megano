@@ -8,7 +8,8 @@ from django.core.mail.message import EmailMultiAlternatives
 from django.utils import timezone
 from django.db import models
 
-# Срок действия токен на сброс пароля
+
+# Срок действия токена на сброс пароля
 EXPIRY_PERIOD = 3    # дни
 
 
@@ -59,6 +60,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         help_text='Определяет, следует ли рассматривать этого пользователя как активного. '
                     'Снимите это выделение вместо удаления учетных записей.')
     date_joined = models.DateTimeField('Дата регистрации', default=timezone.now)
+    avatar = models.ImageField(upload_to='users/', verbose_name='Аватар',
+        help_text='Картинка аватара. ')
 
     USERNAME_FIELD = 'email'
 

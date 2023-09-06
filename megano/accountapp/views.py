@@ -6,7 +6,6 @@ from django.views import View
 from .accounts import cmd_create_buyer
 from .forms import RegistrationForm, PasswordResetForm, PasswordNewForm
 from django.contrib.auth.views import LogoutView
-from django.contrib.auth.decorators import login_required
 from .models import PasswordResetCode
 
 
@@ -68,7 +67,7 @@ class PasswordResetView(View):
 
     def get(self, request):
         form = self.form_class()
-        return render(request, self.TEMPLATE_NAME, {'form': form})
+        return render(request, self.TEMPLATE_NAME, {'form': form, 'error_function': ''})
 
     def post(self, request):
         form = self.form_class(request.POST)
@@ -84,15 +83,14 @@ class PasswordResetView(View):
                     password_reset_code = \
                         PasswordResetCode.objects.create_password_reset_code(user)
                     password_reset_code.send_password_reset_email()
-                    return redirect('/')
+                    return render(request, 'password_reset_success.jinja2')
 
             except get_user_model().DoesNotExist:
                 pass
 
-            content = {'alarm': "Don't work service."}
-            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+            return render(request, self.TEMPLATE_NAME, context={'form': form, 'error_function': 'Почтовый адрес неверный.'})
         else:
-            return render(request, self.TEMPLATE_NAME, {'form': form})
+            return render(request, self.TEMPLATE_NAME, {'form': form, 'error_function': ''})
 
 
 class PasswordResetConfirm(View):

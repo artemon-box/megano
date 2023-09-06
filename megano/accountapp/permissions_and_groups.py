@@ -1,10 +1,12 @@
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
-CODENAME='codename'
-NAME='name'
+
+
+CODENAME = 'codename'
+NAME = 'name'
 GROUP_SUPERUSER = 'superuser'
-GROUP_MODERATOR = 'moderator'
-GROUP_SELLER = 'seller'
+GROUP_MODERATOR = 'MODERATOR'
+GROUP_SELLER = 'SELLER'
 
 PRM_VIEW_PAGE = {CODENAME: 'can_view_page', NAME: 'Просмотр страниц'}
 PRM_EDIT_CARD_PRODUCT = {CODENAME: 'can_edit_card_product', NAME: 'Создание и изменение карточек товара'}
