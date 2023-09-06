@@ -113,7 +113,7 @@
                 <a class="Card-btn" href="#"> {# добавить в корзину #}
                     <img src="{{ static('assets/img/icons/card/cart.svg') }}" alt="cart.svg"/>
                 </a>
-                 <a class="Card-btn" href="#"> {# добавить в список сравнения #}
+                 <a class="Card-btn" href="{{ url('shopapp:compare_add', product_id=product.id) }}"> {# добавить в список сравнения #}
                     <img src="#" alt="#"/>
                 </a>
             </div>
