@@ -37,6 +37,9 @@ class Product(models.Model):
     available = models.BooleanField(default=True)
     sellers = models.ManyToManyField('Seller', through='ProductSeller')
     tags = TaggableManager()
+    created_at = models.DateTimeField(auto_now_add=True)  # дата добавления товара для сортировки по новизне
+    free_delivery = models.BooleanField(default=False)  # бесплатная доставка (для фильтрации на странице каталога)
+    popularity = models.IntegerField(verbose_name='популярность', default=0)  # = кол-во покупок данного товара. после оплаты заказа += 1
 
     class Meta:
         ordering = ['name']
@@ -47,6 +50,10 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def get_reviews_count(self):
+        return ProductReview.objects.filter(product=self).count()  # кол-во отзывов у товара
 
     def get_absolute_url(self):
         return reverse('shopapp:product_detail', args=[self.id, self.slug])

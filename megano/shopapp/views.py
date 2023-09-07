@@ -89,43 +89,43 @@ def index(request):
 
 
 def catalog_list(request: HttpRequest):
-    filter_form = {}
+    qs = []
     if request.method == 'POST':
         price = request.POST.get('price')
         price_from = price.split(';')[0]  # цена от
         price_to = price.split(';')[1]  # цена до
         title = request.POST.get('title')  # название товара
         available = request.POST.get('available')  # товар в наличии
+        qs = Product.objects.all().filter(price__gte=int(price_from)).filter(price__lte=int(price_to))
 
-        qs = Product.objects.all().filter(price__gte=price_from).filter(price__lte=price_to)
-        if title:
+        if qs and title:
             qs = qs.filter(name__icontains=title)
-        if available:
-            qs = qs.filter(available=True)
-
-        filter_form['price'] = price
-        filter_form['available'] = available
-        filter_form['title'] = title
-
-        cache.set('qs', qs, 360)
-        cache.set('filter_form', filter_form, 360)
+        if qs and available:
+            qs = qs.filter(archived=False)
+        if qs:
+            cache.set('qs', qs, 360)
+        else:
+            qs = []
+            cache.set('qs', qs, 360)
     if cache.get('qs'):
         qs = cache.get('qs')
-    else:
-        qs = Product.objects.all()
-    if request.GET.get('sort'):
-        qs = qs.order_by(request.GET.get('sort'))
-        cache.set('qs', qs, 360)
-    filter_form = cache.get('filter_form')
+    if request.GET.get('sort') and qs:
+        if request.GET.get('sort') == 'review':
+            qs = sorted(qs, key=lambda a: a.get_reviews_count)
+        elif request.GET.get('sort') == '-review':
+            qs = sorted(qs, key=lambda a: a.get_reviews_count, reverse=True)
+        else:
+            qs = qs.order_by(request.GET.get('sort'))
+            cache.set('qs', qs, 360)
 
     # Пагинация
-    paginator = Paginator(qs, 10)  # Show 10 contacts per page.
+    paginator = Paginator(qs, 4)  # Show 10 contacts per page.
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
         'products': page_obj,
-        'filter_form': filter_form
     }
+
     return render(request, 'catalog.jinja2', context=context)
 
 

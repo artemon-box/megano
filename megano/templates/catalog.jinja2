@@ -1,12 +1,10 @@
 {% extends 'base.jinja2' %}
 
+
 {% block title %}
     Catalog
 {% endblock %}
 
-{% block header %}
-    {% include 'header.jinja2' %}
-{% endblock %}
 
 {% block content %}
 <div class="Middle Middle_top">
@@ -23,7 +21,7 @@
                             {% csrf_token %}
                             <div class="form-group">
                                 <div class="range Section-columnRange">
-                                    <input class="range-line" id="price" name="price" value="{{ filter_form.price }}" type="text" data-type="double" data-min="7" data-max="50" data-from="7" data-to="27" />
+                                    <input class="range-line" id="product_price" name="price" value="" type="text" data-type="double" data-min="1" data-max="10000" data-from="" data-to="" />
                                     <div class="range-price">Цена:&#32;
                                         <div class="rangePrice">
                                         </div>
@@ -31,24 +29,23 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input class="form-input form-input_full" id="title" name="title" value="{{ filter_form.title }}" type="text" placeholder="Название" />
+                                <input class="form-input form-input_full" id="product_title" name="title" value="" type="text" placeholder="Название" />
                             </div>
                             <div class="form-group">
                                 <!-- - var options = setOptions(items, ['value', 'selected', 'disabled']);-->
                             </div>
                             <div class="form-group">
                                 <label class="toggle">
-                                    <input type="checkbox" name="available" value="{{ filter_form.available }}" /><span class="toggle-box"></span><span class="toggle-text">Только товары в наличии</span>
+                                    <input type="checkbox" name="available" value="on" id="available" /><span class="toggle-box"></span><span class="toggle-text">Только товары в наличии</span>
                                 </label>
                             </div>
-                            <!-- <div class="form-group">
-                                <label class="toggle">
-                                    <input type="checkbox" name="free_delivery" /><span class="toggle-box"></span><span class="toggle-text">С бесплатной доставкой</span>
-                                </label>
-                            </div> -->
                             <div class="form-group">
-                                <!-- <div class="buttons"><a class="btn btn_square btn_dark btn_narrow" href="#">Фильтр</a> -->
-                                <div class="buttons"><button type="submit" class="btn btn_square btn_dark btn_narrow">Фильтр</button>
+                                <label class="toggle">
+                                    <input type="checkbox" name="free_delivery" value="on" id="free_delivery" /><span class="toggle-box"></span><span class="toggle-text">С бесплатной доставкой</span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <div class="buttons"><button type="submit" class="btn btn_square btn_dark btn_narrow" onclick="saveData()">Фильтр</button>
                                 </div>
                             </div>
                         </form>
@@ -60,11 +57,12 @@
                         </strong>
                     </header>
                     <div class="Section-columnContent">
-                        {% for tag in tags %}
-                        <div class="buttons">
-                            <a class="btn btn_default btn_sm" href="#">tag.name</a>
-                        </div>
-                        {% endfor %}
+                            <div class="buttons">
+                                {% for tag in product.tags.all %}
+                                    <a class="btn btn_default btn_sm" href="#">{{ tag.name }}</a>
+                                {% endfor %}
+                                    <a class="btn btn_default btn_sm" href="#">Для примера</a>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -73,76 +71,160 @@
                     <div class="Sort-title">Сортировать по:
                     </div>
                     <div class="Sort-variants">
-                        <a class="Sort-sortBy Sort-sortBy_dec" href="?sort=popularity">Популярности</a>
-                        <a class="Sort-sortBy" href="?sort=price">Цене</a>
-                        <a class="Sort-sortBy" href="?sort=reviews">Отзывам</a>
-                        <a class="Sort-sortBy Sort-sortBy_inc" href="?sort=novelty">Новизне</a>
+                        <a class="Sort-sortBy Sort-sortBy_dec" id="sort-popularity" onclick="viewAction()" href="">Популярности</a>
+                        <a class="Sort-sortBy" id="sort-price" onclick="viewAction()" href="">Цене</a>
+                        <a class="Sort-sortBy" id="sort-reviews" onclick="viewAction()" href="">Отзывам</a>
+                        <a class="Sort-sortBy Sort-sortBy_inc" id="sort-novelty" onclick="viewAction()" href="">Новизне</a>
                     </div>
                 </div>
+                <div class="Cards">
+                    {% if products %}
+                    {% for product in products %}
+                      <div class="Card">
+                        {% if product.image %}
+                          <a class="Card-picture" href="#"> {# ссылка на product_detail #}
+                              <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                          </a>
+                        {% else %}
+                          <a class="Card-picture" href="#"> {# ссылка на product_detail #}
+                              <h2>Изображение отсуствует</h2>
+                          </a>
+                        {% endif %}
+                      <div class="Card-content">
+                        <strong class="Card-title">
+                            <a href="#">{{ product.name }}</a> {# ссылка на product_detail #}
+                        </strong>
+                          <a href="#">{{ product.description }}</a> {# ссылка на product_detail #}
+                            <p style="display: flex; justify-content: space-between">
+                                <span><img src="{{ static('assets/img/icons/card/seller.svg') }}" title="Количество продавцов" alt="seller.svg"/>:{{ product.sellers.count }}</span> {# кол-во продавцов #}
+                                <a href="#" style="color: #000000;">
+                                    <img src="{{ static('assets/img/icons/card/review.svg') }}" title="Количество отзывов" alt="review.svg"/>:{{ product.get_review_count }} {# кол-во отзывов #}
+                                </a> {# кол-во отзывов #}
+                            </p>
 
-            </div>
-        </div>
-    </div>
-
-    <div class="Cards">
-        {% for product in products %}
-          <div class="Card">
-            {% if product.image %}
-              <a class="Card-picture" href="#"> {# ссылка на product_detail #}
-                  <img src="{{ static(product.image) }}" alt="{{ product.name }}">
-              </a>
-            {% else %}
-              <a class="Card-picture" href="#"> {# ссылка на product_detail #}
-                  <h2>Изображение отсуствует</h2>
-              </a>
-            {% endif %}
-          <div class="Card-content">
-            <strong class="Card-title">
-                <a href="#">{{ product.name }}</a> {# ссылка на product_detail #}
-            </strong>
-            <div class="Card-description">
-                <div class="Card-cost">
-                    <span class="Card-price">{{ product.price }}</span>
+                        <div class="Card-description">
+                            <div class="Card-cost">
+                                <span class="Card-price">$ {{ product.price }}</span>
+                            </div>
+                        <div class="Card-category">
+                            {% for tag in product.tags.all %}
+                                    {{ tag.name }}/
+                            {% else %}
+                                #
+                            {% endfor %}
+                        </div>
+                        <div class="Card-hover">
+                            <a class="Card-btn" href="#" title="Добавить в корзину"> {# добавить в корзину #}
+                                <img src="{{ static('assets/img/icons/card/cart.svg') }}" alt="cart.svg"/>
+                            </a>
+                             <a class="Card-btn" href="{{ url('shopapp:compare_add', product_id=product.id) }}" title="Добавить в список сравнения"> {# добавить в список сравнения #}
+                                <img src="{{ static('assets/img/icons/card/compare.svg') }}" alt="#"/>
+                            </a>
+                        </div>
+                        </div>
+                      </div>
+                      </div>
+                    {% endfor %}
+                    {% else %}
+                        <h4>Ничего не найдено. Попробуйте другие критерии поиска, либо нажмите кнопку "Фильтр"!</h4>
+                    {% endif %}
                 </div>
-            <div class="Card-category">
-                <p>{{ product.category}}</p>
-                <p>{{ product.sellers }}</p> {# кол-во продавцов #}
-                <p><a href="#">Отзывов:{{ product.reviews }}</a></p> {# кол-во отзывов #}
+                <div class="Pagination">
+                    <div class="Pagination-ins">
+                        {% if products.has_previous %}
+                            <a class="Pagination-element Pagination-element_prev" href="?page={{ products.previous_page_number }}"><img src="{{ static('assets/img/icons/prevPagination.svg') }}" alt="prevPagination.svg" /></a>
+                            <a class="Pagination-element" href="?page={{ products.previous_page_number }}"><span class="Pagination-text">{{ products.previous_page_number }}</span></a>
+                        {% endif %}
+                            <a class="Pagination-element Pagination-element_current" href="?page={{ products.number }}"><span class="Pagination-text">{{ products.number }}</span></a>
+                        {% if products.has_next %}
+                            <a class="Pagination-element" href="?page={{ products.next_page_number }}"><span class="Pagination-text">{{ products.next_page_number }}</span></a>
+                            <a class="Pagination-element Pagination-element_prev" href="?page={{ products.next_page_number }}"><img src="{{ static('assets/img/icons/nextPagination.svg') }}" alt="nextPagination.svg" /></a>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-            <div class="Card-hover">
-                <a class="Card-btn" href="#"> {# добавить в корзину #}
-                    <img src="{{ static('assets/img/icons/card/cart.svg') }}" alt="cart.svg"/>
-                </a>
-                 <a class="Card-btn" href="{{ url('shopapp:compare_add', product_id=product.id) }}"> {# добавить в список сравнения #}
-                    <img src="#" alt="#"/>
-                </a>
-            </div>
-            </div>
-          </div>
-          </div>
-        {% endfor %}
-        {% if not products %}
-            <h4>Товар отсутствует!</h4>
-        {% endif %}
-    </div>
-    <div class="Pagination">
-        <div class="Pagination-ins">
-            {% if products.has_previous %}
-                <a class="Pagination-element Pagination-element_prev" href="?page={{ products.previous_page_number }}"><img src="{{ static('assets/img/icons/prevPagination.svg') }}" alt="prevPagination.svg" /></a>
-                <a class="Pagination-element" href="?page={{ products.previous_page_number }}"><span class="Pagination-text">{{ products.previous_page_number }}</span></a>
-            {% endif %}
-                <a class="Pagination-element Pagination-element_current" href="?page={{ products.number }}"><span class="Pagination-text">{{ products.number }}</span></a>
-            {% if products.has_next %}
-                <!-- <a class="Pagination-element" href="#"><span class="Pagination-text">2</span></a>
-                <a class="Pagination-element" href="#"><span class="Pagination-text">3</span></a> -->
-                <a class="Pagination-element" href="?page={{ products.next_page_number }}"><span class="Pagination-text">{{ products.next_page_number }}</span></a>
-                <a class="Pagination-element Pagination-element_prev" href="?page={{ products.next_page_number }}"><img src="{{ static('assets/img/icons/nextPagination.svg') }}" alt="nextPagination.svg" /></a>
-            {% endif %}
         </div>
     </div>
+<script>
+    var flag = localStorage.getItem('flag');
+    function viewAction(){
+        if (flag == 1) {
+            console.log('Первая функция', localStorage.getItem('free-delivery'));
+            document.querySelector('#sort-price').href = "?sort=-price";
+            document.querySelector('#sort-reviews').href = "?sort=-review";
+            document.querySelector('#sort-popularity').href = "?sort=-popularity";
+            document.querySelector('#sort-novelty').href = "?sort=-created_at";
+            flag = 2;
+            localStorage.setItem('flag', flag)
+        }else{
+            console.log('Вторая функция');
+            document.querySelector('#sort-price').href = "?sort=price";
+            document.querySelector('#sort-reviews').href = "?sort=review";
+            document.querySelector('#sort-popularity').href = "?sort=popularity";
+            document.querySelector('#sort-novelty').href = "?sort=created_at";
+            flag = 1;
+            localStorage.setItem('flag', flag)
+        }
+    }
+</script>
+<script>
+    var title = document.getElementById('product_title');
+    var price = document.getElementById('product_price');
+
+    function saveData(){
+        localStorage.setItem('product_title', title.value);
+<!--        localStorage.setItem('price_from', price.data-from);-->
+<!--        localStorage.setItem('price_to', price.data-to);-->
+            localStorage.setItem('price', price.value);
+
+        console.log(title.value);
+        console.log(price.value);
+
+    }
+    title.value = localStorage.getItem('product_title') || '';
+<!--    price.data-from = localStorage.getItem('price_from') || '1';-->
+<!--    console.log(price.data-from);-->
+    price.value = localStorage.getItem('price') || '1;10000'
+
+    var freeDelivery = document.getElementById('free_delivery');
+    var available = document.getElementById('available');
+
+    freeDelivery.onclick = function() {
+        if(document.getElementById('free_delivery').checked) {
+            localStorage.setItem('fd', "1");
+        } else {
+            localStorage.setItem('fd', "0");
+        }
+    }
+
+    available.onclick = function() {
+        if(document.getElementById('available').checked) {
+            localStorage.setItem('av', "1");
+        } else {
+            localStorage.setItem('av', "0");
+        }
+    }
+
+    var fd_store = localStorage.getItem('fd');
+    var av_store = localStorage.getItem('av');
+
+    console.log(fd_store);
+
+    if (fd_store === "1") {
+        document.getElementById("free_delivery").checked=true;
+    } else {
+        document.getElementById("free_delivery").checked=false;
+    }
+
+    if (av_store === "1") {
+        document.getElementById("available").checked=true;
+    } else {
+        document.getElementById("available").checked=false;
+    }
+
+</script>
 </div>
 {% endblock %}
 
-{% block footer %}
-    {% include 'footer.jinja2' %}
-{% endblock %}
+
+
