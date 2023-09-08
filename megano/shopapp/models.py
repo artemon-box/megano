@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from taggit.managers import TaggableManager
+from django.db.models import Avg
 
 
 def product_images_directory_path(instance, filename):
@@ -50,6 +51,10 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def price(self):
+        return ProductSeller.objects.filter(product=self).aggregate(Avg('price'))  # средняя цена по все продавцам товара
 
     @property
     def get_reviews_count(self):

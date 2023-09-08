@@ -58,10 +58,10 @@
                     </header>
                     <div class="Section-columnContent">
                             <div class="buttons">
-                                {% for tag in product.tags.all %}
-                                    <a class="btn btn_default btn_sm" href="#">{{ tag.name }}</a>
-                                {% endfor %}
-                                    <a class="btn btn_default btn_sm" href="#">Для примера</a>
+{#                                {% for tag in product.tags.all %}#}
+{#                                    <a class="btn btn_default btn_sm" href="#">{{ tag.name }}</a>#}
+{#                                {% endfor %}#}
+{#                                    <a class="btn btn_default btn_sm" href="#">Для примера</a>#}
                             </div>
                     </div>
                 </div>
@@ -94,24 +94,24 @@
                         <strong class="Card-title">
                             <a href="#">{{ product.name }}</a> {# ссылка на product_detail #}
                         </strong>
-                          <a href="#">{{ product.description }}</a> {# ссылка на product_detail #}
-                            <p style="display: flex; justify-content: space-between">
-                                <span><img src="{{ static('assets/img/icons/card/seller.svg') }}" title="Количество продавцов" alt="seller.svg"/>:{{ product.sellers.count }}</span> {# кол-во продавцов #}
-                                <a href="#" style="color: #000000;">
+                         <a href="#">{{ product.description }}</a> {# ссылка на product_detail #}
+                            <p style="display: flex; justify-content: space-between">#}
+                                <span><img src="{{ static('assets/img/icons/card/seller.svg') }}" title="Количество продавцов" alt="seller.svg"/>:{{ product.sellers }}</span> {# кол-во продавцов #}
+                                <a href="#" style="color: #000000;">#}
                                     <img src="{{ static('assets/img/icons/card/review.svg') }}" title="Количество отзывов" alt="review.svg"/>:{{ product.get_review_count }} {# кол-во отзывов #}
                                 </a> {# кол-во отзывов #}
-                            </p>
+                           </p>
 
                         <div class="Card-description">
                             <div class="Card-cost">
                                 <span class="Card-price">$ {{ product.price }}</span>
                             </div>
                         <div class="Card-category">
-                            {% for tag in product.tags.all %}
-                                    {{ tag.name }}/
-                            {% else %}
-                                #
-                            {% endfor %}
+{#                            {% for tag in product.tags.all %}#}
+{#                                    {{ tag.name }}/#}
+{#                            {% else %}#}
+{#                                ##}
+{#                            {% endfor %}#}
                         </div>
                         <div class="Card-hover">
                             <a class="Card-btn" href="#" title="Добавить в корзину"> {# добавить в корзину #}
@@ -131,14 +131,14 @@
                 </div>
                 <div class="Pagination">
                     <div class="Pagination-ins">
-                        {% if products.has_previous %}
-                            <a class="Pagination-element Pagination-element_prev" href="?page={{ products.previous_page_number }}"><img src="{{ static('assets/img/icons/prevPagination.svg') }}" alt="prevPagination.svg" /></a>
-                            <a class="Pagination-element" href="?page={{ products.previous_page_number }}"><span class="Pagination-text">{{ products.previous_page_number }}</span></a>
+                        {% if products.has_previous() %}
+                            <a class="Pagination-element Pagination-element_prev" href="?page={{ products.previous_page_number() }}"><img src="{{ static('assets/img/icons/prevPagination.svg') }}" alt="prevPagination.svg" /></a>
+                            <a class="Pagination-element" href="?page={{ products.previous_page_number() }}"><span class="Pagination-text">{{ products.previous_page_number() }}</span></a>
                         {% endif %}
                             <a class="Pagination-element Pagination-element_current" href="?page={{ products.number }}"><span class="Pagination-text">{{ products.number }}</span></a>
-                        {% if products.has_next %}
-                            <a class="Pagination-element" href="?page={{ products.next_page_number }}"><span class="Pagination-text">{{ products.next_page_number }}</span></a>
-                            <a class="Pagination-element Pagination-element_prev" href="?page={{ products.next_page_number }}"><img src="{{ static('assets/img/icons/nextPagination.svg') }}" alt="nextPagination.svg" /></a>
+                        {% if products.has_next() %}
+                            <a class="Pagination-element" href="?page={{ products.next_page_number() }}"><span class="Pagination-text">{{ products.next_page_number() }}</span></a>
+                            <a class="Pagination-element Pagination-element_prev" href="?page={{ products.next_page_number() }}"><img src="{{ static('assets/img/icons/nextPagination.svg') }}" alt="nextPagination.svg" /></a>
                         {% endif %}
                     </div>
                 </div>

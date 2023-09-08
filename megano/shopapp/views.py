@@ -89,6 +89,7 @@ def index(request):
 
 
 def catalog_list(request: HttpRequest):
+    # qs = [{'1': {'name': 1}}, {'2': {'name': 2}}, {'3': {'name': 3}}, {'4': {'name': 4}}]
     qs = []
     if request.method == 'POST':
         price = request.POST.get('price')
