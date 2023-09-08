@@ -4,6 +4,7 @@ from django.core.cache import cache
 from .models import ProductReview
 from django.core.paginator import Paginator
 from django.db.models import Avg
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from cart_and_orders.services.cart import CartService
 from .forms import AddToCartForm, ProductReviewForm
@@ -40,6 +41,18 @@ class ProductDetailView(View):
         except ProductReview.DoesNotExist:
             product_reviews = []
 
+        # Определите количество элементов на странице
+        items_per_page = 3  # Например, 10 отзывов на странице
+
+        # Создайте объект Paginator
+        paginator = Paginator(product_reviews, items_per_page)
+
+        # Получите номер страницы из параметров GET-запроса (если не указан, используйте 1)
+        page_number = request.GET.get('page')
+        print(page_number)
+        page_obj = paginator.get_page(page_number)
+        print(page_obj)
+
         extra_images = product.extra_images.all()
         user = request.user
         tags = product.category.tags.all().union(product.tags.all())
@@ -58,7 +71,7 @@ class ProductDetailView(View):
             'product_sellers': product_sellers,
             'average_price': average_price,
             'tags': tags,
-            'product_reviews': product_reviews,
+            'product_reviews': page_obj,
             'reviews_count': reviews_count
         }
         return render(request, self.template_name, context)

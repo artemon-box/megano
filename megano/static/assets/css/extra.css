@@ -3729,6 +3729,7 @@ a.Cart-title {
     font-size: 24px;
 }
 
+
 .Pagination {
     visibility: visible;
     background: url("../img/bg/lineHeaderSection.png") 0 center repeat-x;
@@ -3737,6 +3738,27 @@ a.Cart-title {
     align-items: center;
     margin-top: 79px;
 }
+
+.Pagination-rev {
+    background: #fff;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.Pagination-item-rev {
+    margin: 5px;
+    padding: 5px 10px;
+    background-color: #007BFF;
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.Pagination-item-rev:hover {
+    background-color: #0056b3;
+}
+
 
 .Pagination-ins {
     background: #fff;
