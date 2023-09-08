@@ -10,7 +10,7 @@ from django.contrib.auth import get_user_model
 
 @admin.register(get_user_model())
 class MyUserAdmin(admin.ModelAdmin):
-    fields = ['email', 'name', 'phone', 'last_login', 'is_staff', 'is_superuser', 'is_active', 'date_joined', ]
+    fields = ['email', 'name', 'phone', 'last_login', 'is_staff', 'is_superuser', 'is_active', 'date_joined', 'avatar',]
     list_display = ('email', 'name', 'is_staff', 'get_groups')
     search_fields = ['name', 'email', ]
     ordering = ('-is_staff', 'email', )
