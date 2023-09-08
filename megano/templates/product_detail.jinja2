@@ -211,9 +211,7 @@
                                         {% for review in product_reviews %}
                                             <div class="Comment">
                                                 <div class="Comment-column Comment-column_pict">
-                                                    <div class="Comment-avatar">
-{#                                                        <img src="{{ review.user.image.url }}" alt="{{ review.user.username }}" class="rounded-circle">#}
-                                                    </div>
+                                                    <div class="Comment-avatar" style="background-image: url('{{ review.user.avatar.url }}')"></div>
                                                 </div>
                                                 <div class="Comment-column">
                                                     <header class="Comment-header">
