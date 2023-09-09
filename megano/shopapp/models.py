@@ -54,7 +54,7 @@ class Product(models.Model):
 
     @property
     def price(self):
-        return ProductSeller.objects.filter(product=self).aggregate(Avg('price'))  # средняя цена по все продавцам товара
+        return ProductSeller.objects.filter(product=self).aggregate(Avg('price'))  # средняя цена по всем продавцам товара
 
     @property
     def get_reviews_count(self):

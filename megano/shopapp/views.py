@@ -88,16 +88,32 @@ def index(request):
     return render(request, 'index.jinja2')
 
 
+def list_to_queryset(model, data):
+    from django.db.models.base import ModelBase
+
+    if not isinstance(model, ModelBase):
+        raise ValueError(
+            "%s must be Model" % model
+        )
+    if not isinstance(data, list):
+        raise ValueError(
+            "%s must be List Object" % data
+        )
+
+    pk_list = [obj.pk for obj in data]
+    return model.objects.filter(pk__in=pk_list)
+
+
 def catalog_list(request: HttpRequest):
-    # qs = [{'1': {'name': 1}}, {'2': {'name': 2}}, {'3': {'name': 3}}, {'4': {'name': 4}}]
-    qs = []
+
     if request.method == 'POST':
         price = request.POST.get('price')
         price_from = price.split(';')[0]  # цена от
         price_to = price.split(';')[1]  # цена до
         title = request.POST.get('title')  # название товара
         available = request.POST.get('available')  # товар в наличии
-        qs = Product.objects.all().filter(price__gte=int(price_from)).filter(price__lte=int(price_to))
+        qs = [item for item in Product.objects.all() if int(price_from) <= item.get_price <= int(price_to)]  # фильтр по цене
+        qs = list_to_queryset(Product, qs)
 
         if qs and title:
             qs = qs.filter(name__icontains=title)
@@ -108,24 +124,35 @@ def catalog_list(request: HttpRequest):
         else:
             qs = []
             cache.set('qs', qs, 360)
-    if cache.get('qs'):
-        qs = cache.get('qs')
+
+    qs = cache.get('qs')
+
     if request.GET.get('sort') and qs:
         if request.GET.get('sort') == 'review':
             qs = sorted(qs, key=lambda a: a.get_reviews_count)
         elif request.GET.get('sort') == '-review':
             qs = sorted(qs, key=lambda a: a.get_reviews_count, reverse=True)
+        elif request.GET.get('sort') == 'price':
+            qs = sorted(qs, key=lambda a: a.price)
+        elif request.GET.get('sort') == '-price':
+            qs = sorted(qs, key=lambda a: a.price, reverse=True)
         else:
             qs = qs.order_by(request.GET.get('sort'))
-            cache.set('qs', qs, 360)
+        cache.set('qs', qs, 360)
 
     # Пагинация
-    paginator = Paginator(qs, 4)  # Show 10 contacts per page.
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    context = {
-        'products': page_obj,
-    }
+    if qs:
+        qs = cache.get('qs')
+        paginator = Paginator(qs, 4)  # Show 10 contacts per page.
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        context = {
+            'products': page_obj,
+        }
+    else:
+        context = {
+            'products': [],
+        }
 
     return render(request, 'catalog.jinja2', context=context)
 
