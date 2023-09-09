@@ -1,6 +1,8 @@
 from django.shortcuts import get_object_or_404
 from django.http import HttpRequest
 from django.core.cache import cache
+from django.views.generic import TemplateView
+
 from .models import ProductReview
 from django.core.paginator import Paginator
 from django.db.models import Avg
@@ -11,6 +13,7 @@ from .models import ProductSeller
 from .services.discount import DiscountService
 from .services.product_review import ProductReviewService
 from .utils.details_cache import get_cached_product_by_slug
+from .utils.top_products import get_cached_top_products
 from .services.recently_viewed import RecentlyViewedService
 
 from django.shortcuts import render, redirect
@@ -18,6 +21,16 @@ from django.shortcuts import render, redirect
 from django.views import View
 from .models import Product
 from .services.compared_products import ComparedProductsService
+
+
+class HomeView(TemplateView):
+    """Главная страница"""
+    template_name = 'index.jinja2'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['top_products'] = get_cached_top_products()
+        return context
 
 
 class ProductDetailView(View):
@@ -82,10 +95,6 @@ class ProductDetailView(View):
                 self.review_service.add_review_for_product(product=product, user_id=user.id, review_text=review_text)
 
         return redirect('shopapp:product_detail', product_slug=product_slug)
-
-
-def index(request):
-    return render(request, 'index.jinja2')
 
 
 def catalog_list(request: HttpRequest):
