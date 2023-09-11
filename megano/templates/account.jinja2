@@ -31,12 +31,14 @@
                 <div class="Section-content">
                     <div class="Account">
                         <div class="Account-group">
+                        {% if user.avatar %}
                             <div class="Account-column">
-                                <div class="Account-avatar"><img src="assets/img/content/home/card.jpg" alt="card.jpg">
+                                <div class="Account-avatar"><img src="{{ user.avatar.url}}" alt="Аватар пользователя">
                                 </div>
                             </div>
+                        {% endif %}
                             <div class="Account-column">
-                                <div class="Account-name">Иванов Иван Иванович
+                                <div class="Account-name">{{user.name}}
                                 </div><a class="Account-editLink" href="{{ url('profile_view') }}">Редактировать профиль</a>
                             </div>
                         </div>

@@ -49,9 +49,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     """
     objects = EmailUserManager()
 
-    name = models.CharField('ФИО', max_length=30, blank=True)
+    name = models.CharField('ФИО', max_length=40, blank=True)
     email = models.EmailField('Почта', max_length=255, unique=True)
-    phone = models.CharField('Телефон', max_length=20, null=True, blank=True)
+    phone = models.CharField('Телефон', max_length=12, unique=True, null=True, blank=True)
     is_staff = models.BooleanField(
         'Администратор сайта', default=False,
         help_text='Определяет, может ли пользователь войти в этот административный сайт.')
