@@ -61,7 +61,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                     'Снимите это выделение вместо удаления учетных записей.')
     date_joined = models.DateTimeField('Дата регистрации', default=timezone.now)
     avatar = models.ImageField(upload_to='users/', verbose_name='Аватар',
-        help_text='Картинка аватара. ')
+        help_text='Картинка аватара. ', default=None, null=False)
 
     USERNAME_FIELD = 'email'
 

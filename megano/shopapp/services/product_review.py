@@ -20,7 +20,6 @@ class ProductReviewService:
         """
         Получить количество отзывов для товара
         """
-        reviews_count = ProductReview.objects.filter(product=product).count()
-
+        reviews_count = ProductReview.objects.filter(product=product).order_by('-created_at').count()
 
         return reviews_count
