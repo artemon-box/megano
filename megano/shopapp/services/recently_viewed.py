@@ -5,8 +5,7 @@ class RecentlyViewedService:
         """
         pass
 
-    def add_to_recently_viewed(self, user_id, product_id):
+    def add_to_recently_viewed(self, user_id, product_slug):
         """
         добавление товара в список просмотренных для конкретного пользователя
         """
-        pass

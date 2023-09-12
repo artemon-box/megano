@@ -1,0 +1,10 @@
+{% extends 'base.jinja2' %}
+
+{% block header %}
+    {{ super() }}
+{#    {% include 'banners.jinja2' %}#}
+{% endblock %}
+
+{% block content %}
+    {% include 'shopapp/top_products.jinja2' %}
+{% endblock %}

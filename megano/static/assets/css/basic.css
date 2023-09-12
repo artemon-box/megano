@@ -1051,6 +1051,10 @@ select + select {
     margin-top: 25px;
 }
 
+.load-more {
+    padding-top: 20px;
+}
+
 .form_contacts .form-input {
     min-width: auto;
 }

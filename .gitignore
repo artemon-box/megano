@@ -145,6 +145,4 @@ data/
 *.sqlite3
 /category_cache/
 /uploads/
-media/
-*.djcache
-.gitignore
+/megano/media/
