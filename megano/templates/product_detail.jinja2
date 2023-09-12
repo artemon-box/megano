@@ -92,7 +92,7 @@
                                 <span>Характеристики</span>
                             </a>
                             <a class="Tabs-link Tabs-link_ACTIVE" href="#reviews">
-                                <span>Отзывы {{ reviews_count }}</span>
+                                <span>Отзывы ({{ reviews_count|default(0) }})</span>
                             </a>
                         </div>
                         <div class="Tabs-wrap">
@@ -202,11 +202,7 @@
                                 <header class="Section-header">
                                     <h3 class="Section-title">
                                         <span class="Comment-date">
-                                            {% if product_reviews %}
-                                                {{ reviews_count }} отзыв{{ reviews_count != 1 and 'ов' or '' }}
-                                            {% else %}
-                                                0 Отзывов
-                                            {% endif %}
+                                            {{ reviews_count|default(0) }} отзыв{{ reviews_count != 1 and 'ов' or '' }}
                                         </span>
                                     </h3>
                                 </header>
@@ -215,9 +211,7 @@
                                         {% for review in product_reviews %}
                                             <div class="Comment">
                                                 <div class="Comment-column Comment-column_pict">
-                                                    <div class="Comment-avatar">
-{#                                                        <img src="{{ review.user.image.url }}" alt="{{ review.user.username }}" class="rounded-circle">#}
-                                                    </div>
+                                                    <div class="Comment-avatar" style="background-image: url('{{ review.user.avatar.url }}')"></div>
                                                 </div>
                                                 <div class="Comment-column">
                                                     <header class="Comment-header">
@@ -232,9 +226,21 @@
                                                 </div>
                                             </div>
                                         {% endfor %}
-                                            <div id="show-more-button">
-                                                <button class="btn btn_primary" id="show-more">Показать ещё</button>
-                                            </div>
+                                        <div class="Pagination-rev">
+                                            {% if product_reviews.number != 1 %}
+                                                <a href="?page=1" class="Pagination-item-rev">&laquo; первая</a>
+                                                <a href="?page={{ product_reviews.number - 1 }}" class="Pagination-item-rev">предыдущая</a>
+                                            {% endif %}
+
+                                            <span class="current-page">
+                                                Страница {{ product_reviews.number }} из {{ product_reviews.paginator.num_pages }}.
+                                            </span>
+
+                                            {% if product_reviews.number != product_reviews.paginator.num_pages %}
+                                                <a href="?page={{ product_reviews.number + 1 }}" class="Pagination-item-rev">следующая</a>
+                                                <a href="?page={{ product_reviews.paginator.num_pages }}" class="Pagination-item-rev">последняя &raquo;</a>
+                                            {% endif %}
+                                        </div>
                                     {% endif %}
                                 </div>
                                 <header class="Section-header Section-header_product">

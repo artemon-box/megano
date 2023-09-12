@@ -1,11 +1,11 @@
 from django.shortcuts import get_object_or_404
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.core.cache import cache
 from django.views.generic import TemplateView
 
 from .models import ProductReview
-from django.core.paginator import Paginator
 from django.db.models import Avg
+from django.core.paginator import Paginator
 
 from cart_and_orders.services.cart import CartService
 from .forms import AddToCartForm, ProductReviewForm
@@ -35,8 +35,9 @@ class HomeView(TemplateView):
 
 class ProductDetailView(View):
     """
-    DetailView для детальной страницы товара
+    Представление для отображения детальной информации о продукте.
     """
+
     template_name = 'product_detail.jinja2'
     model = Product
 
@@ -45,13 +46,26 @@ class ProductDetailView(View):
     recently_viewed_service = RecentlyViewedService()
     cart = CartService()
 
-    def get(self, request, product_slug):
+    def get(self, request: HttpRequest, product_slug: str) -> HttpResponse:
+        """
+        Обработчик GET-запроса для отображения детальной информации о продукте.
+
+        :param request: Запрос пользователя.
+        :param product_slug: Уникальный идентификатор товара в URL.
+        :return: HTTP-ответ с детальной информацией о товаре.
+        """
+
         product = get_cached_product_by_slug(product_slug)
 
         try:
             product_reviews = self.review_service.get_reviews_for_product(product)
         except ProductReview.DoesNotExist:
             product_reviews = []
+
+        paginator = Paginator(product_reviews, 3)
+
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
 
         extra_images = product.extra_images.all()
         user = request.user
@@ -71,12 +85,20 @@ class ProductDetailView(View):
             'product_sellers': product_sellers,
             'average_price': average_price,
             'tags': tags,
-            'product_reviews': product_reviews,
-            'reviews_count': reviews_count
+            'product_reviews': page_obj,
+            'reviews_count': reviews_count,
         }
         return render(request, self.template_name, context)
 
-    def post(self, request, product_slug):
+    def post(self, request: HttpRequest, product_slug: str) -> HttpResponse:
+        """
+        Обработчик POST-запросов для отображения детальной информации о продукте.
+
+        :param request: Запрос пользователя.
+        :param product_slug: Уникальный идентификатор товара в URL.
+        :return: HTTP-ответ с детальной информацией о товаре.
+        """
+
         product = get_cached_product_by_slug(product_slug)
         user = request.user
 
