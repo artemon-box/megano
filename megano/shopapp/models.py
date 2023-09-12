@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from taggit.managers import TaggableManager
+from django.db.models import Avg
 
 
 def product_images_directory_path(instance, filename):
@@ -37,6 +38,7 @@ class Product(models.Model):
     available = models.BooleanField(default=True)
     sellers = models.ManyToManyField('Seller', through='ProductSeller')
     tags = TaggableManager()
+    created_at = models.DateTimeField(auto_now_add=True)  # дата добавления товара для сортировки по новизне
 
     class Meta:
         ordering = ['name']
@@ -47,6 +49,14 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def popularity(self):
+        return len(str(self.description))  # здесь будет популярность = кол-во оплаченных заказов товара
+
+    @property
+    def reviews(self):
+        return ProductReview.objects.filter(product=self).count()  # кол-во отзывов
 
     def get_absolute_url(self):
         return reverse('shopapp:product_detail', args=[self.id, self.slug])
@@ -82,6 +92,7 @@ class ProductSeller(models.Model):
     seller = models.ForeignKey('Seller', on_delete=models.RESTRICT)
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='цена товара у продавца')
     quantity = models.IntegerField(verbose_name='количество', default=1)
+    free_delivery = models.BooleanField(default=False)  # бесплатная доставка (для фильтрации на странице каталога)
 
     class Meta:
         verbose_name = 'товар у прордавца'

@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'paymentapp.apps.PaymentappConfig',
     'shopapp.apps.ShopappConfig',
     'accountapp.apps.AccountappConfig',
+    'profileapp.apps.ProfileappConfig',
 ]
 
 MIDDLEWARE = [
@@ -157,6 +158,9 @@ USE_I18N = True
 
 USE_TZ = True
 
+DATE_FORMAT = 'd F Y'
+TIME_FORMAT = 'H:i'
+FILE_CHARSET = 'utf-8'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -178,13 +182,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CATEGORY_MENU_CACHE_TIMEOUT = 86400
 BANNER_CACHE_TIMEOUT = 600
 PRODUCT_CACHE_TIMEOUT = 86400
-
+TOP_PRODUCTS_CACHE_TIMEOUT = 86400
 COMPARE_LIST_SESSION_ID = 'compare_list'
 
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': BASE_DIR,
+        'LOCATION': BASE_DIR / 'cache',
     }
 }
 

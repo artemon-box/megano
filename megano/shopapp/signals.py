@@ -1,6 +1,6 @@
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
-from .models import Category, Product
+from .models import Category, Product, ProductSeller
 from django.core.cache import cache
 
 
@@ -19,4 +19,10 @@ def clear_banner_cache(sender, instance, **kwargs):
 @receiver(post_save, sender=Product)
 def clear_product_cache(sender, instance, **kwargs):
     cache_key = f'product_{instance.slug}'
+    cache.delete(cache_key)
+
+
+@receiver([post_save, post_delete], sender=ProductSeller)
+def clear_top_products_cache(sender, instance, **kwargs):
+    cache_key = 'top_products'
     cache.delete(cache_key)

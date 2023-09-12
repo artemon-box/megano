@@ -1,0 +1,26 @@
+<div class="Section-content">
+    <header class="Section-header">
+        <h2 class="Section-title">Популярные товары</h2>
+    </header>
+    <div class="Cards">
+        {% for top_product in top_products %}
+            <div class="Card">
+                <a class="Card-picture"
+                   href="{{ url('shopapp:product_detail', product_slug=top_product.product.slug) }}"><img
+                        src="{{ top_product.product.image.url }}" alt="{{ top_product.product.name }}"></a>
+                <div class="Card-content">
+                    <strong class="Card-title"><a
+                            href="{{ url('shopapp:product_detail', product_slug=top_product.product.slug) }}">{{ top_product.product.name }}</a></strong>
+                    <div class="Card-description">
+                        <div class="Card-cost"><span class="Card-price">${{ top_product.price }}</span></div>
+                        <div class="Card-category">{{ top_product.product.category.name }}</div>
+                        <div class="Card-hover">
+                            <a class="Card-btn" href="#"><img src="{{ static('assets/img/icons/card/cart.svg') }}"
+                                                              alt="Добавить в корзину"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
