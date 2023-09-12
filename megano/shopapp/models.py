@@ -39,8 +39,6 @@ class Product(models.Model):
     sellers = models.ManyToManyField('Seller', through='ProductSeller')
     tags = TaggableManager()
     created_at = models.DateTimeField(auto_now_add=True)  # дата добавления товара для сортировки по новизне
-    free_delivery = models.BooleanField(default=False)  # бесплатная доставка (для фильтрации на странице каталога)
-    popularity = models.IntegerField(verbose_name='популярность', default=0)  # = кол-во покупок данного товара. после оплаты заказа += 1
 
     class Meta:
         ordering = ['name']
@@ -53,12 +51,12 @@ class Product(models.Model):
         return self.name
 
     @property
-    def price(self):
-        return ProductSeller.objects.filter(product=self).aggregate(Avg('price'))  # средняя цена по всем продавцам товара
+    def popularity(self):
+        return len(str(self.description))  # здесь будет популярность = кол-во оплаченных заказов товара
 
     @property
-    def get_reviews_count(self):
-        return ProductReview.objects.filter(product=self).count()  # кол-во отзывов у товара
+    def reviews(self):
+        return ProductReview.objects.filter(product=self).count()  # кол-во отзывов
 
     def get_absolute_url(self):
         return reverse('shopapp:product_detail', args=[self.id, self.slug])
@@ -94,6 +92,7 @@ class ProductSeller(models.Model):
     seller = models.ForeignKey('Seller', on_delete=models.RESTRICT)
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='цена товара у продавца')
     quantity = models.IntegerField(verbose_name='количество', default=1)
+    free_delivery = models.BooleanField(default=False)  # бесплатная доставка (для фильтрации на странице каталога)
 
     class Meta:
         verbose_name = 'товар у прордавца'

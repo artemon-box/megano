@@ -88,70 +88,70 @@ def index(request):
     return render(request, 'index.jinja2')
 
 
-def list_to_queryset(model, data):
-    from django.db.models.base import ModelBase
-
-    if not isinstance(model, ModelBase):
-        raise ValueError(
-            "%s must be Model" % model
-        )
-    if not isinstance(data, list):
-        raise ValueError(
-            "%s must be List Object" % data
-        )
-
-    pk_list = [obj.pk for obj in data]
-    return model.objects.filter(pk__in=pk_list)
-
-
 def catalog_list(request: HttpRequest):
+    if not cache.get('top_tags'):  # популярные теги
+        top_tags = Product.tags.most_common()[:5]
+        cache.set('top_tags', top_tags, 300)
+    top_tags = cache.get('top_tags')
 
+    # Фильтрация
     if request.method == 'POST':
+        tag = request.POST.get('tag')  # выбранный тег из популярных
         price = request.POST.get('price')
         price_from = price.split(';')[0]  # цена от
         price_to = price.split(';')[1]  # цена до
         title = request.POST.get('title')  # название товара
         available = request.POST.get('available')  # товар в наличии
-        qs = [item for item in Product.objects.all() if int(price_from) <= item.get_price <= int(price_to)]  # фильтр по цене
-        qs = list_to_queryset(Product, qs)
+        free_delivery = request.POST.get('free_delivery')  # бесплатная доставка
 
-        if qs and title:
-            qs = qs.filter(name__icontains=title)
-        if qs and available:
-            qs = qs.filter(archived=False)
+        qs = ProductSeller.objects.select_related('product').filter(price__range=(price_from, price_to))
+
         if qs:
-            cache.set('qs', qs, 360)
+            if title:
+                qs = qs.filter(product__name__icontains=title)  # фильтр по вхождению строки в название товара
+            if available:
+                qs = qs.filter(quantity__gt=0)  # фильтр по наличию товара
+            if free_delivery:
+                qs = qs.filter(free_delivery=True)  # фильтр по бесплатной доставке
+            if tag:
+                qs = qs.filter(product__tags__name=tag)  # фильтр по популярным тегам
+            cache.set('qs', qs, 300)
         else:
             qs = []
-            cache.set('qs', qs, 360)
+            cache.set('qs', qs, 300)
 
     qs = cache.get('qs')
 
+    # Сортировка
     if request.GET.get('sort') and qs:
-        if request.GET.get('sort') == 'review':
-            qs = sorted(qs, key=lambda a: a.get_reviews_count)
-        elif request.GET.get('sort') == '-review':
-            qs = sorted(qs, key=lambda a: a.get_reviews_count, reverse=True)
-        elif request.GET.get('sort') == 'price':
-            qs = sorted(qs, key=lambda a: a.price)
-        elif request.GET.get('sort') == '-price':
-            qs = sorted(qs, key=lambda a: a.price, reverse=True)
+        sort_param = request.GET.get('sort')
+        # eval() преобразует строку в переменную
+        if not sort_param.endswith('price'):
+            if '-' in sort_param:
+                qs = sorted(qs, key=lambda a: eval('a.product.' + f'{sort_param[1:]}'), reverse=True)
+            else:
+                qs = sorted(qs, key=lambda a: eval('a.product.' + f'{sort_param}'))
         else:
-            qs = qs.order_by(request.GET.get('sort'))
-        cache.set('qs', qs, 360)
+            if '-' in sort_param:
+                qs = sorted(qs, key=lambda a: eval('a.' + f'{sort_param[1:]}'), reverse=True)
+            else:
+                qs = sorted(qs, key=lambda a: eval('a.' + f'{sort_param}'))
+        cache.set('qs', qs, 300)
 
     # Пагинация
     if qs:
         qs = cache.get('qs')
-        paginator = Paginator(qs, 4)  # Show 10 contacts per page.
+        paginator = Paginator(qs, 4)  # Show 4 contacts per page.
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         context = {
-            'products': page_obj,
+            'dealers': page_obj,
+            'top_tags': top_tags,
         }
     else:
         context = {
-            'products': [],
+            'dealers': [],
+            'top_tags': top_tags,
         }
 
     return render(request, 'catalog.jinja2', context=context)

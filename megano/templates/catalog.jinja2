@@ -1,6 +1,5 @@
 {% extends 'base.jinja2' %}
 
-
 {% block title %}
     Catalog
 {% endblock %}
@@ -48,21 +47,23 @@
                                 <div class="buttons"><button type="submit" class="btn btn_square btn_dark btn_narrow" onclick="saveData()">Фильтр</button>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="Section-columnSection">
-                    <header class="Section-header">
-                        <strong class="Section-title">Популярные тэги
-                        </strong>
-                    </header>
-                    <div class="Section-columnContent">
-                            <div class="buttons">
-{#                                {% for tag in product.tags.all %}#}
-{#                                    <a class="btn btn_default btn_sm" href="#">{{ tag.name }}</a>#}
-{#                                {% endfor %}#}
-{#                                    <a class="btn btn_default btn_sm" href="#">Для примера</a>#}
+                            <div class="Section-columnSection">
+                                <header class="Section-header">
+                                    <strong class="Section-title">Популярные тэги
+                                    </strong>
+                                </header>
+                                <div class="Section-columnContent">
+
+                                        <div class="buttons">
+                                            {% for tag in top_tags %}
+                                                <button class="btn btn_default btn_sm" name="tag" type="submit" value="{{ tag.name }}" onclick="saveData()">{{ tag.name }}</button>
+                                            {%  else %}
+                                               Пока отсутствуют...
+                                            {% endfor %}
+                                        </div>
+                                </div>
                             </div>
+                       </form>
                     </div>
                 </div>
             </div>
@@ -78,12 +79,12 @@
                     </div>
                 </div>
                 <div class="Cards">
-                    {% if products %}
-                    {% for product in products %}
+                    {% if dealers %}
+                    {% for dealer in dealers %}
                       <div class="Card">
-                        {% if product.image %}
+                        {% if dealer.product.image %}
                           <a class="Card-picture" href="#"> {# ссылка на product_detail #}
-                              <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                              <img src="{{ dealer.product.image.url }}" alt="{{ dealer.product }}">
                           </a>
                         {% else %}
                           <a class="Card-picture" href="#"> {# ссылка на product_detail #}
@@ -92,26 +93,26 @@
                         {% endif %}
                       <div class="Card-content">
                         <strong class="Card-title">
-                            <a href="#">{{ product.name }}</a> {# ссылка на product_detail #}
+                            <a href="#">{{ dealer.product }}</a> {# ссылка на product_detail #}
                         </strong>
-                         <a href="#">{{ product.description }}</a> {# ссылка на product_detail #}
-                            <p style="display: flex; justify-content: space-between">#}
-                                <span><img src="{{ static('assets/img/icons/card/seller.svg') }}" title="Количество продавцов" alt="seller.svg"/>:{{ product.sellers }}</span> {# кол-во продавцов #}
-                                <a href="#" style="color: #000000;">#}
-                                    <img src="{{ static('assets/img/icons/card/review.svg') }}" title="Количество отзывов" alt="review.svg"/>:{{ product.get_review_count }} {# кол-во отзывов #}
+                          <a href="#">{{ dealer.product.description }}</a> {# ссылка на product_detail #}
+                            <p style="display: flex; justify-content: space-between">
+                                <span><img src="{{ static('assets/img/icons/card/seller.svg') }}" title="Количество продавцов" alt="seller.svg"/>:{{ dealer.product.sellers.count() }}</span> {# кол-во продавцов #}
+                                <a href="#" style="color: #000000;">
+                                    <img src="{{ static('assets/img/icons/card/review.svg') }}" title="Количество отзывов" alt="review.svg"/>:{{ dealer.product.reviews }} {# кол-во отзывов #}
                                 </a> {# кол-во отзывов #}
-                           </p>
+                            </p>
 
                         <div class="Card-description">
                             <div class="Card-cost">
-                                <span class="Card-price">$ {{ product.price }}</span>
+                                <span class="Card-price">$ {{ dealer.price }}</span>
                             </div>
                         <div class="Card-category">
-{#                            {% for tag in product.tags.all %}#}
-{#                                    {{ tag.name }}/#}
-{#                            {% else %}#}
-{#                                ##}
-{#                            {% endfor %}#}
+                            {% for tag in dealer.product.tags.all() %}
+                                    #{{ tag.name }}
+                            {%  else %}
+                                #
+                            {% endfor %}
                         </div>
                         <div class="Card-hover">
                             <a class="Card-btn" href="#" title="Добавить в корзину"> {# добавить в корзину #}
@@ -129,18 +130,23 @@
                         <h4>Ничего не найдено. Попробуйте другие критерии поиска, либо нажмите кнопку "Фильтр"!</h4>
                     {% endif %}
                 </div>
+
                 <div class="Pagination">
+                {% if dealers %}
                     <div class="Pagination-ins">
-                        {% if products.has_previous() %}
-                            <a class="Pagination-element Pagination-element_prev" href="?page={{ products.previous_page_number() }}"><img src="{{ static('assets/img/icons/prevPagination.svg') }}" alt="prevPagination.svg" /></a>
-                            <a class="Pagination-element" href="?page={{ products.previous_page_number() }}"><span class="Pagination-text">{{ products.previous_page_number() }}</span></a>
+                        {% if dealers.has_previous() %}
+                            <a class="Pagination-element Pagination-element_prev" href="?page={{ dealers.previous_page_number() }}"><img src="{{ static('assets/img/icons/prevPagination.svg') }}" alt="prevPagination.svg" /></a>
+                            <a class="Pagination-element" href="?page={{ dealers.previous_page_number() }}"><span class="Pagination-text">{{ dealers.previous_page_number() }}</span></a>
                         {% endif %}
-                            <a class="Pagination-element Pagination-element_current" href="?page={{ products.number }}"><span class="Pagination-text">{{ products.number }}</span></a>
-                        {% if products.has_next() %}
-                            <a class="Pagination-element" href="?page={{ products.next_page_number() }}"><span class="Pagination-text">{{ products.next_page_number() }}</span></a>
-                            <a class="Pagination-element Pagination-element_prev" href="?page={{ products.next_page_number() }}"><img src="{{ static('assets/img/icons/nextPagination.svg') }}" alt="nextPagination.svg" /></a>
+                            <a class="Pagination-element Pagination-element_current" href="?page={{ dealers.number }}"><span class="Pagination-text">{{ dealers.number }}</span></a>
+                        {% if dealers.has_next() %}
+                            <a class="Pagination-element" href="?page={{ dealers.next_page_number() }}"><span class="Pagination-text">{{ dealers.next_page_number() }}</span></a>
+                            <a class="Pagination-element Pagination-element_prev" href="?page={{ dealers.next_page_number() }}"><img src="{{ static('assets/img/icons/nextPagination.svg') }}" alt="nextPagination.svg" /></a>
                         {% endif %}
                     </div>
+                    {% else %}
+                        <a class="Pagination-element Pagination-element_current" href="#"><span class="Pagination-text">  </span></a>
+                {% endif %}
                 </div>
             </div>
         </div>
@@ -151,7 +157,7 @@
         if (flag == 1) {
             console.log('Первая функция', localStorage.getItem('free-delivery'));
             document.querySelector('#sort-price').href = "?sort=-price";
-            document.querySelector('#sort-reviews').href = "?sort=-review";
+            document.querySelector('#sort-reviews').href = "?sort=-reviews";
             document.querySelector('#sort-popularity').href = "?sort=-popularity";
             document.querySelector('#sort-novelty').href = "?sort=-created_at";
             flag = 2;
@@ -159,7 +165,7 @@
         }else{
             console.log('Вторая функция');
             document.querySelector('#sort-price').href = "?sort=price";
-            document.querySelector('#sort-reviews').href = "?sort=review";
+            document.querySelector('#sort-reviews').href = "?sort=reviews";
             document.querySelector('#sort-popularity').href = "?sort=popularity";
             document.querySelector('#sort-novelty').href = "?sort=created_at";
             flag = 1;
@@ -173,17 +179,10 @@
 
     function saveData(){
         localStorage.setItem('product_title', title.value);
-<!--        localStorage.setItem('price_from', price.data-from);-->
-<!--        localStorage.setItem('price_to', price.data-to);-->
             localStorage.setItem('price', price.value);
-
-        console.log(title.value);
-        console.log(price.value);
 
     }
     title.value = localStorage.getItem('product_title') || '';
-<!--    price.data-from = localStorage.getItem('price_from') || '1';-->
-<!--    console.log(price.data-from);-->
     price.value = localStorage.getItem('price') || '1;10000'
 
     var freeDelivery = document.getElementById('free_delivery');
