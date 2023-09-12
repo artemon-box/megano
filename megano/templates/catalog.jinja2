@@ -88,8 +88,8 @@
         {% for product in products %}
           <div class="Card">
             {% if product.image %}
-              <a class="Card-picture" href="#"> {# ссылка на product_detail #}
-                  <img src="{{ static(product.image) }}" alt="{{ product.name }}">
+              <a class="Card-picture" href="{{ url('shopapp:product_detail', product.slug) }}"> {# ссылка на product_detail #}
+                  <img src="{{ product.image.url }}" alt="{{ product.name }}">
               </a>
             {% else %}
               <a class="Card-picture" href="#"> {# ссылка на product_detail #}

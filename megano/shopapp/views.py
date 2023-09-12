@@ -16,7 +16,7 @@ from .services.recently_viewed import RecentlyViewedService
 from django.shortcuts import render, redirect
 
 from django.views import View
-from .models import Product
+from .models import Product, ProductFeature
 from .services.compared_products import ComparedProductsService
 
 
@@ -52,6 +52,8 @@ class ProductDetailView(View):
         if user.is_authenticated:
             self.recently_viewed_service.add_to_recently_viewed(user_id=user.id, product_slug=product_slug)
 
+        features = product.features.all()
+
         context = {
             'extra_images': extra_images,
             'product': product,
@@ -59,7 +61,8 @@ class ProductDetailView(View):
             'average_price': average_price,
             'tags': tags,
             'product_reviews': product_reviews,
-            'reviews_count': reviews_count
+            'reviews_count': reviews_count,
+            'features': features
         }
         return render(request, self.template_name, context)
 
@@ -168,3 +171,13 @@ class ComparisonOfProducts(View):
                 'compared_products': compared_products,
             }
         )
+
+
+class ClearComparison(View):
+    """
+    Очистить список сравнения
+    """
+    def get(self, request):
+        compare_list = ComparedProductsService(request)
+        compare_list.clear()
+        return redirect('shopapp:compare_list')
