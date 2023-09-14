@@ -193,4 +193,4 @@ CACHES = {
     }
 }
 
-FOLDER_FIXTURES = 'fixtures'
+FIXTURE_DIRS = ['fixtures', ]

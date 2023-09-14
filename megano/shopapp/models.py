@@ -152,6 +152,7 @@ class Feature(models.Model):
     Тип характеристики
     """
     category = models.ForeignKey(Category, verbose_name='Категория', related_name='categories', on_delete=models.CASCADE)
+    features_group = models.ForeignKey('self', verbose_name='Группа характеристик', on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=100, verbose_name='Характеристика')
 
     class Meta:
