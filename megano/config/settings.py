@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'django_jinja',
     'rest_framework',
     'taggit',
+    'rest_framework',
 
     'admin_settings.apps.AdminSettingsConfig',
     'cart_and_orders.apps.CartAndOrdersConfig',
@@ -89,6 +90,7 @@ TEMPLATES = [
             'context_processors': [
                 'shopapp.context_processors.categories_menu',
                 'shopapp.context_processors.random_product_banners',
+                'shopapp.context_processors.compare_list',
             ],
             # django-jinja defaults
             "match_extension": ".jinja2",
@@ -192,4 +194,4 @@ CACHES = {
     }
 }
 
-FOLDER_FIXTURES = 'fixtures'
+FIXTURE_DIRS = ['fixtures', ]

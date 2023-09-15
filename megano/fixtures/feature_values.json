@@ -1,0 +1,122 @@
+[
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 1,
+    "fields": {
+      "feature": 1,
+      "value": "Windows 10"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 2,
+    "fields": {
+      "feature": 1,
+      "value": "Windows 11"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 3,
+    "fields": {
+      "feature": 1,
+      "value": "без ОС"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 4,
+    "fields": {
+      "feature": 2,
+      "value": "15.6\""
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 5,
+    "fields": {
+      "feature": 2,
+      "value": "17\""
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 6,
+    "fields": {
+      "feature": 2,
+      "value": "14\""
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 7,
+    "fields": {
+      "feature": 3,
+      "value": "Full HD (1920x1080)"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 8,
+    "fields": {
+      "feature": 3,
+      "value": "HD (1280х720)"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 9,
+    "fields": {
+      "feature": 3,
+      "value": "Ultra HD 4K (3840x2160)"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 10,
+    "fields": {
+      "feature": 7,
+      "value": "Intel Core i9-13900H"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 11,
+    "fields": {
+      "feature": 7,
+      "value": "Intel Core i3-1215U"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 12,
+    "fields": {
+      "feature": 7,
+      "value": "Intel Core i5-12500H"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 13,
+    "fields": {
+      "feature": 9,
+      "value": "2.5"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 14,
+    "fields": {
+      "feature": 9,
+      "value": "3.0"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 15,
+    "fields": {
+      "feature": 9,
+      "value": "2.7"
+    }
+  }
+]

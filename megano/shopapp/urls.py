@@ -10,6 +10,7 @@ urlpatterns = [
     path('compare/', views.ComparisonOfProducts.as_view(), name='compare_list'),
     path('compare/add/<int:product_id>/', views.AddToComparison.as_view(), name='compare_add'),
     path('compare/remove/<int:product_id>/', views.RemoveFromComparison.as_view(), name='compare_remove'),
+    path('compare/clear/', views.ClearComparison.as_view(), name='compare_clear'),
     path('catalog/', views.catalog_list, name='catalog_list'),
     path('products/<slug:product_slug>/', ProductDetailView.as_view(), name='product_detail'),
 ]
