@@ -59,7 +59,6 @@ INSTALLED_APPS = [
     'django_jinja',
     'rest_framework',
     'taggit',
-    'rest_framework',
 
     'admin_settings.apps.AdminSettingsConfig',
     'cart_and_orders.apps.CartAndOrdersConfig',
