@@ -1,0 +1,18 @@
+[
+  {
+    "model": "shopapp.category",
+    "pk": 1,
+    "fields": {
+      "name": "Ноутбуки",
+      "sort_index": 1
+    }
+  },
+  {
+    "model": "shopapp.category",
+    "pk": 2,
+    "fields": {
+      "name": "Смартфоны",
+      "sort_index": 2
+    }
+  }
+]

@@ -139,8 +139,8 @@ class Category(models.Model):
     Модель категории товаров
     """
     name = models.CharField(max_length=255)
-    tags = TaggableManager(blank=True)
-    sub_categories = models.ManyToManyField('self', blank=True, symmetrical=False, related_name='parent_categories')
+    sort_index = models.PositiveIntegerField(db_index=True)
+    tags = TaggableManager()
 
     def __str__(self):
         return self.name
@@ -148,3 +148,66 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
+        ordering = ['sort_index']
+        indexes = [
+            models.Index(fields=['sort_index'])
+        ]
+
+
+class Feature(models.Model):
+    """
+    Тип характеристики
+    """
+    category = models.ForeignKey(Category, verbose_name='Категория', related_name='categories', on_delete=models.CASCADE)
+    features_group = models.ForeignKey('self', verbose_name='Группа характеристик', on_delete=models.CASCADE, null=True, blank=True)
+    name = models.CharField(max_length=100, verbose_name='Характеристика')
+
+    class Meta:
+        ordering = ['category', 'name']
+        unique_together = ['category', 'name']
+
+    def __str__(self):
+        return f'{self.category.name} | {self.name}'
+
+
+class FeatureValue(models.Model):
+    """
+    Таблица валидных значений. Выбираем значения из выпадающего списка.
+    """
+    feature = models.ForeignKey(Feature, verbose_name='Характеристика', on_delete=models.CASCADE)
+    value = models.CharField(max_length=100, verbose_name='Значение')
+
+    class Meta:
+        ordering = ['feature', 'value']
+
+    def __str__(self):
+        return f'{self.feature} | {self.value}'
+
+
+class ProductFeature(models.Model):
+    """
+    Характеристика товара
+    """
+    product = models.ForeignKey(Product, verbose_name='Товар', related_name='features', on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, verbose_name='Категория', on_delete=models.CASCADE)
+    feature = models.ForeignKey(Feature, verbose_name='Характеристика', related_name='features', on_delete=models.CASCADE)
+    value = models.ForeignKey(FeatureValue, verbose_name='Значение', on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return f'{self.feature}'
+
+
+class AllowedRelation(models.Model):
+    """
+     Таблица соответсвий, категория -> характеристика -> значение, для каждого товара.
+     Используется в js-скрипте в админке для реализации связанного выбора.
+    """
+    category = models.ForeignKey(Category, verbose_name='Категория', on_delete=models.CASCADE)
+    feature = models.ForeignKey(Feature, verbose_name='Характеристика', on_delete=models.CASCADE)
+    value = models.ForeignKey(FeatureValue, verbose_name='Значение', on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['category', 'feature', 'value']
+
+    def __str__(self):
+        return f'{self.category} {self.feature} {self.value}'
