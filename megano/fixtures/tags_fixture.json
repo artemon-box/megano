@@ -1,0 +1,170 @@
+[
+  {
+    "model": "taggit.tag",
+    "pk": 1,
+    "fields": {
+      "name": "TV",
+      "slug": "tv"
+    }
+  },
+  {
+    "model": "taggit.tag",
+    "pk": 2,
+    "fields": {
+      "name": "HP",
+      "slug": "hp"
+    }
+  },
+  {
+    "model": "taggit.tag",
+    "pk": 3,
+    "fields": {
+      "name": "SM",
+      "slug": "sm"
+    }
+  },
+  {
+    "model": "taggit.tag",
+    "pk": 4,
+    "fields": {
+      "name": "EL",
+      "slug": "el"
+    }
+  },
+  {
+    "model": "taggit.tag",
+    "pk": 5,
+    "fields": {
+      "name": "PH",
+      "slug": "ph"
+    }
+  },
+  {
+    "model": "taggit.tag",
+    "pk": 6,
+    "fields": {
+      "name": "FU",
+      "slug": "fu"
+    }
+  },
+  {
+    "model": "taggit.tag",
+    "pk": 7,
+    "fields": {
+      "name": "MP",
+      "slug": "mp"
+    }
+  },
+  {
+    "model": "taggit.tag",
+    "pk": 8,
+    "fields": {
+      "name": "MW",
+      "slug": "mw"
+    }
+  },
+  {
+    "model": "taggit.tag",
+    "pk": 9,
+    "fields": {
+      "name": "KT",
+      "slug": "kt"
+    }
+  },
+  {
+    "model": "taggit.tag",
+    "pk": 10,
+    "fields": {
+      "name": "TS",
+      "slug": "ts"
+    }
+  },
+  {
+    "model": "taggit.tag",
+    "pk": 11,
+    "fields": {
+      "name": "Телевизоры",
+      "slug": "телевизоры"
+    }
+  },
+  {
+    "model": "taggit.tag",
+    "pk": 12,
+    "fields": {
+      "name": "Наушники",
+      "slug": "наушники"
+    }
+  },
+  {
+    "model": "taggit.tag",
+    "pk": 13,
+    "fields": {
+      "name": "Стиральные машины",
+      "slug": "стиральные-машины"
+    }
+  },
+  {
+    "model": "taggit.tag",
+    "pk": 14,
+    "fields": {
+      "name": "Скидки",
+      "slug": "скидки"
+    }
+  },
+  {
+    "model": "taggit.tag",
+    "pk": 15,
+    "fields": {
+      "name": "Электроника",
+      "slug": "электроника"
+    }
+  },
+  {
+    "model": "taggit.tag",
+    "pk": 16,
+    "fields": {
+      "name": "Фотоаппараты",
+      "slug": "фотоаппараты"
+    }
+  },
+  {
+    "model": "taggit.tag",
+    "pk": 17,
+    "fields": {
+      "name": "Фурнитура",
+      "slug": "фурнитура"
+    }
+  },
+  {
+    "model": "taggit.tag",
+    "pk": 18,
+    "fields": {
+      "name": "Мобильные телефоны",
+      "slug": "мобильные-телефоны"
+    }
+  },
+  {
+    "model": "taggit.tag",
+    "pk": 19,
+    "fields": {
+      "name": "Микроволновые печи",
+      "slug": "микроволновые-печи"
+    }
+  },
+  {
+    "model": "taggit.tag",
+    "pk": 20,
+    "fields": {
+      "name": "Кухонная техника",
+      "slug": "кухонная-техника"
+    }
+  },
+  {
+    "model": "taggit.tag",
+    "pk": 21,
+    "fields": {
+      "name": "Торшеры",
+      "slug": "торшеры"
+    }
+  }
+]

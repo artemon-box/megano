@@ -5,6 +5,11 @@ from taggit.managers import TaggableManager
 from django.db.models import Avg
 
 
+def category_images_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/categories/image_<id>/
+    return 'categories/image_{0}/{1}'.format(instance.id, filename)
+
+
 def product_images_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/products/image_<slug>/
     return 'products/image_{0}/{1}'.format(instance.slug, filename)
@@ -37,7 +42,7 @@ class Product(models.Model):
     description = models.TextField(blank=True)
     available = models.BooleanField(default=True)
     sellers = models.ManyToManyField('Seller', through='ProductSeller')
-    tags = TaggableManager()
+    tags = TaggableManager(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)  # дата добавления товара для сортировки по новизне
 
     class Meta:
@@ -141,6 +146,8 @@ class Category(models.Model):
         return self.name
 
     class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
         ordering = ['sort_index']
         indexes = [
             models.Index(fields=['sort_index'])

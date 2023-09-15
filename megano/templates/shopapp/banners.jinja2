@@ -8,14 +8,19 @@
                           <div class="row-block">
                             <strong class="Slider-title">{{ product.name }}
                             </strong>
-                            <div class="Slider-text">{{ product.description }}
+                            <div class="Slider-text">
+                                {% if product.description|length > 200 %}
+                                    {{ product.description[:200] }}...
+                                {% else %}
+                                    {{ product.description }}
+                                {% endif %}
                             </div>
                             <div class="Slider-footer"><a class="btn btn_primary" href="{{ url('shopapp:product_detail', product_slug=product.slug) }}">Перейти</a>
                             </div>
                           </div>
                           <div class="row-block">
                             <div class="Slider-img">
-                                <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-height: 400px; max-width: 400px;">
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" >
                             </div>
                           </div>
                         </div>

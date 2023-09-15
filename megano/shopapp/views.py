@@ -73,7 +73,7 @@ class ProductDetailView(View):
         reviews_count = self.review_service.get_reviews_count(product=product)
 
         product_sellers = product.productseller_set.all()
-        average_price = ProductSeller.objects.aggregate(avg_price=Avg('price'))['avg_price']
+        average_price = round(ProductSeller.objects.aggregate(avg_price=Avg('price'))['avg_price'], 2)
         # average_price_discount = self.discount_service.calculate_discount_price_product(product)
 
         if user.is_authenticated:
@@ -188,6 +188,7 @@ def catalog_list(request: HttpRequest):
             'top_tags': top_tags,
         }
 
+    print(qs)
     return render(request, 'catalog.jinja2', context=context)
 
 

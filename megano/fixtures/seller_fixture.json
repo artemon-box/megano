@@ -1,0 +1,34 @@
+[
+  {
+    "model": "shopapp.seller",
+    "pk": 1,
+    "fields": {
+      "user": 3,
+      "name": "Cитилинк",
+      "slug": "citilink",
+      "image": "sellers/image_citilink/product.png",
+      "delivery_method": "free",
+      "payment_method": "free",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vulputate sapien nec sagittis aliquam. Arcu dictum varius duis at. Posuere sollicitudin aliquam ultrices sagittis. Viverra maecenas accumsan lacus vel facilisis. Quis ipsum suspendisse ultrices gravida dictum fusce ut placerat orci. Dolor morbi non arcu risus quis varius. Volutpat maecenas volutpat blandit aliquam etiam erat velit scelerisque in. Ultrices gravida dictum fusce ut placerat orci nulla pellentesque dignissim. Nunc aliquet bibendum enim facilisis gravida neque convallis. Vitae tortor condimentum lacinia quis vel. Vitae ultricies leo integer malesuada nunc vel risus commodo viverra. Vestibulum lorem sed risus ultricies tristique nulla aliquet enim tortor. Eget mi proin sed libero enim sed. Condimentum lacinia quis vel eros donec ac odio. Vestibulum rhoncus est pellentesque elit ullamcorper dignissim cras. Sagittis eu volutpat odio facilisis mauris sit a",
+      "email": "seller@skill.box",
+      "phone": "375296667788",
+      "address": "Ulitsa A"
+    }
+  },
+  {
+    "model": "shopapp.seller",
+    "pk": 2,
+    "fields": {
+      "user": 1,
+      "name": "МВидео",
+      "slug": "mvideo",
+      "image": "sellers/image_mvideo/bigGoods2.jpg",
+      "delivery_method": "Free",
+      "payment_method": "Free",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vulputate sapien nec sagittis aliquam. Arcu dictum varius duis at. Posuere sollicitudin aliquam ultrices sagittis. Viverra maecenas accumsan lacus vel facilisis. Quis ipsum suspendisse ultrices gravida dictum fusce ut placerat orci. Dolor morbi non arcu risus quis varius. Volutpat maecenas volutpat blandit aliquam etiam erat velit scelerisque in. Ultrices gravida dictum fusce ut placerat orci nulla pellentesque dignissim. Nunc aliquet bibendum enim facilisis gravida neque convallis. Vitae tortor condimentum lacinia quis vel. Vitae ultricies leo integer malesuada nunc vel risus commodo viverra. Vestibulum lorem sed risus ultricies tristique nulla aliquet enim tortor. Eget mi proin sed libero enim sed. Condimentum lacinia quis vel eros donec ac odio. Vestibulum rhoncus est pellentesque elit ullamcorper dignissim cras. Sagittis eu volutpat odio facilisis mauris sit a",
+      "email": "seller@skill.box",
+      "phone": "375446668877",
+      "address": "Ulitsa 2"
+    }
+  }
+]
