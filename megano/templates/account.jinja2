@@ -33,7 +33,8 @@
                         <div class="Account-group">
                         {% if user.avatar %}
                             <div class="Account-column">
-                                <div class="Account-avatar"><img src="{{ user.avatar.url}}" alt="Аватар пользователя">
+                                <div class="Account-avatar"
+                                style="background-image: url('{{ user.avatar.url }}'); background-repeat: no-repeat; background-position: center center; background-size: contain;">
                                 </div>
                             </div>
                         {% endif %}
