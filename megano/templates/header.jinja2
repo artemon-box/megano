@@ -6,14 +6,14 @@
                     <div class="row ControlPanel-rowSplit">
                         <div class="row-block hide_700">
                             <ul class="menu menu_img menu_smallImg ControlPanel-menu">
-                                <li class="menu-item"><a class="menu-link" href="#"><img
-                                        src="{{ static('assets/img/icons/socialHeader/tw.svg') }}" alt="tw.svg"/></a>
+                                <li class="menu-item"><a class="menu-link" href="https://twitter.com"><img
+                                        src="{{ static('assets/img/icons/socialHeader/tw.svg') }}" alt="Twitter"/></a>
                                 </li>
                                 <li class="menu-item"><a class="menu-link" href="#"><img
-                                        src="{{ static('assets/img/icons/socialHeader/in.svg') }}" alt="in.svg"/></a>
+                                        src="{{ static('assets/img/icons/socialHeader/in.svg') }}" alt="In"/></a>
                                 </li>
-                                <li class="menu-item"><a class="menu-link" href="#"><img
-                                        src="{{ static('assets/img/icons/socialHeader/pt.svg') }}" alt="pt.svg"/></a>
+                                <li class="menu-item"><a class="menu-link" href="https://ru.pinterest.com"><img
+                                        src="{{ static('assets/img/icons/socialHeader/pt.svg') }}" alt="Pinterest"/></a>
                                 </li>
                                 <li class="menu-item"><a class="menu-link" href="#"><img
                                         src="{{ static('assets/img/icons/socialHeader/mail.svg') }}"
@@ -38,8 +38,8 @@
     <div class="wrap">
         <div class="row Header-rowMain">
             <div class="row-block Header-logo"><a class="logo" href="{{ url('shopapp:index') }}"><img class="logo-image"
-                                                                             src="{{ static('assets/img/logo.png') }}"
-                                                                             alt="logo.png"/></a>
+                                                                                                      src="{{ static('assets/img/logo.png') }}"
+                                                                                                      alt="Main page "/></a>
             </div>
             <nav class="row-block row-block_right Header-menu">
                 <div class="menuModal" id="navigate">
@@ -47,14 +47,22 @@
                         <li class="menu-item"><a class="menu-link" href="{{ url('shopapp:index') }}">Главная</a>
                         </li>
                         <li class="menu-item"><span class="menu-label menu-label_success">Скидки</span><a
-                                class="menu-link" href="{{ url( 'shopapp:catalog_list' ) }}">Каталог</a>
+                                class="menu-link" href="{{ url('shopapp:catalog_list') }}">Каталог</a>
                         </li>
-                        <li class="menu-item"><a class="menu-link" href="#">Сравнение</a>
+                        <li class="menu-item">
+                            <a class="menu-link" href="{{ url('shopapp:compare_list') }}">
+                                {% if compare_list|length > 0 %}
+                                Сравнение({{ compare_list|length }})
+                                {% else %}
+                                Сравнение
+                                {% endif %}
+                            </a>
                         </li>
                     </ul>
                 </div>
             </nav>
             <div class="row-block">
+
                 <div class="CartBlock">
                     {% if request.user.is_authenticated %}
                         <div class="dropdown">
@@ -62,9 +70,10 @@
                                                          src="{{ static('assets/img/icons/loon-icon.svg') }}"
                                                          alt="loon-icon.svg"/></button>
                             <div class="dropdown-content">
-                                <a class="dropdown-content-a" href="#">Личный кабинет</a>
-                                <a class="dropdown-content-a" href="#">Административный раздел</a>
-                                <a class="dropdown-content-a" href="#">Выход</a>
+                                <a class="dropdown-content-a" href="{{ url('account_view') }}">Личный кабинет</a>
+                                <a class="dropdown-content-a" href="{{ url('admin:index') }}">Административный
+                                    раздел</a>
+                                <a class="dropdown-content-a" href="{{ url('logout_view') }}">Выход</a>
                             </div>
                         </div>
                     {% endif %}
@@ -72,10 +81,12 @@
                                                              src="{{ static('assets/img/icons/cart.svg') }}"
                                                              alt="cart.svg"/><span class="CartBlock-amount">0</span></a>
                     <div class="CartBlock-block"><span class="CartBlock-price">0.00$</span>
+
+
                     </div>
                 </div>
             </div>
-            <div class="row-block Header-trigger"><a class="menuTrigger" href="#">
+            <div class="row-block Header-trigger"><a class="menuTrigger" href="#navigate">
                 <div class="menuTrigger-content">Показать навигацию
                 </div>
                 <span></span><span></span><span></span>
@@ -98,28 +109,17 @@
                         {% for category in active_categories %}
                             <div class="CategoriesButton-link"><a href="#">
                                 <div class="CategoriesButton-icon"><img
-                                        src="{{ static('assets/img/icons/departments/' ~ category.id ~ '.svg') }}"
+                                        src="{{ static('assets/img/icons/departments/' ~ category.sort_index ~ '.svg') }}"
                                         alt="{{ category.sort_index ~ '.svg' }}"/></div>
                                 <span class="CategoriesButton-text">{{ category.name }}</span>
                             </a>
                             </div>
-                            {#                            {% if category.sub_categories %}#}
-                            {#                                <a class="CategoriesButton-arrow" href="#"></a>#}
-                            {#                                <div class="CategoriesButton-submenu" style="display: block;"><a class="CategoriesButton-link" href="#">#}
-                            {#                                        <div class="CategoriesButton-icon"><img src="{{ static('assets/img/icons/departments/1.svg') }}" alt="1.svg">#}
-                            {#                                        </div><span class="CategoriesButton-text">Аксессуары</span>#}
-                            {#                                    </a><a class="CategoriesButton-link" href="#">#}
-                            {#                                        <div class="CategoriesButton-icon"><img src="{{ static('assets/img/icons/departments/2.svg') }}" alt="2.svg">#}
-                            {#                                        </div><span class="CategoriesButton-text">Чехлы</span>#}
-                            {#                                    </a>#}
-                            {#                                </div>#}
-                            {#                            {% endif %}#}
                         {% endfor %}
                     </div>
                 </div>
             </div>
             {# Окончание категорий (Фёдор) #}
-            <div class="Header-searchLink"><img src="{{ static('assets/img/icons/search.svg') }}" alt="search.svg"/>
+            <div class="Header-searchLink"><img src="{{ static('assets/img/icons/search.svg') }}" alt="Search"/>
             </div>
             <div class="Header-search">
                 <div class="search">

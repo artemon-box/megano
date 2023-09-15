@@ -1,8 +1,9 @@
 from django.contrib import admin
 from django.contrib.admin import forms
 from taggit.models import Tag
+from .forms import ProductFeatureForm
 
-from .models import Product, ProductSeller, Category, Seller, ExtraImage, ProductReview
+from .models import *
 
 
 @admin.register(Category)
@@ -17,6 +18,12 @@ class ExtraImageInline(admin.StackedInline):
     extra = 3
 
 
+class ProductFeatureInline(admin.TabularInline):
+    model = ProductFeature
+    form = ProductFeatureForm
+    extra = 0
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['name', 'category', 'slug', 'available', 'created_at', 'popularity']
@@ -24,7 +31,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ['name', 'category']
     prepopulated_fields = {'slug': ('name',)}
     ordering = ['name', 'category']
-    inlines = [ExtraImageInline]
+    inlines = [ExtraImageInline, ProductFeatureInline]
 
 
 @admin.register(Seller)
@@ -43,3 +50,25 @@ class ProductSellerAdmin(admin.ModelAdmin):
 
 admin.site.register(ExtraImage)
 admin.site.register(ProductReview)
+
+
+@admin.register(Feature)
+class FeatureAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(FeatureValue)
+class FeatureValueAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(ProductFeature)
+class ProductFeatureAdmin(admin.ModelAdmin):
+    form = ProductFeatureForm
+    list_display = ['product', 'category', 'feature', 'value', ]
+
+
+@admin.register(AllowedRelation)
+class AllowedRelationAdmin(admin.ModelAdmin):
+    list_display = ['category', 'feature', 'value', ]
+    list_filter = ['category', 'feature']
