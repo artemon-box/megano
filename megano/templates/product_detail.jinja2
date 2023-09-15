@@ -124,8 +124,8 @@
                             <div class="Tabs-block" id="sellers" style="display: none;">
                                 <div class="Section-content">
                                     <div class="Orders">
+                                        {% for product_seller in product_sellers %}
                                             <div class="Order Order_anons">
-                                                {% for product_seller in product_sellers %}
                                                     <div class="Order-personal">
                                                         <div class="row">
                                                             <div class="row-block">
@@ -169,12 +169,17 @@
                                                                     </div>
                                                                     <div class="Order-infoContent"><span class="Order-price">{{ product_seller.price }} $</span>
                                                                     </div>
+                                                                </div><div class="Order-info">
+                                                                    <div class="Order-infoType">В наличии
+                                                                    </div>
+                                                                    <div class="Order-infoContent"><span class="Order-price">{{ product_seller.quantity }} шт.</span>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                {% endfor %}
                                             </div>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>
@@ -209,7 +214,7 @@
                                 <div class="Comments" id="comments-section">
                                     {% if product_reviews %}
                                         {% for review in product_reviews %}
-                                            <div class="Comment">
+                                            <div class="Comment" style="margin-bottom: 20px">
                                                 <div class="Comment-column Comment-column_pict">
                                                     <div class="Comment-avatar" style="background-image: url('{{ review.user.avatar.url }}')"></div>
                                                 </div>
@@ -226,7 +231,7 @@
                                                 </div>
                                             </div>
                                         {% endfor %}
-                                        <div class="Pagination-rev">
+                                        <div class="Pagination-rev" style="margin-top: 10px">
                                             {% if product_reviews.number != 1 %}
                                                 <a href="?page=1" class="Pagination-item-rev">&laquo; первая</a>
                                                 <a href="?page={{ product_reviews.number - 1 }}" class="Pagination-item-rev">предыдущая</a>

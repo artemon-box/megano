@@ -7,8 +7,9 @@ from .models import Product, ProductSeller, Category, Seller, ExtraImage, Produc
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'sort_index')
+    list_display = ('name',)
     search_fields = ('name',)
+    filter_horizontal = ('sub_categories',)
 
 
 class ExtraImageInline(admin.StackedInline):
@@ -37,7 +38,7 @@ class SellerAdmin(admin.ModelAdmin):
 
 @admin.register(ProductSeller)
 class ProductSellerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'product', 'seller', 'price', 'quantity')
+    list_display = ('id', 'product', 'seller', 'price', 'free_delivery', 'quantity')
 
 
 admin.site.register(ExtraImage)
