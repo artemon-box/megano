@@ -6,7 +6,7 @@
         <div class="wrap">
             <div class="Product">
                 <div class="ProductCard">
-                    {% if compared_products %}
+                    {% if compare_list|length > 1 %}
                         {% for product in compared_products %}
                             <div class="ProductCard-desc">
                                 <div class="ProductCard-header">
@@ -29,6 +29,12 @@
                                                             <td><b>Общие параметры</b></td>
                                                             <td></td>
                                                         </tr>
+                                                        {% for feature in product.features.all() %}
+                                                            <tr>
+                                                                <td>{{ feature.feature.name }}</td>
+                                                                <td>{{ feature.value.value }}</td>
+                                                            </tr>
+                                                        {% endfor %}
                                                     </table>
                                                 </div>
                                             </div>
@@ -61,7 +67,15 @@
                             </div>
                         {% endfor %}
                     {% else %}
-                        <h2>Товары для сравнения не выбраны.</h2>
+                        <h2 style="margin-right: 10%">Недостаточно данных для сравнения.</h2>
+                        {% if compare_list|length == 1 %}
+                            <div class="ProductCard-cartElement">
+                                <a class="btn btn_primary" href="{{ url('shopapp:compare_clear') }}">
+                                    <img class="btn-icon" src="{{ static('assets/img/icons/card/remove.svg') }}" alt="remove.svg"/>
+                                    <span class="btn-content">Очистить список</span>
+                                </a>
+                            </div>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>

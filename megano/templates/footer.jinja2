@@ -1,7 +1,7 @@
 <footer class="Footer">
     <div class="wrap">
         <div class="row Footer-main">
-            <div class="row-block"><a class="logo Footer-logo" href="#"><img class="logo-image"
+            <div class="row-block"><a class="logo Footer-logo" href="{{ url('shopapp:index') }}"><img class="logo-image"
                                                                                         src="{{ static('assets/img/logo_footer.png') }}"
                                                                                         alt="logo_footer.png"/></a>
             </div>
@@ -9,13 +9,13 @@
                 <strong class="Footer-title">Навигация
                 </strong>
                 <ul class="menu menu_vt Footer-menu">
-                    <li class="menu-item"><a class="menu-link" href="#">Главная</a>
+                    <li class="menu-item"><a class="menu-link" href="{{ url('shopapp:index') }}">Главная</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" href="#">Каталог</a>
+                    <li class="menu-item"><a class="menu-link" href="{{ url('shopapp:catalog_list') }}">Каталог</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" href="#">Сравнение</a>
+                    <li class="menu-item"><a class="menu-link" href="{{ url('shopapp:compare_list') }}">Сравнение</a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" href="#">Профиль</a>
+                    <li class="menu-item"><a class="menu-link" href="{{ url('profile_view') }}">Профиль</a>
                     </li>
 
                 </ul>
@@ -26,17 +26,17 @@
                 <p>Phone: 8.800.200.600<br>Email: xxx@meg.com<br>
                 </p>
                 <ul class="menu menu_img menu_smallImg Footer-menuSoc">
-                    <li class="menu-item"><a class="menu-link" href="#"><img
-                            src="{{ static('assets/img/icons/socialFooter/fb.svg') }}" alt="fb.svg"/></a>
+                    <li class="menu-item"><a class="menu-link" href="https://www.facebook.com"><img
+                            src="{{ static('assets/img/icons/socialFooter/fb.svg') }}" alt="Facebook"/></a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" href="#"><img
-                            src="{{ static('assets/img/icons/socialFooter/tw.svg') }}" alt="tw.svg"/></a>
+                    <li class="menu-item"><a class="menu-link" href="https://twitter.com"><img
+                            src="{{ static('assets/img/icons/socialFooter/tw.svg') }}" alt="Twitter"/></a>
                     </li>
                     <li class="menu-item"><a class="menu-link" href="#"><img
                             src="{{ static('assets/img/icons/socialFooter/in.svg') }}" alt="in.svg"/></a>
                     </li>
-                    <li class="menu-item"><a class="menu-link" href="#"><img
-                            src="{{ static('assets/img/icons/socialFooter/pt.svg') }}" alt="pt.svg"/></a>
+                    <li class="menu-item"><a class="menu-link" href="https://ru.pinterest.com"><img
+                            src="{{ static('assets/img/icons/socialFooter/pt.svg') }}" alt="Pinterest"/></a>
                     </li>
                     <li class="menu-item"><a class="menu-link" href="#"><img
                             src="{{ static('assets/img/icons/socialFooter/mail.svg') }}" alt="mail.svg"/></a>
