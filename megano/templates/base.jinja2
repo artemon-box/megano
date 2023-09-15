@@ -19,14 +19,11 @@
 </head>
 
 <body class="Site">
-
     <header class="Header">
-        {% block header_up %}
-            {% include 'header_up.jinja2' %}
-        {% endblock %}
-
-        {% block header_down %}
-            {% include 'header_down.jinja2' %}
+        {% block header %}
+            {% include 'headers/header_control.jinja2' %}
+            {% include 'headers/header_menu.jinja2' %}
+            {% include 'headers/header_search.jinja2' %}
         {% endblock %}
     </header>
 

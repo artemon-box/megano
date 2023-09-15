@@ -20,8 +20,8 @@
                 {% if not request.user.is_authenticated %}
                   <nav class="row-block">
                       <div class="row ControlPanel-rowSplit">
-                          <div class="row-block"><a class="ControlPanel-title" href="{{ url('login_view') }}">Вход</a>
-                              <a class="ControlPanel-title" href="{{ url('registration_view') }}">Регистрация</a>
+                          <div class="row-block"><a class="ControlPanel-title" href="{{ url('accountapp:login') }}">Вход</a>
+                              <a class="ControlPanel-title" href="{{ url('accountapp:registration') }}">Регистрация</a>
                           </div>
                       </div>
                   </nav>
