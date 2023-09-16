@@ -107,12 +107,13 @@
                     </div>
                     <div class="CategoriesButton-content">
                         {% for category in active_categories %}
-                            <div class="CategoriesButton-link"><a href="#">
+                            <div class="CategoriesButton-link">
+                                <a href="#" class="Category-Link">
                                 <div class="CategoriesButton-icon"><img
                                         src="{{ static('assets/img/icons/departments/' ~ category.sort_index ~ '.svg') }}"
                                         alt="{{ category.sort_index ~ '.svg' }}"/></div>
                                 <span class="CategoriesButton-text">{{ category.name }}</span>
-                            </a>
+                                </a>
                             </div>
                         {% endfor %}
                     </div>

@@ -70,12 +70,17 @@
                             <div class="ProductCard-footer">
                                 <div class="ProductCard-tags">
                                     <strong class="ProductCard-tagsTitle">Тэги:</strong>
-                                    {% for tag in tags %}
-                                        <a href="#" class="Tags-link">{{ tag.name }}</a>
-                                            {% if not loop.last %}
-                                                ,
-                                            {% endif %}
-                                    {% endfor %}
+                                        <form action="{{ url('shopapp:catalog_list') }}" id="form_catalog" method="post">
+                                            {% csrf_token %}
+                                                {% for tag in tags %}
+                                                    <a href="javascript:;" id="tag_link"  class="Tags-link">{{ tag.name }}</a>
+                                                {% if not loop.last %}
+                                                    ,
+                                                {% endif %}
+                                                {% endfor %}
+                                                    <input type="hidden" name="tag" id="tag_value" value="">
+                                                    <input type="hidden" name="price" value="1;100000">
+                                        </form>
                                 </div>
                             </div>
                         </div>
@@ -263,6 +268,13 @@
 
             </div>
         </div>
+     <script>
+        document.querySelectorAll('.Tags-link').forEach((link) => link.addEventListener('click', (event)=>{
+        event.preventDefault();
+        document.getElementById('tag_value').value = event.target.textContent;
+        document.getElementById('form_catalog').submit();
+        }));
+    </script>
     </div>
 
 {% endblock %}
