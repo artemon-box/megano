@@ -139,8 +139,7 @@ class Category(models.Model):
     Модель категории товаров
     """
     name = models.CharField(max_length=255)
-    tags = TaggableManager(blank=True)
-    sub_categories = models.ManyToManyField('self', blank=True, symmetrical=False, related_name='parent_categories')
+    tags = TaggableManager()
 
     def __str__(self):
         return self.name

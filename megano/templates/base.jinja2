@@ -19,10 +19,13 @@
 </head>
 
 <body class="Site">
-
-    {% block header %}
-        {% include 'header.jinja2' %}
-    {% endblock %}
+    <header class="Header">
+        {% block header %}
+            {% include 'headers/header_control.jinja2' %}
+            {% include 'headers/header_menu.jinja2' %}
+            {% include 'headers/header_search.jinja2' %}
+        {% endblock %}
+    </header>
 
     {% block content %}
         <h2>Тест базового шаблона</h2>

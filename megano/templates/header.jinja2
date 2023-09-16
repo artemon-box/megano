@@ -26,8 +26,8 @@
                 {% if not request.user.is_authenticated %}
                     <nav class="row-block">
                         <div class="row ControlPanel-rowSplit">
-                            <div class="row-block"><a class="ControlPanel-title" href="{{ url('login_view') }}">Вход</a>
-                                <a class="ControlPanel-title" href="{{ url('registration_view') }}">Регистрация</a>
+                            <div class="row-block"><a class="ControlPanel-title" href="{{ url('accountapp:login') }}">Вход</a>
+                                <a class="ControlPanel-title" href="{{ url('accountapp:registration') }}">Регистрация</a>
                             </div>
                         </div>
                     </nav>
@@ -70,10 +70,10 @@
                                                          src="{{ static('assets/img/icons/loon-icon.svg') }}"
                                                          alt="loon-icon.svg"/></button>
                             <div class="dropdown-content">
-                                <a class="dropdown-content-a" href="{{ url('account_view') }}">Личный кабинет</a>
+                                <a class="dropdown-content-a" href="{{ url('profileapp:account') }}">Личный кабинет</a>
                                 <a class="dropdown-content-a" href="{{ url('admin:index') }}">Административный
                                     раздел</a>
-                                <a class="dropdown-content-a" href="{{ url('logout_view') }}">Выход</a>
+                                <a class="dropdown-content-a" href="{{ url('accountapp:logout') }}">Выход</a>
                             </div>
                         </div>
                     {% endif %}
