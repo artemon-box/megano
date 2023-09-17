@@ -4,6 +4,17 @@
 
 {% block content %}
 
+    {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+                <div class="message {{ message.tags }}">
+                    {{ message|safe }}
+                    <a class="custom-close" type="submit" href="{{ url('shopapp:product_detail', product.slug) }}">Закрыть</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <div class="Middle Middle_top">
         <div class="Section">
             <div class="wrap">
@@ -54,17 +65,6 @@
                                     </a>
                                 </div>
                                 <div id="modal_open" class="my_modal">
-{#                                    <div class="my_modal-dialog">#}
-{#                                        <div class="my_modal-content">#}
-{#                                            <div class="my_modal-header">#}
-{#                                                <p class="my_modal-title">Поздравляем!</p>#}
-{#                                                <a href="#" title="Закрыть модальное окно" class="close">×</a>#}
-{#                                            </div>#}
-{#                                            <div class="my_modal-body">#}
-{#                                                <p>Товар успешно добавлен в корзину!</p>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </div>#}
                                 </div>
                             </div>
                             <div class="ProductCard-footer">
@@ -104,22 +104,6 @@
                                 </p><img class="pict pict_right" src="{{ product.image.url }}" alt="{{ product.name }}">
                                 <div class="clearfix">
                                 </div>
-{#                                <div class="table">#}
-{#                                    <table>#}
-{#                                        <tbody><tr>#}
-{#                                            <th>Характеристика#}
-{#                                            </th>#}
-{#                                            <th>Значение#}
-{#                                            </th>#}
-{#                                        </tr>#}
-{#                                        <tr>#}
-{#                                            <td>Тип устройства#}
-{#                                            </td>#}
-{#                                            <td>Ноутбук#}
-{#                                            </td>#}
-{#                                        </tr>#}
-{#                                    </tbody></table>#}
-{#                                </div>#}
                             </div>
                             <div class="Tabs-block" id="sellers" style="display: none;">
                                 <div class="Section-content">
@@ -138,7 +122,8 @@
                                                                         <div style="margin-right: 10px;">
                                                                             <div class="Amount Amount_product">
                                                                                 <button class="Amount-remove" type="button"></button>
-                                                                                <input class="Amount-input form-input" name="quantity" type="text" value="1" />
+                                                                                <input class="Amount-input form-input" name="order_quantity" type="text" value="1" />
+                                                                                <input type="hidden" name="seller_id" value="{{ product_seller.id }}">
                                                                                 <button class="Amount-add" type="button"></button>
                                                                             </div>
                                                                         </div>
