@@ -59,10 +59,10 @@
                             </div>
                             <div class="ProductCard-cart">
                                 <div class="ProductCard-cartElement">
-                                     <a class="btn btn_primary" href="#" id="scrollToSellers">
+                                     <a class="btn btn_primary" onclick="showSellers();" id="scrollToSellers">
                                         <img class="btn-icon" src="{{ static('assets/img/icons/card/cart_white.svg') }}" alt="cart_white.svg" />
                                         <span class="btn-content">Купить</span>
-                                    </a>
+                                     </a>
                                 </div>
                                 <div id="modal_open" class="my_modal">
                                 </div>
@@ -85,7 +85,7 @@
                             <a class="Tabs-link" href="#description">
                                 <span>Описание</span>
                             </a>
-                            <a class="Tabs-link" href="#sellers">
+                            <a class="Tabs-link" id="show_sellers" href="#sellers">
                                 <span>Продавцы</span>
                             </a>
                             <a class="Tabs-link" href="#addit">
@@ -95,7 +95,7 @@
                                 <span>Отзывы ({{ reviews_count|default(0) }})</span>
                             </a>
                         </div>
-                        <div class="Tabs-wrap">
+                        <div class="Tabs-wrap" id="tabs">
                             <div class="Tabs-block" id="description" style="display: none;">
                                 <h2>{{ product.name }}
                                 </h2>
@@ -249,5 +249,16 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function showSellers () {
+            document.getElementById("show_sellers").click();
+            const sellersElement = document.getElementById("show_sellers");
+
+            if (sellersElement) {
+                sellersElement.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+    </script>
 
 {% endblock %}

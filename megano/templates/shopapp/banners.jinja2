@@ -1,36 +1,37 @@
 <div class="Header-slider">
-            <div class="Slider Slider_main">
-              <div class="Slider-box">
-                {% for product in random_banners %}
-                    <div class="Slider-item">
-                      <div class="Slider-content">
+    <div class="Slider Slider_main">
+        <div class="Slider-box">
+            {% for product in random_banners %}
+                <div class="Slider-item">
+                    <div class="Slider-content">
                         <div class="row">
-                          <div class="row-block">
-                            <strong class="Slider-title">{{ product.name }}
-                            </strong>
-                            <div class="Slider-text">
-                                {% if product.description|length > 200 %}
-                                    {{ product.description[:200] }}...
-                                {% else %}
-                                    {{ product.description }}
-                                {% endif %}
+                            <div class="row-block">
+                                <strong class="Slider-title">{{ product.name }}
+                                </strong>
+                                <div class="Slider-text">
+                                    {% if product.description|length > 200 %}
+                                        {{ product.description[:200] }}...
+                                    {% else %}
+                                        {{ product.description }}
+                                    {% endif %}
+                                </div>
+                                <div class="Slider-footer"><a class="btn btn_primary"
+                                                              href="{{ url('shopapp:product_detail', product_slug=product.slug) }}">Перейти</a>
+                                </div>
                             </div>
-                            <div class="Slider-footer"><a class="btn btn_primary" href="{{ url('shopapp:product_detail', product_slug=product.slug) }}">Перейти</a>
+                            <div class="row-block">
+                                <div class="Slider-img">
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                </div>
                             </div>
-                          </div>
-                          <div class="row-block">
-                            <div class="Slider-img">
-                                <img src="{{ product.image.url }}" alt="{{ product.name }}" >
-                            </div>
-                          </div>
                         </div>
-                      </div>
                     </div>
-                {% endfor %}
-              </div>
-              <div class="Slider-navigateWrap">
-                <div class="Slider-navigate">
                 </div>
-              </div>
+            {% endfor %}
+        </div>
+        <div class="Slider-navigateWrap">
+            <div class="Slider-navigate">
             </div>
         </div>
+    </div>
+</div>
