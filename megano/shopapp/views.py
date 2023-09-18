@@ -6,6 +6,7 @@ from django.views.generic import TemplateView
 from .models import ProductReview
 from django.db.models import Avg
 from django.core.paginator import Paginator
+from django.contrib import messages
 
 from cart_and_orders.services.cart import CartService
 from .forms import AddToCartForm, ProductReviewForm
@@ -105,18 +106,29 @@ class ProductDetailView(View):
         product = get_cached_product_by_slug(product_slug)
         user = request.user
 
-        if 'quantity' in request.POST:
+        if 'order_quantity' and 'seller_id' in request.POST:
             form = AddToCartForm(request.POST)
             if form.is_valid():
-                quantity = form.cleaned_data['quantity']
-                # self.cart.add_to_cart(user.id, product_slug, quantity)
-                return redirect('shopapp:product_detail', product_slug=product_slug)
+                order_quantity = form.cleaned_data['order_quantity']
+                seller_id = request.POST.get('seller_id')
+                try:
+                    product_seller = ProductSeller.objects.get(id=seller_id)
+                    seller_quantity = product_seller.quantity
+
+                    if 0 < order_quantity <= seller_quantity:
+                        messages.success(request, 'Товар успешно добавлен в корзину!')
+                        # self.cart.add_to_cart()
+                    else:
+                        messages.error(request, 'Ошибка добавления товара, введите допустимое количество')
+                except ProductSeller.DoesNotExist:
+                    messages.error(request, 'Продавец не найден')
+            else:
+                messages.error(request, 'Ошибка добавления товара, введите число')
 
         elif 'review_text' in request.POST:
             review_form = ProductReviewForm(request.POST)
             if review_form.is_valid():
                 review_text = review_form.cleaned_data['review_text']
-                print(type(review_text))
                 self.review_service.add_review_for_product(product=product, user_id=user.id, review_text=review_text)
 
         return redirect('shopapp:product_detail', product_slug=product_slug)
@@ -188,7 +200,6 @@ def catalog_list(request: HttpRequest):
             'top_tags': top_tags,
         }
 
-    print(qs)
     return render(request, 'catalog.jinja2', context=context)
 
 
