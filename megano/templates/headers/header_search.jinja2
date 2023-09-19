@@ -9,7 +9,7 @@
                         <div class="CategoriesButton-arrow"></div>
                     </div>
                     <div class="CategoriesButton-content">
-                    <form action="" id="catalog_form" method="post">
+                    <form action="{{ url('shopapp:catalog_list') }}" id="catalog_form" method="post">
                         {% csrf_token %}
                         {% for category in active_categories %}
                             <div class="CategoriesButton-link">

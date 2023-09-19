@@ -176,7 +176,6 @@ def catalog_list(request: HttpRequest):
                     qs = sorted(qs, key=lambda a: eval('a.' + f'{sort_param}'))
             #cache.set('qs', qs, 300)
         else:
-            print('xxx')
             qs = ProductSeller.objects.select_related('product').all()
         cache.set('qs', qs, 300)
 

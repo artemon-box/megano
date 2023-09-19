@@ -95,10 +95,16 @@
                         <strong class="Card-title">
                             <a href="{{ url('shopapp:product_detail', product_slug=dealer.product.slug) }}">{{ dealer.product }}</a> {# ссылка на product_detail #}
                         </strong>
-                          <a href="{{ url('shopapp:product_detail', product_slug=dealer.product.slug) }}">{{ dealer.product.description }}</a> {# ссылка на product_detail #}
+                          <span style="color: dodgerblue;">
+                              {% if dealer.product.description|length > 200 %}
+                                {{ dealer.product.description[:200] }}...
+                              {%  else %}
+                                {{ dealer.product.description }}
+                              {% endif %}
+                          </span> {# была ссылка на product_detail #}
                             <p style="display: flex; justify-content: space-between">
                                 <span><img src="{{ static('assets/img/icons/card/seller.svg') }}" title="Количество продавцов" alt="seller.svg"/>:{{ dealer.product.sellers.count() }}</span> {# кол-во продавцов #}
-                                <a href="#" style="color: #000000;">
+                                <a href="{{ url('shopapp:product_detail', product_slug=dealer.product.slug) }}#reviews" style="color: #000000;">
                                     <img src="{{ static('assets/img/icons/card/review.svg') }}" title="Количество отзывов" alt="review.svg"/>:{{ dealer.product.reviews }} {# кол-во отзывов #}
                                 </a> {# кол-во отзывов #}
                             </p>
@@ -179,7 +185,7 @@
 
     function saveData(){
         localStorage.setItem('product_title', title.value);
-            localStorage.setItem('price', price.value);
+        localStorage.setItem('price', price.value);
 
     }
     title.value = localStorage.getItem('product_title') || '';
