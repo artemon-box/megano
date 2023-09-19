@@ -149,6 +149,7 @@ def catalog_list(request: HttpRequest):
         title = request.POST.get('title')  # название товара
         available = request.POST.get('available')  # товар в наличии
         free_delivery = request.POST.get('free_delivery')  # бесплатная доставка
+        category = request.POST.get('category')
 
         qs = ProductSeller.objects.select_related('product').filter(price__range=(price_from, price_to))
 
@@ -161,6 +162,8 @@ def catalog_list(request: HttpRequest):
                 qs = qs.filter(free_delivery=True)  # фильтр по бесплатной доставке
             if tag:
                 qs = qs.filter(product__tags__name=tag)  # фильтр по популярным тегам
+            if category:
+                qs = qs.filter(product__category__name=category)
             cache.set('qs', qs, 300)
         else:
             qs = []
@@ -168,25 +171,29 @@ def catalog_list(request: HttpRequest):
 
     qs = cache.get('qs')
 
-    # Сортировка
-    if request.GET.get('sort') and qs:
-        sort_param = request.GET.get('sort')
-        # eval() преобразует строку в переменную
-        if not sort_param.endswith('price'):
-            if '-' in sort_param:
-                qs = sorted(qs, key=lambda a: eval('a.product.' + f'{sort_param[1:]}'), reverse=True)
+    if request.method == 'GET':
+        # Сортировка
+        if request.GET.get('sort') and qs:
+            sort_param = request.GET.get('sort')
+            # eval() преобразует строку в переменную
+            if not sort_param.endswith('price'):
+                if '-' in sort_param:
+                    qs = sorted(qs, key=lambda a: eval('a.product.' + f'{sort_param[1:]}'), reverse=True)
+                else:
+                    qs = sorted(qs, key=lambda a: eval('a.product.' + f'{sort_param}'))
             else:
-                qs = sorted(qs, key=lambda a: eval('a.product.' + f'{sort_param}'))
+                if '-' in sort_param:
+                    qs = sorted(qs, key=lambda a: eval('a.' + f'{sort_param[1:]}'), reverse=True)
+                else:
+                    qs = sorted(qs, key=lambda a: eval('a.' + f'{sort_param}'))
+            #cache.set('qs', qs, 300)
         else:
-            if '-' in sort_param:
-                qs = sorted(qs, key=lambda a: eval('a.' + f'{sort_param[1:]}'), reverse=True)
-            else:
-                qs = sorted(qs, key=lambda a: eval('a.' + f'{sort_param}'))
+            qs = ProductSeller.objects.select_related('product').all()
         cache.set('qs', qs, 300)
 
     # Пагинация
     if qs:
-        qs = cache.get('qs')
+        # qs = cache.get('qs')
         paginator = Paginator(qs, 4)  # Show 4 contacts per page.
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
@@ -248,6 +255,7 @@ class ClearComparison(View):
     """
     Очистить список сравнения
     """
+
     def get(self, request):
         compare_list = ComparedProductsService(request)
         compare_list.clear()

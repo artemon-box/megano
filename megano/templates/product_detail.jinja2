@@ -59,7 +59,7 @@
                             </div>
                             <div class="ProductCard-cart">
                                 <div class="ProductCard-cartElement">
-                                     <a class="btn btn_primary" onclick="showSellers();" id="scrollToSellers">
+                                     <a class="btn btn_primary" onclick="showSellers();" href="#" id="scrollToSellers">
                                         <img class="btn-icon" src="{{ static('assets/img/icons/card/cart_white.svg') }}" alt="cart_white.svg" />
                                         <span class="btn-content">Купить</span>
                                      </a>
@@ -70,12 +70,17 @@
                             <div class="ProductCard-footer">
                                 <div class="ProductCard-tags">
                                     <strong class="ProductCard-tagsTitle">Тэги:</strong>
-                                    {% for tag in tags %}
-                                        <a href="#" class="Tags-link">{{ tag.name }}</a>
-                                            {% if not loop.last %}
-                                                ,
-                                            {% endif %}
-                                    {% endfor %}
+                                        <form action="{{ url('shopapp:catalog_list') }}" id="form_catalog" method="post">
+                                            {% csrf_token %}
+                                                {% for tag in tags %}
+                                                    <a href="javascript:;" id="tag_link"  class="Tags-link">{{ tag.name }}</a>
+                                                {% if not loop.last %}
+                                                    ,
+                                                {% endif %}
+                                                {% endfor %}
+                                                    <input type="hidden" name="tag" id="tag_value" value="">
+                                                    <input type="hidden" name="price" value="1;100000">
+                                        </form>
                                 </div>
                             </div>
                         </div>
@@ -91,7 +96,7 @@
                             <a class="Tabs-link" href="#addit">
                                 <span>Характеристики</span>
                             </a>
-                            <a class="Tabs-link Tabs-link_ACTIVE" href="#reviews">
+                            <a class="Tabs-link Tabs-link_ACTIVE" id="show_reviews" href="#reviews">
                                 <span>Отзывы ({{ reviews_count|default(0) }})</span>
                             </a>
                         </div>
@@ -248,6 +253,29 @@
 
             </div>
         </div>
+    <script>
+        if (window.location.hash === "#reviews") {  // если query-string содержит #reviews
+            setTimeout(() => { // то выполняем функцию
+                    document.getElementById("show_reviews").click(); // типа нажимаем по ссылке у которой id=show_reviews
+                },
+                100 // Задержка на 0.1 секунду перед выполнением кода, иначе не срабатывает почему-то
+            );
+        }
+    </script>
+     <script>
+        document.querySelectorAll('.Tags-link').forEach((link) => link.addEventListener('click', (event)=>{
+        event.preventDefault();
+        document.getElementById('tag_value').value = event.target.textContent;
+        document.getElementById('form_catalog').submit();
+        }));
+
+    </script>
+    <script>
+        function showSellers () {
+            document.getElementById("show_sellers").click();
+        }
+    </script>
+
     </div>
 
     <script>

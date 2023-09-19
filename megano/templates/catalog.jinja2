@@ -83,22 +83,28 @@
                     {% for dealer in dealers %}
                       <div class="Card">
                         {% if dealer.product.image %}
-                          <a class="Card-picture" href="#"> {# ссылка на product_detail #}
+                          <a class="Card-picture" href="{{ url('shopapp:product_detail', product_slug=dealer.product.slug) }}"> {# ссылка на product_detail #}
                               <img src="{{ dealer.product.image.url }}" alt="{{ dealer.product }}">
                           </a>
                         {% else %}
-                          <a class="Card-picture" href="#"> {# ссылка на product_detail #}
+                          <a class="Card-picture" href="{{ url('shopapp:product_detail', product_slug=dealer.product.slug) }}"> {# ссылка на product_detail #}
                               <h2>Изображение отсуствует</h2>
                           </a>
                         {% endif %}
                       <div class="Card-content">
                         <strong class="Card-title">
-                            <a href="#">{{ dealer.product }}</a> {# ссылка на product_detail #}
+                            <a href="{{ url('shopapp:product_detail', product_slug=dealer.product.slug) }}">{{ dealer.product }}</a> {# ссылка на product_detail #}
                         </strong>
-                          <a href="#">{{ dealer.product.description }}</a> {# ссылка на product_detail #}
+                          <span style="color: dodgerblue;">
+                              {% if dealer.product.description|length > 200 %}
+                                {{ dealer.product.description[:200] }}...
+                              {%  else %}
+                                {{ dealer.product.description }}
+                              {% endif %}
+                          </span> {# была ссылка на product_detail #}
                             <p style="display: flex; justify-content: space-between">
                                 <span><img src="{{ static('assets/img/icons/card/seller.svg') }}" title="Количество продавцов" alt="seller.svg"/>:{{ dealer.product.sellers.count() }}</span> {# кол-во продавцов #}
-                                <a href="#" style="color: #000000;">
+                                <a href="{{ url('shopapp:product_detail', product_slug=dealer.product.slug) }}#reviews" style="color: #000000;">
                                     <img src="{{ static('assets/img/icons/card/review.svg') }}" title="Количество отзывов" alt="review.svg"/>:{{ dealer.product.reviews }} {# кол-во отзывов #}
                                 </a> {# кол-во отзывов #}
                             </p>
@@ -179,7 +185,7 @@
 
     function saveData(){
         localStorage.setItem('product_title', title.value);
-            localStorage.setItem('price', price.value);
+        localStorage.setItem('price', price.value);
 
     }
     title.value = localStorage.getItem('product_title') || '';
