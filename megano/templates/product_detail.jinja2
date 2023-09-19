@@ -4,6 +4,17 @@
 
 {% block content %}
 
+    {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+                <div class="message {{ message.tags }}">
+                    {{ message|safe }}
+                    <a class="custom-close" type="submit" href="{{ url('shopapp:product_detail', product.slug) }}">Закрыть</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <div class="Middle Middle_top">
         <div class="Section">
             <div class="wrap">
@@ -51,20 +62,9 @@
                                      <a class="btn btn_primary" onclick="showSellers();" href="#" id="scrollToSellers">
                                         <img class="btn-icon" src="{{ static('assets/img/icons/card/cart_white.svg') }}" alt="cart_white.svg" />
                                         <span class="btn-content">Купить</span>
-                                    </a>
+                                     </a>
                                 </div>
                                 <div id="modal_open" class="my_modal">
-{#                                    <div class="my_modal-dialog">#}
-{#                                        <div class="my_modal-content">#}
-{#                                            <div class="my_modal-header">#}
-{#                                                <p class="my_modal-title">Поздравляем!</p>#}
-{#                                                <a href="#" title="Закрыть модальное окно" class="close">×</a>#}
-{#                                            </div>#}
-{#                                            <div class="my_modal-body">#}
-{#                                                <p>Товар успешно добавлен в корзину!</p>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </div>#}
                                 </div>
                             </div>
                             <div class="ProductCard-footer">
@@ -100,7 +100,7 @@
                                 <span>Отзывы ({{ reviews_count|default(0) }})</span>
                             </a>
                         </div>
-                        <div class="Tabs-wrap">
+                        <div class="Tabs-wrap" id="tabs">
                             <div class="Tabs-block" id="description" style="display: none;">
                                 <h2>{{ product.name }}
                                 </h2>
@@ -109,22 +109,6 @@
                                 </p><img class="pict pict_right" src="{{ product.image.url }}" alt="{{ product.name }}">
                                 <div class="clearfix">
                                 </div>
-{#                                <div class="table">#}
-{#                                    <table>#}
-{#                                        <tbody><tr>#}
-{#                                            <th>Характеристика#}
-{#                                            </th>#}
-{#                                            <th>Значение#}
-{#                                            </th>#}
-{#                                        </tr>#}
-{#                                        <tr>#}
-{#                                            <td>Тип устройства#}
-{#                                            </td>#}
-{#                                            <td>Ноутбук#}
-{#                                            </td>#}
-{#                                        </tr>#}
-{#                                    </tbody></table>#}
-{#                                </div>#}
                             </div>
                             <div class="Tabs-block" id="sellers" style="display: none;">
                                 <div class="Section-content">
@@ -143,7 +127,8 @@
                                                                         <div style="margin-right: 10px;">
                                                                             <div class="Amount Amount_product">
                                                                                 <button class="Amount-remove" type="button"></button>
-                                                                                <input class="Amount-input form-input" name="quantity" type="text" value="1" />
+                                                                                <input class="Amount-input form-input" name="order_quantity" type="text" value="1" min="1" max="{{ product_seller.quantity }}" />
+                                                                                <input type="hidden" name="seller_id" value="{{ product_seller.id }}">
                                                                                 <button class="Amount-add" type="button"></button>
                                                                             </div>
                                                                         </div>
@@ -292,5 +277,16 @@
     </script>
 
     </div>
+
+    <script>
+        function showSellers () {
+            document.getElementById("show_sellers").click();
+            const sellersElement = document.getElementById("show_sellers");
+
+            if (sellersElement) {
+                sellersElement.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+    </script>
 
 {% endblock %}
