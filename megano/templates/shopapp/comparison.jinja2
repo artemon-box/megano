@@ -1,10 +1,18 @@
 {% extends 'base.jinja2' %}
 
 {% block content %}
-
     <div class="Middle">
         <div class="wrap">
             <div class="Product">
+            {% if message %}
+                <div style="background-color: orange; color: white; padding: 15px;">
+                <h2>{{ message }}</h2>
+                <h3>© В.И.Даль - Толковый словарь живого великорусского языка</h3>
+                <p>
+                    *Все сравниваемые товары должны быть из одной категории, в противном случае сравнивается только цена.
+                </p>
+                </div>
+            {% endif %}
                 <div class="ProductCard">
                     {% if compare_list|length > 1 %}
                         {% for product in compared_products %}
@@ -16,6 +24,7 @@
                                             <img src="{{ product.image.url }}" alt="{{ product.image }} image"/>
                                         </div>
                                     </div>
+                                    {% if not message %}
                                     <div class="Tabs Tabs_default">
                                         <div class="Tabs-wrap">
                                             <div class="Tabs-block" id="description">
@@ -40,6 +49,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    {% endif %}
                                 </div>
                                 <div class="ProductCard-info">
                                     <div class="ProductCard-cost">

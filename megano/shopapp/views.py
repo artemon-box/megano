@@ -188,7 +188,6 @@ def catalog_list(request: HttpRequest):
             'top_tags': top_tags,
         }
 
-    print(qs)
     return render(request, 'catalog.jinja2', context=context)
 
 
@@ -224,6 +223,20 @@ class ComparisonOfProducts(View):
         compare_list = ComparedProductsService(request)
         compare_list = compare_list.get_compared_products()
         compared_products = [get_object_or_404(Product, id=product_id) for product_id in compare_list]
+
+        # Если товары в списке сранения не из одной категории, выводится философское сообщение на тему попытки
+        # сравнить то, что сравнить нельзя и сравнивается только цена.
+        if not all([product.category == compared_products[0].category for product in compared_products]):
+            message = '"Сравнить х.. с пальцем" - сравнить совершенно разные, несопоставимые вещи.*'
+            return render(
+                request,
+                self.temlate_name,
+                {
+                    'message': message,
+                    'compared_products': compared_products,
+                }
+            )
+
         return render(
             request,
             self.temlate_name,
@@ -237,6 +250,7 @@ class ClearComparison(View):
     """
     Очистить список сравнения
     """
+
     def get(self, request):
         compare_list = ComparedProductsService(request)
         compare_list.clear()
