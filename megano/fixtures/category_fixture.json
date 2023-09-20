@@ -1,1 +1,79 @@
-[{"model": "shopapp.category", "pk": 1, "fields": {"name": "Телевизоры", "sub_categories": []}}, {"model": "shopapp.category", "pk": 2, "fields": {"name": "Наушники", "sub_categories": []}}, {"model": "shopapp.category", "pk": 3, "fields": {"name": "Стиральные машины", "sub_categories": []}}, {"model": "shopapp.category", "pk": 4, "fields": {"name": "Скидки", "sub_categories": []}}, {"model": "shopapp.category", "pk": 5, "fields": {"name": "Электроника", "sub_categories": []}}, {"model": "shopapp.category", "pk": 6, "fields": {"name": "Фотоаппараты", "sub_categories": []}}, {"model": "shopapp.category", "pk": 7, "fields": {"name": "Фурнитура", "sub_categories": []}}, {"model": "shopapp.category", "pk": 8, "fields": {"name": "Мобильные телефоны", "sub_categories": []}}, {"model": "shopapp.category", "pk": 9, "fields": {"name": "Микроволновые печи", "sub_categories": []}}, {"model": "shopapp.category", "pk": 10, "fields": {"name": "Кухонная техника", "sub_categories": []}}, {"model": "shopapp.category", "pk": 11, "fields": {"name": "Торшеры", "sub_categories": []}}]
+[
+  {
+    "model": "shopapp.category",
+    "pk": 1,
+    "fields": {
+      "name": "Телевизоры"
+    }
+  },
+  {
+    "model": "shopapp.category",
+    "pk": 2,
+    "fields": {
+      "name": "Наушники"
+    }
+  },
+  {
+    "model": "shopapp.category",
+    "pk": 3,
+    "fields": {
+      "name": "Стиральные машины"
+    }
+  },
+  {
+    "model": "shopapp.category",
+    "pk": 4,
+    "fields": {
+      "name": "Скидки"
+    }
+  },
+  {
+    "model": "shopapp.category",
+    "pk": 5,
+    "fields": {
+      "name": "Электроника"
+    }
+  },
+  {
+    "model": "shopapp.category",
+    "pk": 6,
+    "fields": {
+      "name": "Фотоаппараты"
+    }
+  },
+  {
+    "model": "shopapp.category",
+    "pk": 7,
+    "fields": {
+      "name": "Фурнитура"
+    }
+  },
+  {
+    "model": "shopapp.category",
+    "pk": 8,
+    "fields": {
+      "name": "Мобильные телефоны"
+    }
+  },
+  {
+    "model": "shopapp.category",
+    "pk": 9,
+    "fields": {
+      "name": "Микроволновые печи"
+    }
+  },
+  {
+    "model": "shopapp.category",
+    "pk": 10,
+    "fields": {
+      "name": "Кухонная техника"
+    }
+  },
+  {
+    "model": "shopapp.category",
+    "pk": 11,
+    "fields": {
+      "name": "Торшеры"
+    }
+  }
+]

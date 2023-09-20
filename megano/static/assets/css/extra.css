@@ -2905,6 +2905,60 @@ a.Cart-title {
     }
 }
 
+.messages-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #0063d1;
+    color: #fff;
+    border: none;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    text-align: center;
+    width: 400px;
+    border-radius: 10px;
+}
+
+.message {
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 5px;
+    color: #333;
+}
+
+.message.error {
+    background-color: #ffcccc; /* Цвет для ошибки */
+    color: #cc0000;
+}
+
+.message.success {
+    background-color: #ccffcc; /* Цвет для успеха */
+    color: #008000;
+}
+
+.custom-close {
+    display: inline-flex;
+    background-color: #ffffff;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    text-align: center;
+    position: relative;
+    font-size: 16px;
+    transition: all 200ms;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-top: 20px;
+    padding: 15px 30px;
+}
+
+.custom-close:hover {
+    background-color: #9b9ea5;
+}
+
 .Footer {
     padding: 10px;
     width: 100%;

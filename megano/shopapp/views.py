@@ -6,6 +6,7 @@ from django.views.generic import TemplateView
 from .models import ProductReview
 from django.db.models import Avg
 from django.core.paginator import Paginator
+from django.contrib import messages
 
 from cart_and_orders.services.cart import CartService
 from .forms import AddToCartForm, ProductReviewForm
@@ -105,18 +106,29 @@ class ProductDetailView(View):
         product = get_cached_product_by_slug(product_slug)
         user = request.user
 
-        if 'quantity' in request.POST:
+        if 'order_quantity' and 'seller_id' in request.POST:
             form = AddToCartForm(request.POST)
             if form.is_valid():
-                quantity = form.cleaned_data['quantity']
-                # self.cart.add_to_cart(user.id, product_slug, quantity)
-                return redirect('shopapp:product_detail', product_slug=product_slug)
+                order_quantity = form.cleaned_data['order_quantity']
+                seller_id = request.POST.get('seller_id')
+                try:
+                    product_seller = ProductSeller.objects.get(id=seller_id)
+                    seller_quantity = product_seller.quantity
+
+                    if 0 < order_quantity <= seller_quantity:
+                        messages.success(request, 'Товар успешно добавлен в корзину!')
+                        # self.cart.add_to_cart()
+                    else:
+                        messages.error(request, 'Ошибка добавления товара, введите допустимое количество')
+                except ProductSeller.DoesNotExist:
+                    messages.error(request, 'Продавец не найден')
+            else:
+                messages.error(request, 'Ошибка добавления товара, введите число')
 
         elif 'review_text' in request.POST:
             review_form = ProductReviewForm(request.POST)
             if review_form.is_valid():
                 review_text = review_form.cleaned_data['review_text']
-                print(type(review_text))
                 self.review_service.add_review_for_product(product=product, user_id=user.id, review_text=review_text)
 
         return redirect('shopapp:product_detail', product_slug=product_slug)
@@ -137,6 +149,7 @@ def catalog_list(request: HttpRequest):
         title = request.POST.get('title')  # название товара
         available = request.POST.get('available')  # товар в наличии
         free_delivery = request.POST.get('free_delivery')  # бесплатная доставка
+        category = request.POST.get('category')
 
         qs = ProductSeller.objects.select_related('product').filter(price__range=(price_from, price_to))
 
@@ -149,6 +162,8 @@ def catalog_list(request: HttpRequest):
                 qs = qs.filter(free_delivery=True)  # фильтр по бесплатной доставке
             if tag:
                 qs = qs.filter(product__tags__name=tag)  # фильтр по популярным тегам
+            if category:
+                qs = qs.filter(product__category__name=category)
             cache.set('qs', qs, 300)
         else:
             qs = []
@@ -156,25 +171,29 @@ def catalog_list(request: HttpRequest):
 
     qs = cache.get('qs')
 
-    # Сортировка
-    if request.GET.get('sort') and qs:
-        sort_param = request.GET.get('sort')
-        # eval() преобразует строку в переменную
-        if not sort_param.endswith('price'):
-            if '-' in sort_param:
-                qs = sorted(qs, key=lambda a: eval('a.product.' + f'{sort_param[1:]}'), reverse=True)
+    if request.method == 'GET':
+        # Сортировка
+        if request.GET.get('sort') and qs:
+            sort_param = request.GET.get('sort')
+            # eval() преобразует строку в переменную
+            if not sort_param.endswith('price'):
+                if '-' in sort_param:
+                    qs = sorted(qs, key=lambda a: eval('a.product.' + f'{sort_param[1:]}'), reverse=True)
+                else:
+                    qs = sorted(qs, key=lambda a: eval('a.product.' + f'{sort_param}'))
             else:
-                qs = sorted(qs, key=lambda a: eval('a.product.' + f'{sort_param}'))
+                if '-' in sort_param:
+                    qs = sorted(qs, key=lambda a: eval('a.' + f'{sort_param[1:]}'), reverse=True)
+                else:
+                    qs = sorted(qs, key=lambda a: eval('a.' + f'{sort_param}'))
+            #cache.set('qs', qs, 300)
         else:
-            if '-' in sort_param:
-                qs = sorted(qs, key=lambda a: eval('a.' + f'{sort_param[1:]}'), reverse=True)
-            else:
-                qs = sorted(qs, key=lambda a: eval('a.' + f'{sort_param}'))
+            qs = ProductSeller.objects.select_related('product').all()
         cache.set('qs', qs, 300)
 
     # Пагинация
     if qs:
-        qs = cache.get('qs')
+        # qs = cache.get('qs')
         paginator = Paginator(qs, 4)  # Show 4 contacts per page.
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)

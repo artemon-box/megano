@@ -10,6 +10,7 @@ from .models import *
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
+    #filter_horizontal = ('sub_categories',)
 
 
 class ExtraImageInline(admin.StackedInline):

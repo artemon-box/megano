@@ -139,7 +139,6 @@ class Category(models.Model):
     Модель категории товаров
     """
     name = models.CharField(max_length=255)
-    sort_index = models.PositiveIntegerField(db_index=True)
     tags = TaggableManager()
 
     def __str__(self):
@@ -148,10 +147,6 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
-        ordering = ['sort_index']
-        indexes = [
-            models.Index(fields=['sort_index'])
-        ]
 
 
 class Feature(models.Model):

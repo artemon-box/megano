@@ -9,13 +9,19 @@
                         <div class="CategoriesButton-arrow"></div>
                     </div>
                     <div class="CategoriesButton-content">
+                    <form action="{{ url('shopapp:catalog_list') }}" id="catalog_form" method="post">
+                        {% csrf_token %}
                         {% for category in active_categories %}
-                            <div class="CategoriesButton-link"><a href="#">
+                            <div class="CategoriesButton-link">
+                                <a href="javascript:;" class="Category-Link">
                                 <div class="CategoriesButton-icon"><img src="{{ static('assets/img/icons/departments/' ~ category.sort_index ~ '.svg') }}" alt="{{ category.sort_index ~ '.svg' }}" /></div>
                                 <span class="CategoriesButton-text">{{ category.name }}</span>
-                            </a>
+                                </a>
                             </div>
                         {% endfor %}
+                        <input type="hidden" name="category" id="category_value" value="">
+                        <input type="hidden" id="price" name="price" value="1;100000">
+                    </form>
                     </div>
                 </div>
             </div>
@@ -32,4 +38,11 @@
                 </div>
             </div>
         </div>
+        <script>
+              document.querySelectorAll('.Category-Link').forEach((link) => link.addEventListener('click', (event)=>{
+              event.preventDefault();
+              document.getElementById('category_value').value = link.querySelector('.CategoriesButton-text').textContent;
+              document.getElementById('catalog_form').submit();
+              }));
+        </script>
     </div>

@@ -6,7 +6,7 @@ from shopapp.models import ProductFeature, Feature, FeatureValue
 
 
 class AddToCartForm(forms.Form):
-    quantity = forms.IntegerField(min_value=1, required=True)
+    order_quantity = forms.IntegerField(min_value=0, required=True)
 
 
 class ProductReviewForm(forms.Form):
