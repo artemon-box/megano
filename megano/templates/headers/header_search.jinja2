@@ -40,9 +40,9 @@
         </div>
         <script>
               document.querySelectorAll('.Category-Link').forEach((link) => link.addEventListener('click', (event)=>{
-              event.preventDefault();
+              event.preventDefault();  // отменяем дефолтное событие на клик ссылки
               document.getElementById('category_value').value = link.querySelector('.CategoriesButton-text').textContent;
-              document.getElementById('catalog_form').submit();
+              document.getElementById('catalog_form').submit();  // отправляем форму по нажатию на ссылку
               }));
         </script>
     </div>

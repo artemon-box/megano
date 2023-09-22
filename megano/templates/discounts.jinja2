@@ -1,0 +1,64 @@
+{% extends 'base.jinja2' %}
+
+<script src="{{ static('assets/js/scripts.js') }}"></script>
+
+{% block content %}
+
+    <div class="Middle Middle_top">
+        <div class="Section">
+            <div class="wrap">
+                <div class="Tabs Tabs_default">
+                        <div class="Tabs-links">
+                            <a class="Tabs-link Tabs-link_ACTIVE" id="show_reviews" href="#">
+                                <span>Скидки:</span>
+                            </a>
+                        </div>
+                            <div class="Tabs-block" id="sellers" style="display: none;">
+                                <div class="Section-content">
+                                    <div class="Orders">
+                                            <div class="Order Order_anons">
+                                                    <div class="Order-personal">
+                                                        <div class="row"></div>
+                                                    </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="Tabs-block" id="reviews" style="">
+                            <header class="Section-header">
+                                <h3 class="Section-title">
+                                    <span class="Comment-date">
+                                        1 скидка
+{#                                            {{ reviews_count|default(0) }} отзыв{{ reviews_count != 1 and 'ов' or '' }}#}
+                                    </span>
+                                </h3>
+                            </header>
+                            <div class="Comments" id="comments-section">
+{#                                {% if product_reviews %}#}
+{#                                    {% for review in product_reviews %}#}
+                                <div class="Comment" style="margin-bottom: 20px">
+                                    <div class="Comment-column Comment-column_pict">
+                                        <div class="Comment-avatar" style="background-image: url('static/assets/img/icons/card/discount.svg')"></div>
+                                    </div>
+                                    <div class="Comment-column">
+                                        <header class="Comment-header">
+                                            <div>
+                                                <strong class="Comment-title">Наименование скидки</strong>
+                                                <span class="Comment-date">
+{#                                                    {{ review.created_at.strftime('%B %d / %Y / %H:%M') }}#}
+                                                        Скидка действительна с 00 сентября 2023г. по 00 октября 2023г.
+                                                </span>
+                                            </div>
+                                        </header>
+                                        <div class="Comment-content">Подробное описание скидки. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce accumsan eleifend vulputate. Nam libero magna, commodo id ligula a, ornare vehicula orci. Donec sagittis enim et felis pretium, eu lobortis turpis consequat. Cras quis eleifend lacus. Praesent quis mauris consectetur, dictum arcu vitae, suscipit nibh. Suspendisse efficitur mi at elit imperdiet pharetra. Duis tincidunt ex eget viverra maximus. </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

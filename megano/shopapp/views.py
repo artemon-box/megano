@@ -186,7 +186,7 @@ def catalog_list(request: HttpRequest):
                     qs = sorted(qs, key=lambda a: eval('a.' + f'{sort_param[1:]}'), reverse=True)
                 else:
                     qs = sorted(qs, key=lambda a: eval('a.' + f'{sort_param}'))
-            #cache.set('qs', qs, 300)
+            # cache.set('qs', qs, 300)
         else:
             qs = ProductSeller.objects.select_related('product').all()
         cache.set('qs', qs, 300)
@@ -260,3 +260,7 @@ class ClearComparison(View):
         compare_list = ComparedProductsService(request)
         compare_list.clear()
         return redirect('shopapp:compare_list')
+
+
+def discount_list(request: HttpRequest):
+    return render(request, 'discounts.jinja2')
