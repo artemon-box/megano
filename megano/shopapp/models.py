@@ -192,7 +192,7 @@ class ProductFeature(models.Model):
         ordering = ['feature']
 
     def __str__(self):
-        return f'{self.feature}'
+        return f'{self.feature} | {self.value.value}'
 
 
 class AllowedRelation(models.Model):
