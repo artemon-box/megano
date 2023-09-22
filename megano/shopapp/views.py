@@ -241,14 +241,46 @@ class ComparisonOfProducts(View):
     def get(self, request):
         compare_list = ComparedProductsService(request)
         compare_list = compare_list.get_compared_products()
-        compared_products = [get_object_or_404(Product, id=product_id) for product_id in compare_list]
-        return render(
-            request,
-            self.temlate_name,
-            {
-                'compared_products': compared_products,
-            }
-        )
+        compared_products = [get_object_or_404(ProductSeller, id=product_id) for product_id in compare_list]
+        only_differences = request.GET.get('only_differences')
+        context = {}
+        products = []
+        features_values_list = []
+
+        # Если товары в списке сранения не из одной категории, выводится философское сообщение на тему попытки
+        # сравнить то, что сравнить нельзя и сравнивается только цена.
+        if not all([product.product.category == compared_products[0].product.category for product in compared_products]):
+            context['message'] = ('Все сравниваемые товары должны быть из одной категории, в противном случае '
+                                  'сравнивается только цена.')
+            for product in compared_products:
+                price = product.price
+                seller = product.seller
+                products.append({'product': product.product, 'price': price, 'seller': seller, 'id': product.id})
+            context['products'] = products
+            return render(request, self.temlate_name,  context)
+
+        for product in compared_products:
+            features = product.product.features.all()
+            [features_values_list.append(feature.value) for feature in features]
+            price = product.price
+            seller = product.seller
+            products.append({'product': product.product, 'features': features, 'price': price, 'seller': seller, 'id': product.id})
+
+        if only_differences:
+            products.clear()
+            context['only_differences'] = only_differences
+            matching_features_list = set(list(filter(
+                lambda x: features_values_list.count(x) == compare_list.__len__(), features_values_list
+            )))
+            for product in compared_products:
+                features = product.product.features.exclude(value__in=matching_features_list)
+                price = product.price
+                seller = product.seller
+                products.append({'product': product.product, 'features': features, 'price': price, 'seller': seller, 'id': product.id})
+
+        context['products'] = products
+
+        return render(request, self.temlate_name, context)
 
 
 class ClearComparison(View):

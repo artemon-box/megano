@@ -188,8 +188,11 @@ class ProductFeature(models.Model):
     feature = models.ForeignKey(Feature, verbose_name='Характеристика', related_name='features', on_delete=models.CASCADE)
     value = models.ForeignKey(FeatureValue, verbose_name='Значение', on_delete=models.SET_NULL, null=True)
 
+    class Meta:
+        ordering = ['feature']
+
     def __str__(self):
-        return f'{self.feature}'
+        return f'{self.feature} | {self.value.value}'
 
 
 class AllowedRelation(models.Model):
@@ -206,3 +209,4 @@ class AllowedRelation(models.Model):
 
     def __str__(self):
         return f'{self.category} {self.feature} {self.value}'
+       
