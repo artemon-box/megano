@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'shopapp.apps.ShopappConfig',
     'accountapp.apps.AccountappConfig',
     'profileapp.apps.ProfileappConfig',
+    'histviewapp.apps.HistviewappConfig',
 ]
 
 MIDDLEWARE = [

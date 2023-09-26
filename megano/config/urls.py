@@ -27,6 +27,7 @@ urlpatterns = [
     path('', include('shopapp.urls')),
     path('', include('accountapp.urls')),
     path('accounts/', include('profileapp.urls')),
+    path('histview/', include('histviewapp.urls')),
 ]
 
 if settings.DEBUG:
