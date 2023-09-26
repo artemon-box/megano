@@ -292,3 +292,10 @@ class ClearComparison(View):
         compare_list = ComparedProductsService(request)
         compare_list.clear()
         return redirect('shopapp:compare_list')
+
+
+from .tasks import bar
+
+def test_celery(request):
+    bar.delay()
+    return HttpResponse('<h1>Test celery</h1>')

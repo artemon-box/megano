@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  web_redis:
+    restart: always
+    container_name: main_redis
+    image: redis:latest
+    entrypoint:
+      sh -c "redis-server"
+    ports:
+      - "6379:6379"
+
+  flower:
+    restart: always
+    image: mher/flower:latest
+    container_name: flower
+    environment:
+      CELERY_BROKER_URL: "redis://web_redis:6379"
+      FLOWER_PORT: 5555
+      FLOWER_BASIC_AUTH: "flower:flower"
+    ports:
+      - "5555:5555"

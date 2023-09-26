@@ -80,3 +80,7 @@ class ProductFeatureForm(forms.ModelForm):
         restrict_on_form_field="feature",
         restrict_on_relation="allowedrelation__feature",
     )
+
+
+class FileImportForm(forms.Form):
+    file = forms.FileField()

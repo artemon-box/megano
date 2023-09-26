@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'django_jinja',
     'rest_framework',
     'taggit',
+    'django_celery_results',
 
     'admin_settings.apps.AdminSettingsConfig',
     'cart_and_orders.apps.CartAndOrdersConfig',
@@ -195,3 +196,7 @@ CACHES = {
 }
 
 FIXTURE_DIRS = ['fixtures', ]
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_CACHE_BACKEND = 'default'
