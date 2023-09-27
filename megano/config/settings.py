@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -30,7 +29,6 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
 ]
 
-
 # Application definition
 AUTH_USER_MODEL = 'accountapp.User'
 AUTH_EMAIL_VERIFICATION = True
@@ -42,7 +40,7 @@ DJANGO_ACCOUNT_SELLER = {'email': 'seller@skill.box', 'pass': '123'}
 EMAIL_FROM = 'antonyhunter1001@gmail.com'
 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 465 #465-SSL 587
+EMAIL_PORT = 465  # 465-SSL 587
 EMAIL_HOST_USER = 'antonyhunter1001@gmail.com'
 EMAIL_HOST_PASSWORD = 'ruamhhgnbprtmiyj'
 EMAIL_USE_TLS = False
@@ -91,6 +89,7 @@ TEMPLATES = [
                 'shopapp.context_processors.random_product_banners',
                 'shopapp.context_processors.compare_list',
                 'django.contrib.messages.context_processors.messages',
+                'cart_and_orders.context_processors.cart_context',
             ],
             # django-jinja defaults
             "match_extension": ".jinja2",
@@ -118,7 +117,6 @@ TEMPLATES = [
 ]
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -128,7 +126,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -147,7 +144,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/

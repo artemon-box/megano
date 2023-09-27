@@ -186,7 +186,7 @@ def catalog_list(request: HttpRequest):
                     qs = sorted(qs, key=lambda a: eval('a.' + f'{sort_param[1:]}'), reverse=True)
                 else:
                     qs = sorted(qs, key=lambda a: eval('a.' + f'{sort_param}'))
-            #cache.set('qs', qs, 300)
+            # cache.set('qs', qs, 300)
         else:
             qs = ProductSeller.objects.select_related('product').all()
         cache.set('qs', qs, 300)
@@ -249,7 +249,8 @@ class ComparisonOfProducts(View):
 
         # Если товары в списке сранения не из одной категории, выводится философское сообщение на тему попытки
         # сравнить то, что сравнить нельзя и сравнивается только цена.
-        if not all([product.product.category == compared_products[0].product.category for product in compared_products]):
+        if not all(
+                [product.product.category == compared_products[0].product.category for product in compared_products]):
             context['message'] = ('Все сравниваемые товары должны быть из одной категории, в противном случае '
                                   'сравнивается только цена.')
             for product in compared_products:
@@ -257,14 +258,15 @@ class ComparisonOfProducts(View):
                 seller = product.seller
                 products.append({'product': product.product, 'price': price, 'seller': seller, 'id': product.id})
             context['products'] = products
-            return render(request, self.temlate_name,  context)
+            return render(request, self.temlate_name, context)
 
         for product in compared_products:
             features = product.product.features.all()
             [features_values_list.append(feature.value) for feature in features]
             price = product.price
             seller = product.seller
-            products.append({'product': product.product, 'features': features, 'price': price, 'seller': seller, 'id': product.id})
+            products.append(
+                {'product': product.product, 'features': features, 'price': price, 'seller': seller, 'id': product.id})
 
         if only_differences:
             products.clear()
@@ -276,7 +278,8 @@ class ComparisonOfProducts(View):
                 features = product.product.features.exclude(value__in=matching_features_list)
                 price = product.price
                 seller = product.seller
-                products.append({'product': product.product, 'features': features, 'price': price, 'seller': seller, 'id': product.id})
+                products.append({'product': product.product, 'features': features, 'price': price, 'seller': seller,
+                                 'id': product.id})
 
         context['products'] = products
 
