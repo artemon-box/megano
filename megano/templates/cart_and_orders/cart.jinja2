@@ -8,13 +8,13 @@
         <div class="Section">
             <div class="wrap">
                 <h1>Корзина товаров</h1>
-
                 <div class="Cart-products">
                     {% if cart_items %}
                         {% for item in cart_items %}
                             <form class="form Cart"
                                   action="{{ url('cart_and_orders:change_cart_quantity', product_id=item.product_seller.id) }}"
                                   method="post">
+                                {% csrf_token %}
                                 <div class="Cart-product">
                                     <div class="Cart-block Cart-block_row">
                                         <div class="Cart-block Cart-block_pict">
@@ -42,7 +42,8 @@
                                             <div class="Cart-amount">
                                                 <div class="Amount">
                                                     <button class="Amount-remove" type="button"></button>
-                                                    <input class="Amount-input form-input" name="order_quantity" type="text" max="{{ item.product_seller.quantity }}"
+                                                    <input class="Amount-input form-input" name="order_quantity"
+                                                           type="text" max="{{ item.product_seller.quantity }}"
                                                            value="{{ item.quantity }}">
                                                     <button class="Amount-add" type="button"></button>
                                                 </div>

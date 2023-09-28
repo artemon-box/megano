@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate, login
 from django.views import View
+
+from cart_and_orders.services.cart import CartService
 from .accounts import cmd_create_buyer
 from .forms import RegistrationForm, PasswordResetForm, PasswordNewForm
 from django.contrib.auth.views import LogoutView
@@ -52,6 +54,8 @@ class LoginView(View):
         user = authenticate(request, username=email, password=password)
         if user is not None:
             login(request, user)
+            cart_service = CartService()
+            cart_service.merge_carts(request, user)
             return redirect('/')  # Перенаправление на главную страницу после входа
         else:
             return render(request, self.TEMPLATE_NAME, {'error_message': 'Неверная почта или пароль.'})
