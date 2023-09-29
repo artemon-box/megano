@@ -1,27 +1,21 @@
-from django.shortcuts import get_object_or_404
-from django.http import HttpRequest, HttpResponse
+from cart_and_orders.services.cart import CartService
+from django.contrib import messages
 from django.core.cache import cache
+from django.core.paginator import Paginator
+from django.db.models import Avg
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views import View
 from django.views.generic import TemplateView
 
-from .models import ProductReview
-from django.db.models import Avg
-from django.core.paginator import Paginator
-from django.contrib import messages
-
-from cart_and_orders.services.cart import CartService
 from .forms import AddToCartForm, ProductReviewForm
-from .models import ProductSeller
+from .models import Product, ProductFeature, ProductReview, ProductSeller
+from .services.compared_products import ComparedProductsService
 from .services.discount import DiscountService
 from .services.product_review import ProductReviewService
+from .services.recently_viewed import RecentlyViewedService
 from .utils.details_cache import get_cached_product_by_slug
 from .utils.top_products import get_cached_top_products
-from .services.recently_viewed import RecentlyViewedService
-
-from django.shortcuts import render, redirect
-
-from django.views import View
-from .models import Product, ProductFeature
-from .services.compared_products import ComparedProductsService
 
 
 class HomeView(TemplateView):

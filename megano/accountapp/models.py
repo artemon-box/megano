@@ -1,13 +1,16 @@
-import os
 import binascii
-from django.conf import settings
-from django.template.loader import render_to_string
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
-from django.contrib.auth.models import PermissionsMixin
-from django.core.mail.message import EmailMultiAlternatives
-from django.utils import timezone
-from django.db import models
+import os
 
+from django.conf import settings
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    BaseUserManager,
+    PermissionsMixin,
+)
+from django.core.mail.message import EmailMultiAlternatives
+from django.db import models
+from django.template.loader import render_to_string
+from django.utils import timezone
 
 # Срок действия токена на сброс пароля
 EXPIRY_PERIOD = 3    # дни

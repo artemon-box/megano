@@ -1,8 +1,8 @@
-from django import forms
 import json
-from django.forms import Media, widgets
 
-from shopapp.models import ProductFeature, Feature, FeatureValue
+from django import forms
+from django.forms import Media, widgets
+from shopapp.models import Feature, FeatureValue, ProductFeature
 
 
 class AddToCartForm(forms.Form):

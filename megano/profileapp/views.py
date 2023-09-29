@@ -1,11 +1,13 @@
 import os
+
 from django.conf import settings
-from django.shortcuts import render, redirect
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from django.views import View
-from .forms import ProfileAvatarForm, ProfileForm
 from django.contrib.auth import authenticate, login
+from django.shortcuts import redirect, render
+from django.views import View
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from .forms import ProfileAvatarForm, ProfileForm
 
 
 class AccountView(View):

@@ -1,5 +1,5 @@
 from config import settings
-from shopapp.models import ProductSeller, FeatureValue, ProductFeature
+from shopapp.models import FeatureValue, ProductFeature, ProductSeller
 
 
 class ComparedProductsService:

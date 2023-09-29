@@ -1,10 +1,9 @@
 import os
 from typing import List
 
+from django.conf import settings
 from django.core import management
 from django.core.management.base import BaseCommand
-from django.conf import settings
-
 
 try:
     FOLDER_FIXTURES = settings.FOLDER_FIXTURES

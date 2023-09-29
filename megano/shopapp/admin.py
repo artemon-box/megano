@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.contrib.admin import forms
 from taggit.models import Tag
-from .forms import ProductFeatureForm
 
+from .forms import ProductFeatureForm
 from .models import *
 
 

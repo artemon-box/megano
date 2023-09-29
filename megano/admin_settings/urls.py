@@ -1,4 +1,5 @@
 from django.urls import path
+
 from .views import reset_all_cache
 
 app_name = "admin_settings"

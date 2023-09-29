@@ -1,8 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.db.models import Avg
 from django.urls import reverse
 from taggit.managers import TaggableManager
-from django.db.models import Avg
 
 
 def category_images_directory_path(instance, filename):

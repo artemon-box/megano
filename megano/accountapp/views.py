@@ -1,11 +1,12 @@
 from datetime import date
-from django.shortcuts import render, redirect
-from django.contrib.auth import get_user_model
-from django.contrib.auth import authenticate, login
-from django.views import View
-from .accounts import cmd_create_buyer
-from .forms import RegistrationForm, PasswordResetForm, PasswordNewForm
+
+from django.contrib.auth import authenticate, get_user_model, login
 from django.contrib.auth.views import LogoutView
+from django.shortcuts import redirect, render
+from django.views import View
+
+from .accounts import cmd_create_buyer
+from .forms import PasswordNewForm, PasswordResetForm, RegistrationForm
 from .models import PasswordResetCode
 
 

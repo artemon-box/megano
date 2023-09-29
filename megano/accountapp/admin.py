@@ -1,11 +1,12 @@
 from django import forms
 from django.contrib import admin
-from .models import PasswordResetCode
+from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import GroupAdmin as origGroupAdmin
 from django.contrib.auth.models import Group
-from django.contrib.admin.widgets import FilteredSelectMultiple
+
+from .models import PasswordResetCode
 from .permissions_and_groups import GROUP_MODERATOR
-from django.contrib.auth import get_user_model
 
 
 @admin.register(get_user_model())

@@ -1,6 +1,7 @@
-from .services.compared_products import ComparedProductsService
 from shopapp.utils.banners_cache import get_random_active_product_banners
 from shopapp.utils.categories_cache import get_cached_active_categories
+
+from .services.compared_products import ComparedProductsService
 
 
 def categories_menu(request):

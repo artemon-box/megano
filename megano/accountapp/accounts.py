@@ -1,5 +1,6 @@
-from .permissions_and_groups import set_group_user, GROUP_SELLER, GROUP_MODERATOR
 from django.contrib.auth import get_user_model
+
+from .permissions_and_groups import GROUP_MODERATOR, GROUP_SELLER, set_group_user
 
 
 def cmd_create_superuser(email, password):
