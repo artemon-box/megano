@@ -28,14 +28,13 @@
                             <header class="Section-header">
                                 <h3 class="Section-title">
                                     <span class="Comment-date">
-                                        1 скидка
-{#                                            {{ reviews_count|default(0) }} отзыв{{ reviews_count != 1 and 'ов' or '' }}#}
+                                            {{ discounts_count|default(0) }} скид{{ discounts_count != 1 and 'ок' or 'ка' }}
                                     </span>
                                 </h3>
                             </header>
                             <div class="Comments" id="comments-section">
-{#                                {% if product_reviews %}#}
-{#                                    {% for review in product_reviews %}#}
+                                {% if discounts %}
+                                    {% for discount in discounts %}
                                 <div class="Comment" style="margin-bottom: 20px">
                                     <div class="Comment-column Comment-column_pict">
                                         <div class="Comment-avatar" style="background-image: url('static/assets/img/icons/card/discount.svg')"></div>
@@ -43,16 +42,25 @@
                                     <div class="Comment-column">
                                         <header class="Comment-header">
                                             <div>
-                                                <strong class="Comment-title">Наименование скидки</strong>
+                                                <strong class="Comment-title">{{ discount.title }}</strong>
                                                 <span class="Comment-date">
-{#                                                    {{ review.created_at.strftime('%B %d / %Y / %H:%M') }}#}
-                                                        Скидка действительна с 00 сентября 2023г. по 00 октября 2023г.
+                                                    {% if discount.start and discount.end %}
+                                                        Скидка действительна с {{ discount.start.strftime('%d-%m-%Y') }} по {{ discount.end.strftime('%d-%m-%Y') }}
+                                                    {% endif %}
+                                                    {% if discount.start and not discount.end %}
+                                                        Скидка действительна с {{ discount.start.strftime('%d-%m-%Y') }}
+                                                    {% endif %}
+                                                    {% if not discount.start and discount.end %}
+                                                        Скидка действительна по {{ discount.end.strftime('%d-%m-%Y') }}
+                                                    {% endif %}
                                                 </span>
                                             </div>
                                         </header>
-                                        <div class="Comment-content">Подробное описание скидки. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce accumsan eleifend vulputate. Nam libero magna, commodo id ligula a, ornare vehicula orci. Donec sagittis enim et felis pretium, eu lobortis turpis consequat. Cras quis eleifend lacus. Praesent quis mauris consectetur, dictum arcu vitae, suscipit nibh. Suspendisse efficitur mi at elit imperdiet pharetra. Duis tincidunt ex eget viverra maximus. </div>
+                                        <div class="Comment-content">{{ discount.description }}</div>
                                     </div>
                                 </div>
+                                    {% endfor %}
+                                {% endif %}
                             </div>
                         </div>
                 </div>

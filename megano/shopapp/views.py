@@ -3,7 +3,7 @@ from django.http import HttpRequest, HttpResponse
 from django.core.cache import cache
 from django.views.generic import TemplateView
 
-from .models import ProductReview
+from .models import ProductReview, Discount
 from django.db.models import Avg
 from django.core.paginator import Paginator
 from django.contrib import messages
@@ -143,7 +143,7 @@ def catalog_list(request: HttpRequest):
     # Фильтрация
     if request.method == 'POST':
         tag = request.POST.get('tag')  # выбранный тег из популярных
-        price = request.POST.get('price')
+        price = request.POST.get('price', '1;10000')
         price_from = price.split(';')[0]  # цена от
         price_to = price.split(';')[1]  # цена до
         title = request.POST.get('title')  # название товара
@@ -263,4 +263,9 @@ class ClearComparison(View):
 
 
 def discount_list(request: HttpRequest):
-    return render(request, 'discounts.jinja2')
+    discounts = Discount.objects.all().prefetch_related('products', 'categories')
+    print(discounts)
+    context = {
+        'discounts': discounts
+    }
+    return render(request, 'discounts.jinja2', context=context)
