@@ -7,7 +7,7 @@ from shopapp.models import Product
 
 def get_random_active_product_banners():
     # Ключ для кэша
-    cache_key = 'random_product_banners'
+    cache_key = "random_product_banners"
 
     # Попытка получить данные из кэша
     cached_banners = cache.get(cache_key)
@@ -26,7 +26,7 @@ def get_random_active_product_banners():
         except ValueError:
             banners = []
 
-        cache_timeout = getattr(settings, 'PRODUCT_BANNER_CACHE_TIMEOUT', 600)  # 10 минут (в секундах)
+        cache_timeout = getattr(settings, "PRODUCT_BANNER_CACHE_TIMEOUT", 600)  # 10 минут (в секундах)
         cache.set(cache_key, banners, cache_timeout)
 
         cached_banners = banners

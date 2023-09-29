@@ -5,7 +5,7 @@ from shopapp.models import Category
 
 def get_cached_active_categories():
     # Ключ для кэша
-    cache_key = 'active_categories'
+    cache_key = "active_categories"
 
     # Попытка получить данные из кэша
     cached_categories = cache.get(cache_key)
@@ -16,7 +16,7 @@ def get_cached_active_categories():
         active_categories = Category.objects.filter(products__available=True).distinct()
 
         # Кэширование данных на указанное время
-        cache_timeout = getattr(settings, 'CATEGORY_MENU_CACHE_TIMEOUT', 86400)
+        cache_timeout = getattr(settings, "CATEGORY_MENU_CACHE_TIMEOUT", 86400)
         cache.set(cache_key, active_categories, cache_timeout)
 
         cached_categories = active_categories

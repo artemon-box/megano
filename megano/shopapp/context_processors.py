@@ -6,12 +6,12 @@ from .services.compared_products import ComparedProductsService
 
 def categories_menu(request):
     """
-        Функция для получения и возвращения в общий контекст активных категорий
+    Функция для получения и возвращения в общий контекст активных категорий
     """
     active_categories = get_cached_active_categories()
 
     context = {
-        'active_categories': active_categories,
+        "active_categories": active_categories,
     }
 
     return context
@@ -19,17 +19,17 @@ def categories_menu(request):
 
 def random_product_banners(request):
     """
-        Функция для получения и возвращения в общий контекст трёх случайных баннеров
+    Функция для получения и возвращения в общий контекст трёх случайных баннеров
     """
     random_banners = get_random_active_product_banners()
 
     context = {
-        'random_banners': random_banners,
-        'banner_indices': [1, 2, 3],
+        "random_banners": random_banners,
+        "banner_indices": [1, 2, 3],
     }
 
     return context
 
 
 def compare_list(request):
-    return {'compare_list': ComparedProductsService(request)}
+    return {"compare_list": ComparedProductsService(request)}

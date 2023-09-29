@@ -6,5 +6,5 @@ app_name = "admin_settings"
 
 
 urlpatterns = [
-    path('reset_all_cache/', reset_all_cache, name='reset_all_cache'),
+    path("reset_all_cache/", reset_all_cache, name="reset_all_cache"),
 ]

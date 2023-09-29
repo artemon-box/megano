@@ -11,69 +11,73 @@ from .models import PasswordResetCode
 
 
 class RegistrationView(View):
-    TEMPLATE_NAME = 'registration.jinja2'
+    TEMPLATE_NAME = "registration.jinja2"
     form_class = RegistrationForm
 
     def get(self, request):
         form = self.form_class()
-        return render(request, self.TEMPLATE_NAME, {'form': form})
+        return render(request, self.TEMPLATE_NAME, {"form": form})
 
     def post(self, request):
         form = self.form_class(request.POST)
         if form.is_valid():
-            name = form.cleaned_data['name']
-            email = form.cleaned_data['login']
-            password = form.cleaned_data['password']
+            name = form.cleaned_data["name"]
+            email = form.cleaned_data["login"]
+            password = form.cleaned_data["password"]
             user = cmd_create_buyer(name=name, email=email, password=password)
             if user is not None:
                 # Успешная регистрация
                 user = authenticate(username=email, password=password)
                 if user is not None:
                     login(request, user)
-                return redirect('/')
+                return redirect("/")
         else:
             # Форма не прошла валидацию, возвращаем с ошибками
-            return render(request, self.TEMPLATE_NAME, {'form': form})
+            return render(request, self.TEMPLATE_NAME, {"form": form})
         return render(request, self.TEMPLATE_NAME)
 
 
 class LoginView(View):
-    TEMPLATE_NAME = 'login.jinja2'
+    TEMPLATE_NAME = "login.jinja2"
 
     def get(self, request):
         if request.user.is_authenticated:
-            return redirect('/')
-        return render(request, self.TEMPLATE_NAME, {'error_message': ''})
+            return redirect("/")
+        return render(request, self.TEMPLATE_NAME, {"error_message": ""})
 
     def post(self, request):
         if request.user.is_authenticated:
-            return redirect('/')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
+            return redirect("/")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
         user = authenticate(request, username=email, password=password)
         if user is not None:
             login(request, user)
-            return redirect('/')  # Перенаправление на главную страницу после входа
+            return redirect("/")  # Перенаправление на главную страницу после входа
         else:
-            return render(request, self.TEMPLATE_NAME, {'error_message': 'Неверная почта или пароль.'})
+            return render(
+                request,
+                self.TEMPLATE_NAME,
+                {"error_message": "Неверная почта или пароль."},
+            )
 
 
 class LogoutView(LogoutView):
-    next_page = '/'
+    next_page = "/"
 
 
 class PasswordResetView(View):
-    TEMPLATE_NAME = 'password_reset.jinja2'
+    TEMPLATE_NAME = "password_reset.jinja2"
     form_class = PasswordResetForm
 
     def get(self, request):
         form = self.form_class()
-        return render(request, self.TEMPLATE_NAME, {'form': form, 'error_function': ''})
+        return render(request, self.TEMPLATE_NAME, {"form": form, "error_function": ""})
 
     def post(self, request):
         form = self.form_class(request.POST)
         if form.is_valid():
-            email = form.cleaned_data['email']
+            email = form.cleaned_data["email"]
             try:
                 user = get_user_model().objects.get(email=email)
 
@@ -81,25 +85,35 @@ class PasswordResetView(View):
                 PasswordResetCode.objects.filter(user=user).delete()
 
                 if user.is_active:
-                    password_reset_code = \
-                        PasswordResetCode.objects.create_password_reset_code(user)
+                    password_reset_code = PasswordResetCode.objects.create_password_reset_code(user)
                     password_reset_code.send_password_reset_email()
-                    return render(request, 'password_reset_success.jinja2')
+                    return render(request, "password_reset_success.jinja2")
 
             except get_user_model().DoesNotExist:
                 pass
 
-            return render(request, self.TEMPLATE_NAME, context={'form': form, 'error_function': 'Почтовый адрес неверный.'})
+            return render(
+                request,
+                self.TEMPLATE_NAME,
+                context={
+                    "form": form,
+                    "error_function": "Почтовый адрес неверный.",
+                },
+            )
         else:
-            return render(request, self.TEMPLATE_NAME, {'form': form, 'error_function': ''})
+            return render(
+                request,
+                self.TEMPLATE_NAME,
+                {"form": form, "error_function": ""},
+            )
 
 
 class PasswordResetConfirm(View):
-    TEMPLATE_NAME = 'password_reset_confirm.jinja2'
+    TEMPLATE_NAME = "password_reset_confirm.jinja2"
     form_class = PasswordNewForm
 
     def get(self, request):
-        code = request.GET.get('code', '')
+        code = request.GET.get("code", "")
 
         try:
             password_reset_code = PasswordResetCode.objects.get(code=code)
@@ -111,15 +125,15 @@ class PasswordResetConfirm(View):
                 raise PasswordResetCode.DoesNotExist
 
             form = self.form_class()
-            return render(request, self.TEMPLATE_NAME, {'form': form})
+            return render(request, self.TEMPLATE_NAME, {"form": form})
         except PasswordResetCode.DoesNotExist:
-            return redirect('/')
+            return redirect("/")
 
     def post(self, request):
         form = self.form_class(request.POST)
         if form.is_valid():
-            password = form.cleaned_data['password']
-            code = request.GET.get('code', '')
+            password = form.cleaned_data["password"]
+            code = request.GET.get("code", "")
             try:
                 password_reset_code = PasswordResetCode.objects.get(code=code)
                 password_reset_code.user.set_password(password)
@@ -128,9 +142,9 @@ class PasswordResetConfirm(View):
                 # Delete password reset code just used
                 password_reset_code.delete()
 
-                return redirect('/')
+                return redirect("/")
             except PasswordResetCode.DoesNotExist:
-                return redirect('/')
+                return redirect("/")
 
         else:
-            return render(request, self.TEMPLATE_NAME, {'form': form})
+            return render(request, self.TEMPLATE_NAME, {"form": form})
