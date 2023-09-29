@@ -10,10 +10,10 @@ def cart_context(request):
 
     if cart_items:
         if isinstance(cart_items[0], dict):
-            total_quantity = sum(item['quantity'] for item in cart_items)
-            total_price = sum(item['quantity'] * item['product_seller'].price for item in cart_items)
+            total_quantity = sum(item["quantity"] for item in cart_items)
+            total_price = sum(item["quantity"] * item["product_seller"].price for item in cart_items)
         else:
             total_quantity = sum(item.quantity for item in cart_items)
             total_price = sum(item.quantity * item.product_seller.price for item in cart_items)
 
-    return {'total_quantity': total_quantity, 'total_price': total_price}
+    return {"total_quantity": total_quantity, "total_price": total_price}

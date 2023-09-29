@@ -1,5 +1,4 @@
 class AdminSettingsService:
-
     def get_general_settings(self):
         """
         получение общих настроек

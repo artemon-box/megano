@@ -1,5 +1,6 @@
-from ..models import CartItems
 from shopapp.models import ProductSeller
+
+from ..models import CartItems
 
 
 class CartService:
@@ -15,19 +16,23 @@ class CartService:
             cart_items_db = CartItems.objects.filter(user=user)
 
             for item in cart_items_db:
-                cart_items.append({
-                    'product_seller': item.product_seller,
-                    'quantity': item.quantity,
-                })
+                cart_items.append(
+                    {
+                        "product_seller": item.product_seller,
+                        "quantity": item.quantity,
+                    }
+                )
         else:
             # Если не авторизован, то получение его корзины из сессии
-            cart = request.session.get('cart', {})
+            cart = request.session.get("cart", {})
             for product_id, quantity in cart.items():
                 product_seller = ProductSeller.objects.get(pk=product_id)
-                cart_items.append({
-                    'product_seller': product_seller,
-                    'quantity': quantity,
-                })
+                cart_items.append(
+                    {
+                        "product_seller": product_seller,
+                        "quantity": quantity,
+                    }
+                )
 
         return cart_items
 
@@ -51,10 +56,10 @@ class CartService:
             cart_item.save()
         else:
             # Если пользователь неавторизован, то товар добавляется в сессию
-            cart = request.session.get('cart', {})
+            cart = request.session.get("cart", {})
             cart_item = cart.get(str(product_id), 0)
             cart[product_id] = cart_item + int(quantity)
-            request.session['cart'] = cart
+            request.session["cart"] = cart
 
     def delete_from_cart(self, request, product_id):
         """
@@ -67,10 +72,10 @@ class CartService:
             CartItems.objects.filter(user=user, product_seller_id=product_id).delete()
         else:
             # Если не авторизован, то из сессии
-            cart = request.session.get('cart', {})
+            cart = request.session.get("cart", {})
             if str(product_id) in cart:
                 del cart[str(product_id)]
-                request.session['cart'] = cart
+                request.session["cart"] = cart
 
     def change_count_of_product_in_cart(self, request, product_id, new_count):
         """
@@ -84,13 +89,13 @@ class CartService:
             cart_item.save()
 
         else:
-            cart = request.session.get('cart', {})
+            cart = request.session.get("cart", {})
             cart[product_id] = new_count
-            request.session['cart'] = cart
+            request.session["cart"] = cart
 
     def merge_carts(self, request, user):
         # Получение корзины из сессии
-        session_cart = request.session.get('cart', {})
+        session_cart = request.session.get("cart", {})
 
         # Получение корзины из БД
         cart_items_db = CartItems.objects.filter(user=user)
@@ -111,4 +116,4 @@ class CartService:
             cart_item.quantity = quantity
             cart_item.save()
 
-        request.session['cart'] = {}
+        request.session["cart"] = {}
