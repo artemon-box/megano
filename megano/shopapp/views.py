@@ -3,8 +3,8 @@ from django.http import HttpRequest, HttpResponse
 from django.core.cache import cache
 from django.views.generic import TemplateView
 
-from .models import ProductReview
-from django.db.models import Avg
+from .models import ProductReview, Seller
+from django.db.models import Min
 from django.core.paginator import Paginator
 from django.contrib import messages
 
@@ -32,6 +32,36 @@ class HomeView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['top_products'] = get_cached_top_products()
         return context
+
+
+class SellerDetailView(View):
+    """
+    Представление для отображения детальной страницы о продавце
+    """
+
+    template_name = 'shopapp/seller_detail.jinja2'
+    model = Seller
+
+    def get(self, request: HttpRequest, seller_slug: str) -> HttpResponse:
+        """
+        Обработчик GET-запроса для отображения детальной информации о продавце.
+
+        :param request: Запрос пользователя.
+        :param seller_slug: Уникальный идентификатор продавца в URL.
+        :return: HTTP-ответ с детальной информацией о продавце.
+        """
+
+        seller = Seller.objects.get(slug=seller_slug)
+        top_products = seller.productseller_set.order_by('-total_sold')[:10]
+
+        print(top_products)
+
+        context = {
+            'seller': seller,
+            'top_products': top_products
+        }
+
+        return render(request, self.template_name, context)
 
 
 class ProductDetailView(View):
@@ -74,7 +104,8 @@ class ProductDetailView(View):
         reviews_count = self.review_service.get_reviews_count(product=product)
 
         product_sellers = product.productseller_set.all()
-        average_price = round(ProductSeller.objects.aggregate(avg_price=Avg('price'))['avg_price'], 2)
+        # average_price = round(ProductSeller.objects.aggregate(avg_price=Avg('price'))['avg_price'], 2)
+        minimum_price = round(ProductSeller.objects.aggregate(Min('price'))['price__min'], 2)
         # average_price_discount = self.discount_service.calculate_discount_price_product(product)
 
         if user.is_authenticated:
@@ -86,7 +117,7 @@ class ProductDetailView(View):
             'extra_images': extra_images,
             'product': product,
             'product_sellers': product_sellers,
-            'average_price': average_price,
+            'minimum_price': minimum_price,
             'tags': tags,
             'product_reviews': page_obj,
             'reviews_count': reviews_count,
