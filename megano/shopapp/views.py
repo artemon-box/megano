@@ -264,7 +264,6 @@ class ClearComparison(View):
 
 def discount_list(request: HttpRequest):
     discounts = Discount.objects.all().prefetch_related('products', 'categories')
-    print(discounts)
     context = {
         'discounts': discounts
     }

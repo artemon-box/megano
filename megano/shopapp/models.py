@@ -235,7 +235,7 @@ class Discount(models.Model):
     type = models.CharField(max_length=2, choices=DISCOUNT_TYPE,
                             default='p', verbose_name='Discount type', help_text="Тип скидки")
     weight = models.CharField(max_length=1, choices=DISCOUNT_WEIGHT,
-                              default='l', verbose_name='Discount priority', help_text="'Вес' скидки")
+                              default='l', verbose_name='Discount "weight"', help_text="'Вес' скидки")
     percent = models.IntegerField(verbose_name="Percent",
                                   validators=[MinValueValidator(0), MaxValueValidator(99)],
                                   default=None, null=True, blank=True, help_text="Процент скидки")
