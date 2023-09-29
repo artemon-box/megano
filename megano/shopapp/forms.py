@@ -1,8 +1,8 @@
-from django import forms
 import json
-from django.forms import Media, widgets
 
-from shopapp.models import ProductFeature, Feature, FeatureValue
+from django import forms
+from django.forms import Media, widgets
+from shopapp.models import Feature, FeatureValue, ProductFeature
 
 
 class AddToCartForm(forms.Form):
@@ -10,7 +10,7 @@ class AddToCartForm(forms.Form):
 
 
 class ProductReviewForm(forms.Form):
-    review_text = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-textarea', 'placeholder': 'Отзыв'}))
+    review_text = forms.CharField(widget=forms.Textarea(attrs={"class": "form-textarea", "placeholder": "Отзыв"}))
 
 
 class RestrictedSelect(widgets.Select):

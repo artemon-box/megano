@@ -1,16 +1,27 @@
 from django.contrib import admin
 from django.contrib.admin import forms
 from taggit.models import Tag
-from .forms import ProductFeatureForm
 
-from .models import *
+from .forms import ProductFeatureForm
+from .models import (
+    AllowedRelation,
+    Category,
+    ExtraImage,
+    Feature,
+    FeatureValue,
+    Product,
+    ProductFeature,
+    ProductReview,
+    ProductSeller,
+    Seller,
+)
 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name',)
-    search_fields = ('name',)
-    #filter_horizontal = ('sub_categories',)
+    list_display = ("name",)
+    search_fields = ("name",)
+    # filter_horizontal = ('sub_categories',)
 
 
 class ExtraImageInline(admin.StackedInline):
@@ -26,26 +37,41 @@ class ProductFeatureInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'category', 'slug', 'available', 'created_at', 'popularity']
-    list_filter = ['available', 'category']
-    search_fields = ['name', 'category']
-    prepopulated_fields = {'slug': ('name',)}
-    ordering = ['name', 'category']
+    list_display = [
+        "id",
+        "name",
+        "category",
+        "slug",
+        "available",
+        "created_at",
+        "popularity",
+    ]
+    list_filter = ["available", "category"]
+    search_fields = ["name", "category"]
+    prepopulated_fields = {"slug": ("name",)}
+    ordering = ["name", "category"]
     inlines = [ExtraImageInline, ProductFeatureInline]
 
 
 @admin.register(Seller)
 class SellerAdmin(admin.ModelAdmin):
-    list_display = ['name', 'user', 'slug', 'description']
-    list_filter = ['name', 'delivery_method', 'payment_method']
-    search_fields = ['name']
-    prepopulated_fields = {'slug': ('name',)}
-    ordering = ['name', 'delivery_method', 'payment_method']
+    list_display = ["name", "user", "slug", "description"]
+    list_filter = ["name", "delivery_method", "payment_method"]
+    search_fields = ["name"]
+    prepopulated_fields = {"slug": ("name",)}
+    ordering = ["name", "delivery_method", "payment_method"]
 
 
 @admin.register(ProductSeller)
 class ProductSellerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'product', 'seller', 'price', 'free_delivery', 'quantity')
+    list_display = (
+        "id",
+        "product",
+        "seller",
+        "price",
+        "free_delivery",
+        "quantity",
+    )
 
 
 admin.site.register(ExtraImage)
@@ -65,10 +91,19 @@ class FeatureValueAdmin(admin.ModelAdmin):
 @admin.register(ProductFeature)
 class ProductFeatureAdmin(admin.ModelAdmin):
     form = ProductFeatureForm
-    list_display = ['product', 'category', 'feature', 'value', ]
+    list_display = [
+        "product",
+        "category",
+        "feature",
+        "value",
+    ]
 
 
 @admin.register(AllowedRelation)
 class AllowedRelationAdmin(admin.ModelAdmin):
-    list_display = ['category', 'feature', 'value', ]
-    list_filter = ['category', 'feature']
+    list_display = [
+        "category",
+        "feature",
+        "value",
+    ]
+    list_filter = ["category", "feature"]

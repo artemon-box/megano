@@ -1,5 +1,6 @@
-from .permissions_and_groups import set_group_user, GROUP_SELLER, GROUP_MODERATOR
 from django.contrib.auth import get_user_model
+
+from .permissions_and_groups import GROUP_MODERATOR, GROUP_SELLER, set_group_user
 
 
 def cmd_create_superuser(email, password):
@@ -23,7 +24,7 @@ def cmd_create_seller(email, password):
     Команда создать продавца
     """
     user = get_user_model().objects.create_user(email=email, password=password)
-    #set_group_user(user, GROUP_SELLER)
+    # set_group_user(user, GROUP_SELLER)
     return user
 
 
