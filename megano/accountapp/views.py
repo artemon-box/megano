@@ -1,5 +1,6 @@
 from datetime import date
 
+from cart_and_orders.services.cart import CartService
 from django.contrib.auth import authenticate, get_user_model, login
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import redirect, render
@@ -53,6 +54,8 @@ class LoginView(View):
         user = authenticate(request, username=email, password=password)
         if user is not None:
             login(request, user)
+            cart_service = CartService()
+            cart_service.merge_carts(request, user)
             return redirect("/")  # Перенаправление на главную страницу после входа
         else:
             return render(

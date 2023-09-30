@@ -9,7 +9,7 @@ from django.views import View
 from django.views.generic import TemplateView
 
 from .forms import AddToCartForm, ProductReviewForm
-from .models import Product, ProductFeature, ProductReview, ProductSeller
+from .models import Product, ProductReview, ProductSeller
 from .services.compared_products import ComparedProductsService
 from .services.discount import DiscountService
 from .services.product_review import ProductReviewService

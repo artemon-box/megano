@@ -90,6 +90,7 @@ TEMPLATES = [
                 "shopapp.context_processors.random_product_banners",
                 "shopapp.context_processors.compare_list",
                 "django.contrib.messages.context_processors.messages",
+                "cart_and_orders.context_processors.cart_context",
             ],
             # django-jinja defaults
             "match_extension": ".jinja2",
@@ -180,7 +181,9 @@ CATEGORY_MENU_CACHE_TIMEOUT = 86400
 BANNER_CACHE_TIMEOUT = 600
 PRODUCT_CACHE_TIMEOUT = 86400
 TOP_PRODUCTS_CACHE_TIMEOUT = 86400
+
 COMPARE_LIST_SESSION_ID = "compare_list"
+CART_SESSION_ID = "cart"
 
 CACHES = {
     "default": {
