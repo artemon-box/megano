@@ -1,11 +1,11 @@
 from django.db import models
 from django.conf import settings
-from shopapp.models import ProductSeller
+from shopapp.models import Product
 
 
 class HistoryViewed(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    product = models.ForeignKey(ProductSeller, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     watched_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
