@@ -1,9 +1,8 @@
 from config import settings
-from shopapp.models import ProductSeller, FeatureValue, ProductFeature
+from shopapp.models import FeatureValue, ProductFeature, ProductSeller
 
 
 class ComparedProductsService:
-
     def __init__(self, request):
         """инициализировать список сравнения"""
         self.session = request.session
@@ -35,21 +34,27 @@ class ComparedProductsService:
                     if first_product_features != current_product_features:
                         for feature in first_product_features:
                             if feature not in current_product_features:
-                                value, created = FeatureValue.objects.get_or_create(feature=feature, value='-')
+                                (
+                                    value,
+                                    created,
+                                ) = FeatureValue.objects.get_or_create(feature=feature, value="-")
                                 ProductFeature.objects.create(
                                     product=current_product,
                                     category=current_product.category,
                                     feature=feature,
-                                    value=value
+                                    value=value,
                                 )
                         for feature in current_product_features:
                             if feature not in first_product_features:
-                                value, created = FeatureValue.objects.get_or_create(feature=feature, value='-')
+                                (
+                                    value,
+                                    created,
+                                ) = FeatureValue.objects.get_or_create(feature=feature, value="-")
                                 ProductFeature.objects.create(
                                     product=first_product,
                                     category=first_product.category,
                                     feature=feature,
-                                    value=value
+                                    value=value,
                                 )
             self.save()
 

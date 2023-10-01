@@ -1,11 +1,13 @@
 import os
+
 from django.conf import settings
-from django.shortcuts import render, redirect
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from django.views import View
-from .forms import ProfileAvatarForm, ProfileForm
 from django.contrib.auth import authenticate, login
+from django.shortcuts import redirect, render
+from django.views import View
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from .forms import ProfileAvatarForm, ProfileForm
 
 
 class AccountView(View):
@@ -13,7 +15,7 @@ class AccountView(View):
 
     def get(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
-            return redirect('/')
+            return redirect("/")
         user = request.user
         return render(request, self.template_name, {'user': user})
 
@@ -24,7 +26,7 @@ class ProfileView(View):
 
     def get(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
-            return redirect('/')
+            return redirect("/")
         form = self.form_class(instance=request.user)
         return render(request, self.template_name, {'form': form, 'user': request.user, 'saved': False})
 
@@ -32,8 +34,8 @@ class ProfileView(View):
         form = self.form_class(request.POST, instance=request.user)
         if form.is_valid():
             user = form.save()
-            email = form.cleaned_data.get('email')
-            password = form.cleaned_data.get('password')
+            email = form.cleaned_data.get("email")
+            password = form.cleaned_data.get("password")
             if password:
                 user.set_password(password)
                 user.save()
@@ -65,11 +67,10 @@ class ProfileAvatarView(APIView):
             filename = f"{email.replace('@', '_').replace('.', '_')}_avatar{os.path.splitext(request.FILES['avatar'].name)[-1]}"
 
             # Сохраняем новый аватар
-            user.avatar.save(filename, request.FILES['avatar'])
+            user.avatar.save(filename, request.FILES["avatar"])
             user.save()
             return Response({"message": "Avatar successfully updated"}, status=200)
-        error_message = 'Произошла ошибка при загрузке аватара. Пожалуйста, попробуйте еще раз.'
-        if 'avatar' in form.errors:
-            error_message = form.errors['avatar'][0]
+        error_message = "Произошла ошибка при загрузке аватара. Пожалуйста, попробуйте еще раз."
+        if "avatar" in form.errors:
+            error_message = form.errors["avatar"][0]
         return Response({"message": error_message}, status=400)
-
