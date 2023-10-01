@@ -1,6 +1,10 @@
 from cart_and_orders.services.cart import CartService
 from django.contrib import messages
 from django.core.cache import cache
+from django.views.generic import TemplateView
+
+from .models import ProductReview, Discount
+from django.db.models import Avg
 from django.core.paginator import Paginator
 from django.db.models import Avg
 from django.http import HttpRequest, HttpResponse
@@ -333,4 +337,12 @@ class ClearComparison(View):
     def get(self, request):
         compare_list = ComparedProductsService(request)
         compare_list.clear()
-        return redirect("shopapp:compare_list")
+        return redirect('shopapp:compare_list')
+
+
+def discount_list(request: HttpRequest):
+    discounts = Discount.objects.all().prefetch_related('products', 'categories')
+    context = {
+        'discounts': discounts
+    }
+    return render(request, 'discounts.jinja2', context=context)

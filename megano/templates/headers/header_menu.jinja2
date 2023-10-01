@@ -5,29 +5,21 @@
                                                                                                   alt="Главная страница"/></a>
         </div>
 
-        <nav class="row-block row-block_right Header-menu">
-            <div class="menuModal" id="navigate">
-                <ul class="menu menu_main">
-                    <li class="menu-item"><a class="menu-link" href="{{ url('shopapp:index') }}">Главная</a>
-                    </li>
-                    <li class="menu-item"><span class="menu-label menu-label_success">Скидки</span><a class="menu-link"
-                                                                                                      href="{{ url('shopapp:catalog_list') }}">Каталог</a>
-                    </li>
-                    <li class="menu-item">
-                        <a class="menu-link" href="{{ url('shopapp:compare_list') }}">
-                            {% if compare_list|length > 0 %}
-                                Сравнение({{ compare_list|length }})
-                            {% else %}
-                                Сравнение
-                            {% endif %}
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        <div class="row-block">
-            <div class="CartBlock">
-                {% if request.user.is_authenticated %}
+            <nav class="row-block row-block_right Header-menu">
+                <div class="menuModal" id="navigate">
+                    <ul class="menu menu_main">
+                        <li class="menu-item"><a class="menu-link" href="{{ url('shopapp:index') }}">Главная</a>
+                        </li>
+                        <li class="menu-item"><a href="{{ url('shopapp:discounts') }}"><span class="menu-label menu-label_success">Скидки</span></a><a class="menu-link" href="{{ url('shopapp:catalog_list') }}">Каталог</a>
+                        </li>
+                        <li class="menu-item"><a class="menu-link" href="#">Сравнение</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="row-block">
+                <div class="CartBlock">
+                  {% if request.user.is_authenticated %}
                     <div class="dropdown">
                         <button class="dropbtn"><img class="CartBlock-img"
                                                      src="{{ static('assets/img/icons/loon-icon.svg') }}"
