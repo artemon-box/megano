@@ -21,6 +21,8 @@ from .services.recently_viewed import RecentlyViewedService
 from .utils.details_cache import get_cached_product_by_slug
 from .utils.top_products import get_cached_top_products
 
+from histviewapp.services.history import HistoryService
+
 
 class HomeView(TemplateView):
     """Главная страница"""
@@ -56,7 +58,8 @@ class ProductDetailView(View):
         """
 
         product = get_cached_product_by_slug(product_slug)
-
+        if request.user.is_authenticated:
+            HistoryService.add_product(request.user, product)
         try:
             product_reviews = self.review_service.get_reviews_for_product(product)
         except ProductReview.DoesNotExist:

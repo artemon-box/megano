@@ -12,12 +12,12 @@ from .models import PasswordResetCode
 
 
 class RegistrationView(View):
-    TEMPLATE_NAME = "registration.jinja2"
+    template_name = 'registration.jinja2'
     form_class = RegistrationForm
 
     def get(self, request):
         form = self.form_class()
-        return render(request, self.TEMPLATE_NAME, {"form": form})
+        return render(request, self.template_name, {'form': form})
 
     def post(self, request):
         form = self.form_class(request.POST)
@@ -34,17 +34,19 @@ class RegistrationView(View):
                 return redirect("/")
         else:
             # Форма не прошла валидацию, возвращаем с ошибками
-            return render(request, self.TEMPLATE_NAME, {"form": form})
-        return render(request, self.TEMPLATE_NAME)
+            return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name)
 
 
 class LoginView(View):
-    TEMPLATE_NAME = "login.jinja2"
+    template_name = 'login.jinja2'
 
     def get(self, request):
         if request.user.is_authenticated:
-            return redirect("/")
-        return render(request, self.TEMPLATE_NAME, {"error_message": ""})
+            return redirect('/')
+        request.session['previous_url'] = request.META.get('HTTP_REFERER')
+        print(request.session['previous_url'])
+        return render(request, self.template_name, {'error_message': ''})
 
     def post(self, request):
         if request.user.is_authenticated:
@@ -54,15 +56,14 @@ class LoginView(View):
         user = authenticate(request, username=email, password=password)
         if user is not None:
             login(request, user)
-            cart_service = CartService()
-            cart_service.merge_carts(request, user)
-            return redirect("/")  # Перенаправление на главную страницу после входа
+            previous_url = request.session.get('previous_url')
+            if previous_url:
+                # Удаляем сохраненный URL-адрес из сессии
+                del request.session['previous_url']
+                return redirect(previous_url)
+            return redirect('/')  # Перенаправление на главную страницу после входа
         else:
-            return render(
-                request,
-                self.TEMPLATE_NAME,
-                {"error_message": "Неверная почта или пароль."},
-            )
+            return render(request, self.template_name, {'error_message': 'Неверная почта или пароль.'})
 
 
 class LogoutView(LogoutView):
@@ -70,12 +71,12 @@ class LogoutView(LogoutView):
 
 
 class PasswordResetView(View):
-    TEMPLATE_NAME = "password_reset.jinja2"
+    template_name = 'password_reset.jinja2'
     form_class = PasswordResetForm
 
     def get(self, request):
         form = self.form_class()
-        return render(request, self.TEMPLATE_NAME, {"form": form, "error_function": ""})
+        return render(request, self.template_name, {'form': form, 'error_function': ''})
 
     def post(self, request):
         form = self.form_class(request.POST)
@@ -95,24 +96,13 @@ class PasswordResetView(View):
             except get_user_model().DoesNotExist:
                 pass
 
-            return render(
-                request,
-                self.TEMPLATE_NAME,
-                context={
-                    "form": form,
-                    "error_function": "Почтовый адрес неверный.",
-                },
-            )
+            return render(request, self.template_name, context={'form': form, 'error_function': 'Почтовый адрес неверный.'})
         else:
-            return render(
-                request,
-                self.TEMPLATE_NAME,
-                {"form": form, "error_function": ""},
-            )
+            return render(request, self.template_name, {'form': form, 'error_function': ''})
 
 
 class PasswordResetConfirm(View):
-    TEMPLATE_NAME = "password_reset_confirm.jinja2"
+    template_name = 'password_reset_confirm.jinja2'
     form_class = PasswordNewForm
 
     def get(self, request):
@@ -128,7 +118,7 @@ class PasswordResetConfirm(View):
                 raise PasswordResetCode.DoesNotExist
 
             form = self.form_class()
-            return render(request, self.TEMPLATE_NAME, {"form": form})
+            return render(request, self.template_name, {'form': form})
         except PasswordResetCode.DoesNotExist:
             return redirect("/")
 
@@ -150,4 +140,4 @@ class PasswordResetConfirm(View):
                 return redirect("/")
 
         else:
-            return render(request, self.TEMPLATE_NAME, {"form": form})
+            return render(request, self.template_name, {'form': form})

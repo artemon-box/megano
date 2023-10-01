@@ -11,28 +11,24 @@ from .forms import ProfileAvatarForm, ProfileForm
 
 
 class AccountView(View):
-    TEMPLATE_NAME = "account.jinja2"
+    template_name = 'account.jinja2'
 
     def get(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return redirect("/")
         user = request.user
-        return render(request, self.TEMPLATE_NAME, {"user": user})
+        return render(request, self.template_name, {'user': user})
 
 
 class ProfileView(View):
-    TEMPLATE_NAME = "profile.jinja2"
+    template_name = 'profile.jinja2'
     form_class = ProfileForm
 
     def get(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return redirect("/")
         form = self.form_class(instance=request.user)
-        return render(
-            request,
-            self.TEMPLATE_NAME,
-            {"form": form, "user": request.user, "saved": False},
-        )
+        return render(request, self.template_name, {'form': form, 'user': request.user, 'saved': False})
 
     def post(self, request):
         form = self.form_class(request.POST, instance=request.user)
@@ -48,16 +44,8 @@ class ProfileView(View):
                     login(request, user)
         else:
             # Форма не прошла валидацию, возвращаем с ошибками
-            return render(
-                request,
-                self.TEMPLATE_NAME,
-                {"form": form, "user": request.user, "saved": False},
-            )
-        return render(
-            request,
-            self.TEMPLATE_NAME,
-            {"form": form, "user": request.user, "saved": True},
-        )
+            return render(request, self.template_name, {'form': form, 'user': request.user, 'saved': False})
+        return render(request, self.template_name, {'form': form, 'user': request.user, 'saved': True})
 
 
 class ProfileAvatarView(APIView):

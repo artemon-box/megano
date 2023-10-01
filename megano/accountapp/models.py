@@ -85,6 +85,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
 
+    def __str__(self):
+        return self.email
+
 
 def _generate_code():
     return binascii.hexlify(os.urandom(20)).decode("utf-8")
