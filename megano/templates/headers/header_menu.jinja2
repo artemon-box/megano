@@ -1,14 +1,16 @@
-    <div class="wrap">
-        <div class="row Header-rowMain">
-            <div class="row-block Header-logo"><a class="logo" href="{{ url('shopapp:index') }}"><img class="logo-image" src="{{ static('assets/img/logo.png') }}" alt="logo.png" /></a>
-            </div>
+<div class="wrap">
+    <div class="row Header-rowMain">
+        <div class="row-block Header-logo"><a class="logo" href="{{ url('shopapp:index') }}"><img class="logo-image"
+                                                                                                  src="{{ static('assets/img/logo.png') }}"
+                                                                                                  alt="Главная страница"/></a>
+        </div>
 
             <nav class="row-block row-block_right Header-menu">
                 <div class="menuModal" id="navigate">
                     <ul class="menu menu_main">
                         <li class="menu-item"><a class="menu-link" href="{{ url('shopapp:index') }}">Главная</a>
                         </li>
-                        <li class="menu-item"><span class="menu-label menu-label_success">Скидки</span><a class="menu-link" href="{{ url('shopapp:catalog_list') }}">Каталог</a>
+                        <li class="menu-item"><a href="{{ url('shopapp:discounts') }}"><span class="menu-label menu-label_success">Скидки</span></a><a class="menu-link" href="{{ url('shopapp:catalog_list') }}">Каталог</a>
                         </li>
                         <li class="menu-item"><a class="menu-link" href="#">Сравнение</a>
                         </li>
@@ -19,23 +21,30 @@
                 <div class="CartBlock">
                   {% if request.user.is_authenticated %}
                     <div class="dropdown">
-                        <button class="dropbtn"><img class="CartBlock-img" src="{{ static('assets/img/icons/loon-icon.svg') }}" alt="loon-icon.svg" /></button>
+                        <button class="dropbtn"><img class="CartBlock-img"
+                                                     src="{{ static('assets/img/icons/loon-icon.svg') }}"
+                                                     alt="loon-icon.svg"/></button>
                         <div class="dropdown-content">
-                            <a class="dropdown-content-a" href="{{ url('profileapp:profile') }}">Личный кабинет</a>
-                            <a class="dropdown-content-a" href="#">Административный раздел</a>
+                            <a class="dropdown-content-a" href="{{ url('profileapp:account') }}">Личный кабинет</a>
+                            <a class="dropdown-content-a" href="{{ url('admin:index') }}">Административный
+                                раздел</a>
                             <a class="dropdown-content-a" href="{{ url('accountapp:logout') }}">Выход</a>
                         </div>
                     </div>
-                  {% endif %}
-                    <a class="CartBlock-block" href="#"><img class="CartBlock-img" src="{{ static('assets/img/icons/cart.svg') }}" alt="cart.svg" /><span class="CartBlock-amount">0</span></a>
-                    <div class="CartBlock-block"><span class="CartBlock-price">0.00$</span>
-                    </div>
+                {% endif %}
+                <a class="CartBlock-block" href="{{ url('cart_and_orders:cart_view') }}"><img class="CartBlock-img"
+                                                                                              src="{{ static('assets/img/icons/cart.svg') }}"
+                                                                                              alt="Корзина"/><span
+                        class="CartBlock-amount">{{ total_quantity }}</span></a>
+                <div class="CartBlock-block"><span class="CartBlock-price">{{ total_price }}$</span>
                 </div>
             </div>
-            <div class="row-block Header-trigger"><a class="menuTrigger" href="#">
-                    <div class="menuTrigger-content">Показать навигацию
-                    </div><span></span><span></span><span></span>
-                </a>
+        </div>
+        <div class="row-block Header-trigger"><a class="menuTrigger" href="#">
+            <div class="menuTrigger-content">Показать навигацию
             </div>
+            <span></span><span></span><span></span>
+        </a>
         </div>
     </div>
+</div>
