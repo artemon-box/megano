@@ -98,6 +98,7 @@ class ProductSeller(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='цена товара у продавца')
     quantity = models.IntegerField(verbose_name='количество', default=1)
     free_delivery = models.BooleanField(default=False)  # бесплатная доставка (для фильтрации на странице каталога)
+    # total_sold = models.IntegerField(verbose_name='всего продано', blank=True, default=0)  # через сервисы
 
     class Meta:
         verbose_name = 'товар у прордавца'
@@ -109,7 +110,7 @@ class Seller(models.Model):
     """
     Модель продавец
     """
-    user = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=200, default=None)
     image = models.ImageField(upload_to=seller_images_directory_path)

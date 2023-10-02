@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-from .views import HomeView, ProductDetailView
+from .views import HomeView, ProductDetailView, SellerDetailView
 
 app_name = "shopapp"
 
@@ -13,4 +13,5 @@ urlpatterns = [
     path('compare/clear/', views.ClearComparison.as_view(), name='compare_clear'),
     path('catalog/', views.catalog_list, name='catalog_list'),
     path('products/<slug:product_slug>/', ProductDetailView.as_view(), name='product_detail'),
+    path('sellers/<slug:seller_slug>/', SellerDetailView.as_view(), name='seller_detail'),
 ]

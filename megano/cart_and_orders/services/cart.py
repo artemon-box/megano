@@ -1,9 +1,30 @@
+from shopapp.models import ProductSeller
+
+
 class CartService:
-    def get_cart(self, user_id):
+    def get_cart(self, request):
         """
-        получение содержимого корзины для конкретного пользователя
+        Получение содержимого корзины для текущего пользователя
         """
-        pass
+        user = request.user
+        cart = request.session.get('cart', {})
+        cart_items = []
+
+        # if user.is_authenticated:
+        #     cart_items_db = CartItems.objects.filter(user=user)
+        #
+        #     cart = {str(item.product_seller.id): item.quantity for item in cart_items_db}
+        #     request.session['cart'] = cart
+        #
+        # for product_id, quantity in cart.items():
+        for i in range(1, 4):
+            product_seller = ProductSeller.objects.get(pk=i)
+            cart_items.append({
+                'product_seller': product_seller,
+                'quantity': 10,
+            })
+
+        return cart_items
 
     def add_to_cart(self, user_id, product_slug, quantity):
         """
