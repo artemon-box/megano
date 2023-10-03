@@ -5,23 +5,14 @@
 {% block content %}
 
     {% if form.errors %}
-        {% for error in form.errors %}
-            {{ error.subject }}
-        {% endfor %}
+        <div style="align-content: center; background-color: #ed5565; margin-top: 10px">
+            {% for error in form.errors.values() %}
+                <div style="text-decoration-color: whitesmoke">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </div>
     {% endif %}
-
-{#    <ul class="errorlist">#}
-{#        <li>phone#}
-{#            <ul class="errorlist">#}
-{#                <li>This field is required.</li>#}
-{#            </ul>#}
-{#        </li>#}
-{#        <li>mail#}
-{#            <ul class="errorlist">#}
-{#                <li>Enter a valid email address.</li>#}
-{#            </ul>#}
-{#        </li>#}
-{#    </ul>#}
 
     <div class="Middle Middle_top">
         <div class="Section Section_column Section_columnRight Section_columnWide Order">
@@ -67,6 +58,7 @@
                                         <label class="form-label" for="name">ФИО
                                         </label>
                                         <input class="form-input" id="name" name="name" type="text"
+                                               placeholder="ФИО"
                                                value="{{ request.user.name if request.user.is_authenticated else 'Иванов Иван Иванович' }}"
                                                data-validate="require">
 
@@ -74,14 +66,18 @@
                                     <div class="form-group">
                                         <label class="form-label" for="phone">Телефон
                                         </label>
-                                        <input class="form-input" id="phone" name="phone" type="text" data-role="input, input-mask" data-mask="+7(***) *** ** **" data-mask-placeholder="*">
-{#                                               value="{{ request.user.phone if request.user.is_authenticated else '+7000000000' }}">#}
+                                        <input class="form-input" id="phone" name="phone" type="text"
+                                               placeholder="Телефон"
+{#                                               data-role="input, input-mask" data-mask="+7 (***) ***-**-**" data-mask-placeholder="*"#}
+                                               value="{{ request.user.phone if request.user.is_authenticated else '+7000000000' }}"
+                                               data-validate="require">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="mail">E-mail
                                         </label>
                                         <input class="form-input" id="mail" name="mail" type="text"
                                                value="{{ request.user.email if request.user.is_authenticated else '' }}"
+                                               placeholder="Почта"
                                                data-validate="require">
                                     </div>
                                 </div>
@@ -91,13 +87,15 @@
                                             <label class="form-label" for="password">Пароль
                                             </label>
                                             <input class="form-input" id="password" name="password" type="password"
-                                                   placeholder="Тут можно изменить пароль">
+                                                   placeholder="Тут можно изменить пароль"
+                                                   data-validate="require">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="passwordReply">Подтверждение пароля
                                             </label>
                                             <input class="form-input" id="passwordReply" name="passwordReply"
-                                                   type="password" placeholder="Введите пароль повторно">
+                                                   type="password" placeholder="Введите пароль повторно"
+                                                   data-validate="require">
                                         </div>
                                         <div class="form-group"><a class="btn btn_muted Order-btnReg" href="{{ url('accountapp:login') }}">Я уже
                                             зарегистрирован</a>
@@ -258,7 +256,6 @@
     </div>
 
     <script>
-        // Функция для обновления значения поля nameContent
         function updateValues() {
             var name = document.getElementById('name');
             var phone = document.getElementById('phone');

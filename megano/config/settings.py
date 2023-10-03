@@ -197,3 +197,13 @@ CACHES = {
 FIXTURE_DIRS = [
     "fixtures",
 ]
+
+DELIVERY_CHOICES = (
+    ('ordinary', 'Обычная доставка'),
+    ('express', 'Экспресс доставка'),
+)
+
+PAYMENT_CHOICES = (
+    ('online', 'Онлайн картой'),
+    ('someone', 'Онлайн со случайного чужого счета'),
+)

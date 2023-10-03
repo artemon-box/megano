@@ -1,16 +1,9 @@
 from django import forms
 
+from config.settings import DELIVERY_CHOICES, PAYMENT_CHOICES
+
 
 class OrderForm(forms.Form):
-    DELIVERY_CHOICES = (
-        ('ordinary', 'Обычная доставка'),
-        ('express', 'Экспресс доставка'),
-    )
-
-    PAYMENT_CHOICES = (
-        ('online', 'Онлайн картой'),
-        ('someone', 'Онлайн со случайного чужого счета'),
-    )
 
     name = forms.CharField(label='ФИО', max_length=255)
     phone = forms.CharField(label='Телефон', max_length=15)

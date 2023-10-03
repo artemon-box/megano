@@ -5,7 +5,7 @@ from django.core.cache import cache
 from .models import Discount
 from .models import Seller
 from django.core.paginator import Paginator
-from django.db.models import Avg
+from django.db.models import Min
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
@@ -52,7 +52,8 @@ class SellerDetailView(View):
         """
 
         seller = Seller.objects.get(slug=seller_slug)
-        top_products = seller.productseller_set.order_by('-total_sold')[:10]
+        # top_products = seller.productseller_set.order_by('-total_sold')[:10]
+        top_products = seller.productseller_set.all()[:10]
 
         print(top_products)
 
@@ -105,11 +106,7 @@ class ProductDetailView(View):
         reviews_count = self.review_service.get_reviews_count(product=product)
 
         product_sellers = product.productseller_set.all()
-        average_price = round(
-            ProductSeller.objects.aggregate(avg_price=Avg("price"))["avg_price"],
-            2,
-        )
-        # average_price_discount = self.discount_service.calculate_discount_price_product(product)
+        minimum_price = round(ProductSeller.objects.aggregate(Min('price'))['price__min'], 2)
 
         if user.is_authenticated:
             self.recently_viewed_service.add_to_recently_viewed(user_id=user.id, product_slug=product_slug)
@@ -120,7 +117,7 @@ class ProductDetailView(View):
             "extra_images": extra_images,
             "product": product,
             "product_sellers": product_sellers,
-            "average_price": average_price,
+            "minimum_price": minimum_price,
             "tags": tags,
             "product_reviews": page_obj,
             "reviews_count": reviews_count,
@@ -145,13 +142,14 @@ class ProductDetailView(View):
             if form.is_valid():
                 order_quantity = form.cleaned_data["order_quantity"]
                 seller_id = request.POST.get("seller_id")
+                print(request.GET)
                 try:
-                    product_seller = ProductSeller.objects.get(id=seller_id)
-                    seller_quantity = product_seller.quantity
+                    seller = ProductSeller.objects.get(id=seller_id)
+                    seller_quantity = seller.quantity
 
                     if 0 < order_quantity <= seller_quantity:
                         messages.success(request, "Товар успешно добавлен в корзину!")
-                        # self.cart.add_to_cart()
+                        self.cart.add_to_cart(request, seller.id, order_quantity)
                     else:
                         messages.error(
                             request,

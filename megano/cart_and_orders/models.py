@@ -1,5 +1,6 @@
+from django.contrib.auth import get_user_model
 from django.db import models
-from shopapp.models import Product, ProductSeller, get_user_model
+from shopapp.models import Product, Seller, ProductSeller
 
 
 class CartItems(models.Model):
@@ -15,29 +16,59 @@ class CartItems(models.Model):
         )
 
 
-class OrderItem(models.Model):
-    product = models.ManyToManyField(Product)
-    order_quantity = models.IntegerField(verbose_name='количество', default=0)
-    unit_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='цена товара у продавца')
-
-
 class Order(models.Model):
+    """
+    Таблица для хранения данных о заказах.
+
+    """
+    ORDER_STATUS_CHOICES = [
+        ('pending', 'Ожидает подтверждения'),
+        ('processing', 'Обрабатывается'),
+        ('shipped', 'Отправлен'),
+        ('delivered', 'Доставлен'),
+        ('canceled', 'Отменен'),
+    ]
+
     created_at = models.DateTimeField(auto_now_add=True)
-    order_items = models.ForeignKey(OrderItem, on_delete=models.RESTRICT)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True)
-    fio = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=200, default=None)
-    email = models.EmailField(max_length=254)
-    phone = models.CharField(max_length=12)
     city = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
     delivery_method = models.CharField(max_length=100, default=None)
     payment_method = models.CharField(max_length=100, default=None)
 
+    status = models.CharField(
+        max_length=20,
+        choices=ORDER_STATUS_CHOICES,
+        default='pending'
+    )
+
     class Meta:
-        ordering = ['-created_at',]
-        indexes = [
-            models.Index(fields=['id', 'slug']),
-        ]
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.user}'s order #{self.pk}"
 
 
+class OrderProduct(models.Model):
+    """
+    Промежуточная таблица для хранения данных о товаре, количестве в конкретном заказе.
+
+    """
+
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.RESTRICT)
+    seller = models.ForeignKey(Seller, on_delete=models.RESTRICT)
+    quantity = models.IntegerField(verbose_name="количество", default=1)
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="цена товара у продавца")
+
+    class Meta:
+        verbose_name = "товар в заказе"
+        verbose_name_plural = "товары в заказах"
+        unique_together = (
+            "order",
+            "product",
+            "seller",
+        )
+
+    def __str__(self):
+        return f"{self.product} in {self.order} by {self.seller}"

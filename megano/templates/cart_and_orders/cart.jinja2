@@ -72,7 +72,7 @@
                     </div>
                     <div class="Cart-block">
                         {% if cart_items %}
-                            <a class="btn btn_success btn_lg" href="order.jinja2">Оформить заказ</a>
+                            <a class="btn btn_success btn_lg" href="{{ url('cart_and_orders:order') }}">Оформить заказ</a>
                         {% endif %}
                     </div>
                 </div>
