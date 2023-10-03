@@ -84,3 +84,11 @@ class ProductFeatureForm(forms.ModelForm):
 
 class FileImportForm(forms.Form):
     file = forms.FileField()
+    email = forms.EmailField(
+        widget=forms.EmailInput(
+            attrs={
+                'placeholder': 'введите почту для отправки уведомления',
+                'size': 40,
+            }
+        )
+    )

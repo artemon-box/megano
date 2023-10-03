@@ -9,6 +9,7 @@ from django.urls import path
 from .forms import ProductFeatureForm, FileImportForm
 
 from .models import *
+from .views import start_import_json, get_status, run_task
 
 
 @admin.register(Category)
@@ -56,32 +57,9 @@ class ProductSellerAdmin(admin.ModelAdmin):
     def get_urls(self):
         urls = super().get_urls()
         new_urls = [
-            path('import-products-json', self.import_json, name='import_products_json',),
+            path('import-products-json', start_import_json, name='import_products_json',),
         ]
         return new_urls + urls
-
-    def import_json(self, request: HttpRequest) -> HttpResponse:
-        if request.method == 'GET':
-            form = FileImportForm()
-            context = {'form': form, 'header': 'Upload from JSON file'}
-            return render(request, 'admin_settings/upload_file_form.html', context)
-        form = FileImportForm(request.POST, request.FILES)
-        if not form.is_valid():
-            context = {'form': form, 'header': 'Upload from JSON file'}
-            return render(request, 'admin_settings/upload_file_form.html', context, status=400)
-
-        products_from_json = json.load(form.files['file'])
-
-        for product in products_from_json:
-            ProductSeller.objects.create(
-                prduct=Product.objects.get(id=product['product']),
-                seller=Seller.objects.get(id=product['seller']),
-                price=product['price'],
-                quantity=product['quantity'],
-            )
-
-        self.message_user(request, "Data from JSON was imported")
-        return redirect('..')
 
 
 admin.site.register(ExtraImage)

@@ -1,5 +1,8 @@
+import json
+
+from celery.result import AsyncResult
 from django.shortcuts import get_object_or_404
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.core.cache import cache
 from django.views.generic import TemplateView
 
@@ -9,7 +12,7 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 
 from cart_and_orders.services.cart import CartService
-from .forms import AddToCartForm, ProductReviewForm
+from .forms import AddToCartForm, ProductReviewForm, FileImportForm
 from .models import ProductSeller
 from .services.discount import DiscountService
 from .services.product_review import ProductReviewService
@@ -22,6 +25,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from .models import Product, ProductFeature
 from .services.compared_products import ComparedProductsService
+from django.views.decorators.csrf import csrf_exempt
 
 
 class HomeView(TemplateView):
@@ -294,8 +298,59 @@ class ClearComparison(View):
         return redirect('shopapp:compare_list')
 
 
-from .tasks import bar
+from .tasks import bar, import_json
+
 
 def test_celery(request):
-    bar.delay()
-    return HttpResponse('<h1>Test celery</h1>')
+    # active_task =
+    res = bar.delay()
+    return HttpResponse(f'<h1>Test celery</h1>'
+                        f'<h1>{res.id}</h1>')
+
+
+def start_import_json(request):
+    if request.method == 'GET':
+        form = FileImportForm()
+        context = {'form': form, 'header': 'Upload from JSON file'}
+        return render(request, 'admin_settings/upload_file_form.html', context)
+    form = FileImportForm(request.POST, request.FILES)
+    if not form.is_valid():
+        context = {'form': form, 'header': 'Upload from JSON file'}
+        return render(request, 'admin_settings/upload_file_form.html', context, status=400)
+
+    products_from_json = json.load(form.files['file'])
+    email = request.POST.get('email')
+    print(products_from_json)
+    print(email)
+    # task = import_json.delay()
+    #
+    #     for product in products_from_json:
+    #         ProductSeller.objects.create(
+    #             prduct=Product.objects.get(id=product['product']),
+    #             seller=Seller.objects.get(id=product['seller']),
+    #             price=product['price'],
+    #             quantity=product['quantity'],
+    #         )
+    #
+    # return JsonResponse({"task_id": task.id}, status=202)
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+# @csrf_exempt
+def run_task(request):
+    if request.POST:
+        task_type = request.POST.get("type")
+        print(task_type)
+        task = import_json.delay(int(task_type))
+        return JsonResponse({"task_id": task.id}, status=202)
+
+
+# @csrf_exempt
+def get_status(request, task_id):
+    task_result = AsyncResult(task_id)
+    result = {
+        "task_id": task_id,
+        "task_status": task_result.status,
+        "task_result": task_result.result
+    }
+    return JsonResponse(result, status=200)
