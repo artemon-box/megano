@@ -105,9 +105,10 @@ class ProductSeller(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="цена товара у продавца")
     quantity = models.IntegerField(verbose_name="количество", default=1)
     free_delivery = models.BooleanField(default=False)  # бесплатная доставка (для фильтрации на странице каталога)
+    is_limited_edition = models.BooleanField(default=False, verbose_name="Ограниченный тираж")
 
     class Meta:
-        verbose_name = "товар у прордавца"
+        verbose_name = "товар у продавца"
         verbose_name_plural = "товары у продавцов"
         unique_together = (
             "product",

@@ -12,6 +12,10 @@ from .forms import AddToCartForm, ProductReviewForm
 from .models import Product, ProductReview, ProductSeller
 from .services.compared_products import ComparedProductsService
 from .services.discount import DiscountService
+from .services.limited_edition_and_offers import (
+    get_limited_edition_products,
+    get_limited_offers,
+)
 from .services.product_review import ProductReviewService
 from .services.recently_viewed import RecentlyViewedService
 from .utils.details_cache import get_cached_product_by_slug
@@ -25,7 +29,9 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["limited_offers"] = get_limited_offers()
         context["top_products"] = get_cached_top_products()
+        context["limited_edition"] = get_limited_edition_products()
         return context
 
 
