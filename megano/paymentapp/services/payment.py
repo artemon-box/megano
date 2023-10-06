@@ -14,12 +14,9 @@ class PaymentService:
         :param price: Сумма к оплате.
         :return: Успешность и информация о запросе на оплату.
         """
-        # Здесь вы можете выполнить необходимую валидацию данных карты и суммы перед отправкой запроса на оплату.
 
-        # Создайте задачу Celery для обработки оплаты.
         payment_task = process_payment.apply_async(args=(order_id, card_number, price))
 
-        # Верните информацию о запросе на оплату.
         return {
             "success": True,
             "message": "Запрос на оплату успешно отправлен.",

@@ -22,7 +22,7 @@ class Order(models.Model):
 
     """
     ORDER_STATUS_CHOICES = [
-        ('created', ''),
+        ('created', 'Cоздан'),
         ('pending', 'Ожидает оплаты'),
         ('paid', 'Оплачен'),
         ('failed', 'Ошибка оплаты'),
@@ -43,7 +43,7 @@ class Order(models.Model):
     status = models.CharField(
         max_length=20,
         choices=ORDER_STATUS_CHOICES,
-        default='pending'
+        default='created'
     )
 
     class Meta:

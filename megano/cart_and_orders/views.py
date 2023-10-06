@@ -1,6 +1,8 @@
+import re
+
 from accountapp.accounts import cmd_create_buyer
 from shopapp.forms import AddToCartForm
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.views import View
 from .forms import OrderForm
@@ -58,6 +60,14 @@ class OrderView(View):
     cart = CartService()
 
     @classmethod
+    def get_phone(cls, phone):
+        """
+        Метод получения чистого номера телефона
+        """
+
+        return re.sub(r"\D", "", phone)[1:]
+
+    @classmethod
     def get_total_price(cls, cart):
         """
         Метод получения полной стоимости заказа
@@ -78,6 +88,9 @@ class OrderView(View):
         """
 
         product_seller = self.cart.get_cart(request)
+
+        if not product_seller:
+            raise Http404("Корзина пуста")
 
         total_price = self.get_total_price(product_seller)
 
@@ -104,11 +117,17 @@ class OrderView(View):
         if order_form.is_valid():
 
             if not request.user.is_authenticated:
+
                 user = cmd_create_buyer(
                     name=order_form.cleaned_data['name'],
                     email=order_form.cleaned_data['mail'],
                     password=order_form.cleaned_data['password'],
                 )
+                user.phone = self.get_phone(order_form.cleaned_data['phone'])
+                user.save()
+
+            request.user.phone = self.get_phone(order_form.cleaned_data['phone'])
+            request.user.save()
 
             order = Order.objects.create(
                 user=user,
@@ -137,7 +156,11 @@ class OrderView(View):
 
             request.session['current_order_id'] = order.id
 
-            return redirect('paymentapp:payment')
+            if order_form.cleaned_data['payment'] == 'online':
+                return redirect('paymentapp:payment')
+            else:
+                return redirect('paymentapp:payment_someone')
+
         else:
 
             product_seller = self.cart.get_cart(request)

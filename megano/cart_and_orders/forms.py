@@ -6,7 +6,7 @@ from config.settings import DELIVERY_CHOICES, PAYMENT_CHOICES
 class OrderForm(forms.Form):
 
     name = forms.CharField(label='ФИО', max_length=255)
-    phone = forms.CharField(label='Телефон', max_length=15)
+    phone = forms.CharField(label='Телефон', max_length=19  )
     mail = forms.EmailField(label='E-mail')
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput, required=False)
     passwordReply = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput, required=False)
