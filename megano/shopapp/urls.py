@@ -13,7 +13,6 @@ urlpatterns = [
     path('compare/clear/', views.ClearComparison.as_view(), name='compare_clear'),
     path('catalog/', views.catalog_list, name='catalog_list'),
     path('products/<slug:product_slug>/', ProductDetailView.as_view(), name='product_detail'),
-    path('test-celery/', views.test_celery),
     path('tasks/', run_task, name='run_task'),
     path('tasks/<task_id>/', get_status, name='get_status'),
 ]

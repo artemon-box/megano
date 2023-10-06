@@ -6,7 +6,7 @@ from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.core.cache import cache
 from django.views.generic import TemplateView
 
-from .models import ProductReview
+from .models import ProductReview, Seller
 from django.db.models import Avg
 from django.core.paginator import Paginator
 from django.contrib import messages
@@ -298,50 +298,39 @@ class ClearComparison(View):
         return redirect('shopapp:compare_list')
 
 
-from .tasks import bar, import_json
+from .tasks import import_json, test_task
 
 
-def test_celery(request):
-    # active_task =
-    res = bar.delay()
-    return HttpResponse(f'<h1>Test celery</h1>'
-                        f'<h1>{res.id}</h1>')
-
-
-def start_import_json(request):
-    if request.method == 'GET':
+class ImportProducts(View):
+    def get(self, request):
         form = FileImportForm()
         context = {'form': form, 'header': 'Upload from JSON file'}
         return render(request, 'admin_settings/upload_file_form.html', context)
-    form = FileImportForm(request.POST, request.FILES)
-    if not form.is_valid():
-        context = {'form': form, 'header': 'Upload from JSON file'}
-        return render(request, 'admin_settings/upload_file_form.html', context, status=400)
 
-    products_from_json = json.load(form.files['file'])
-    email = request.POST.get('email')
-    print(products_from_json)
-    print(email)
-    # task = import_json.delay()
-    #
-    #     for product in products_from_json:
-    #         ProductSeller.objects.create(
-    #             prduct=Product.objects.get(id=product['product']),
-    #             seller=Seller.objects.get(id=product['seller']),
-    #             price=product['price'],
-    #             quantity=product['quantity'],
-    #         )
-    #
-    # return JsonResponse({"task_id": task.id}, status=202)
-    return redirect(request.META.get('HTTP_REFERER'))
+    def post(self, request):
+        form = FileImportForm(request.POST, request.FILES)
+        email = form.data['email']
+        file = form.files['file']
+        context = {'form': form, 'header': 'Upload from JSON file'}
+        if file.name.endswith('.json'):
+            if not form.is_valid():
+                return render(request, 'admin_settings/upload_file_form.html', context, status=400)
+
+            products_from_json = json.load(file)
+            task = import_json.delay(products_from_json, file.name, email)
+
+            messages.info(request, 'Импорт начат, Вам придет уведомление на указанный адрес.')
+            return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            messages.error(request, 'Неверное расширение файла')
+            return render(request, 'admin_settings/upload_file_form.html', context)
 
 
 # @csrf_exempt
 def run_task(request):
     if request.POST:
         task_type = request.POST.get("type")
-        print(task_type)
-        task = import_json.delay(int(task_type))
+        task = test_task.delay(int(task_type))
         return JsonResponse({"task_id": task.id}, status=202)
 
 

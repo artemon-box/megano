@@ -9,7 +9,7 @@ from django.urls import path
 from .forms import ProductFeatureForm, FileImportForm
 
 from .models import *
-from .views import start_import_json, get_status, run_task
+from .views import get_status, run_task, ImportProducts
 
 
 @admin.register(Category)
@@ -57,7 +57,7 @@ class ProductSellerAdmin(admin.ModelAdmin):
     def get_urls(self):
         urls = super().get_urls()
         new_urls = [
-            path('import-products-json', start_import_json, name='import_products_json',),
+            path('import-products-json', ImportProducts.as_view(), name='import_products_json',),
         ]
         return new_urls + urls
 
