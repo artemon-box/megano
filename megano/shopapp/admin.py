@@ -1,7 +1,8 @@
 from django.contrib import admin
-from .forms import ProductFeatureForm
 from django.db.models import QuerySet
 from django.http import HttpRequest
+
+from .forms import ProductFeatureForm
 from .models import *
 
 
@@ -89,8 +90,12 @@ class ProductFeatureAdmin(admin.ModelAdmin):
 
 @admin.register(AllowedRelation)
 class AllowedRelationAdmin(admin.ModelAdmin):
-    list_display = ['category', 'feature', 'value', ]
-    list_filter = ['category', 'feature']
+    list_display = [
+        "category",
+        "feature",
+        "value",
+    ]
+    list_filter = ["category", "feature"]
 
 
 @admin.action(description="Activate discount")
@@ -110,25 +115,36 @@ class ProductDiscountAdmin(admin.ModelAdmin):
         mark_deactivate,
     ]
     list_display = (
-    'title', 'type', 'weight', 'percent', 'discount_volume', 'cart_numbers', 'cart_price', 'start', 'end', 'is_active',
-    'category_list', 'product_list')
-    list_filter = ('title', 'percent', 'discount_volume', 'cart_numbers', 'cart_price', 'start', 'end')
-    search_fields = ('title', 'percent', 'discount_volume', 'cart_numbers', 'cart_price', 'start', 'end')
+        "title",
+        "type",
+        "weight",
+        "percent",
+        "discount_volume",
+        "cart_numbers",
+        "cart_price",
+        "start",
+        "end",
+        "is_active",
+        "category_list",
+        "product_list",
+    )
+    list_filter = ("title", "percent", "discount_volume", "cart_numbers", "cart_price", "start", "end")
+    search_fields = ("title", "percent", "discount_volume", "cart_numbers", "cart_price", "start", "end")
 
     class Media:
         # css = {
         #     'all': ('css/admin/style.css', 'assets/css/hello_world.css',)
         # }
-        js = ('assets/js/discount.js',)
+        js = ("assets/js/discount.js",)
 
     def product_list(self, obj):
         if obj.products.all():
             return list(obj.products.all())
         else:
-            return '-'
+            return "-"
 
     def category_list(self, obj):
         if obj.categories.all():
-            return list(obj.categories.all().values_list('name', flat=True))
+            return list(obj.categories.all().values_list("name", flat=True))
         else:
-            return '-'
+            return "-"

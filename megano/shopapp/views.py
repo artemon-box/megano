@@ -1,10 +1,6 @@
 from cart_and_orders.services.cart import CartService
 from django.contrib import messages
 from django.core.cache import cache
-from django.views.generic import TemplateView
-
-from .models import ProductReview, Discount
-from django.db.models import Avg
 from django.core.paginator import Paginator
 from django.db.models import Avg
 from django.http import HttpRequest, HttpResponse
@@ -13,7 +9,7 @@ from django.views import View
 from django.views.generic import TemplateView
 
 from .forms import AddToCartForm, ProductReviewForm
-from .models import Product, ProductReview, ProductSeller
+from .models import Discount, Product, ProductReview, ProductSeller
 from .services.compared_products import ComparedProductsService
 from .services.discount import DiscountService
 from .services.product_review import ProductReviewService
@@ -264,7 +260,7 @@ class ComparisonOfProducts(View):
         # Если товары в списке сранения не из одной категории, выводится философское сообщение на тему попытки
         # сравнить то, что сравнить нельзя и сравнивается только цена.
         if not all(
-                [product.product.category == compared_products[0].product.category for product in compared_products]
+            [product.product.category == compared_products[0].product.category for product in compared_products]
         ):
             context["message"] = (
                 "Все сравниваемые товары должны быть из одной категории, в противном случае "
@@ -337,7 +333,7 @@ class ClearComparison(View):
     def get(self, request):
         compare_list = ComparedProductsService(request)
         compare_list.clear()
-        return redirect('shopapp:compare_list')
+        return redirect("shopapp:compare_list")
 
 
 class DiscountList(View):
@@ -345,8 +341,6 @@ class DiscountList(View):
     model = Discount
 
     def get(self, request):
-        discounts = Discount.objects.all().prefetch_related('products', 'categories')
-        context = {
-            'discounts': discounts
-        }
+        discounts = Discount.objects.all().prefetch_related("products", "categories")
+        context = {"discounts": discounts}
         return render(request, self.template_name, context=context)
