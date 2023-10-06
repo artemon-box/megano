@@ -1,3 +1,5 @@
+import time
+
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
@@ -9,7 +11,7 @@ def pay_order():
         data = request.get_json()
         order_number = data.get('order_number')
         card_number = data.get('card_number')
-        quantity = data.get('quantity')
+        price = data.get('price')
 
         if order_number % 2 == 0 and str(card_number)[-1] != '0':
             response = {'status': 'success', 'message': 'Оплата подтверждена'}
@@ -17,6 +19,9 @@ def pay_order():
             raise Exception('Ошибка оплаты: случайная ошибка оплаты')
         else:
             response = {'status': 'success', 'message': 'Оплата подтверждена'}
+
+        time.sleep(20)
+        print('flask-response:', response)
 
         return jsonify(response)
 

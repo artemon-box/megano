@@ -22,6 +22,7 @@ class Order(models.Model):
 
     """
     ORDER_STATUS_CHOICES = [
+        ('created', ''),
         ('pending', 'Ожидает оплаты'),
         ('paid', 'Оплачен'),
         ('failed', 'Ошибка оплаты'),

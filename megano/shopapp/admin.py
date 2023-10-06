@@ -2,6 +2,7 @@ import json
 
 from django.contrib import admin
 from django.contrib.admin import forms
+from django.db.models import QuerySet
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from taggit.models import Tag

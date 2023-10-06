@@ -42,9 +42,7 @@ class PaymentView(View):
 
         card_number = request.POST['number'].replace(" ", "")
 
-        print(order.id, card_number, total_price)
-
-        # response = payment_service.initiate_payment(order_id, card_number, total_price)
+        response = payment_service.initiate_payment(order.id, card_number, total_price)
 
         return redirect('shopapp:index')
 
