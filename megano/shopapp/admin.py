@@ -1,6 +1,4 @@
 from django.contrib import admin
-from django.contrib.admin import forms
-from taggit.models import Tag
 from .forms import ProductFeatureForm
 from django.db.models import QuerySet
 from django.http import HttpRequest
@@ -104,13 +102,16 @@ def mark_activate(modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: 
 def mark_deactivate(modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet):
     queryset.update(is_active=False)
 
+
 @admin.register(Discount)
 class ProductDiscountAdmin(admin.ModelAdmin):
     actions = [
         mark_activate,
         mark_deactivate,
     ]
-    list_display = ('title', 'type', 'weight', 'percent', 'discount_volume', 'cart_numbers', 'cart_price', 'start', 'end', 'is_active', 'category_list', 'product_list')
+    list_display = (
+    'title', 'type', 'weight', 'percent', 'discount_volume', 'cart_numbers', 'cart_price', 'start', 'end', 'is_active',
+    'category_list', 'product_list')
     list_filter = ('title', 'percent', 'discount_volume', 'cart_numbers', 'cart_price', 'start', 'end')
     search_fields = ('title', 'percent', 'discount_volume', 'cart_numbers', 'cart_price', 'start', 'end')
 
@@ -122,7 +123,7 @@ class ProductDiscountAdmin(admin.ModelAdmin):
 
     def product_list(self, obj):
         if obj.products.all():
-            return list(obj.products.all().values_list('id', flat=True))
+            return list(obj.products.all())
         else:
             return '-'
 

@@ -264,7 +264,7 @@ class ComparisonOfProducts(View):
         # Если товары в списке сранения не из одной категории, выводится философское сообщение на тему попытки
         # сравнить то, что сравнить нельзя и сравнивается только цена.
         if not all(
-            [product.product.category == compared_products[0].product.category for product in compared_products]
+                [product.product.category == compared_products[0].product.category for product in compared_products]
         ):
             context["message"] = (
                 "Все сравниваемые товары должны быть из одной категории, в противном случае "
@@ -340,9 +340,13 @@ class ClearComparison(View):
         return redirect('shopapp:compare_list')
 
 
-def discount_list(request: HttpRequest):
-    discounts = Discount.objects.all().prefetch_related('products', 'categories')
-    context = {
-        'discounts': discounts
-    }
-    return render(request, 'discounts.jinja2', context=context)
+class DiscountList(View):
+    template_name = "discounts.jinja2"
+    model = Discount
+
+    def get(self, request):
+        discounts = Discount.objects.all().prefetch_related('products', 'categories')
+        context = {
+            'discounts': discounts
+        }
+        return render(request, self.template_name, context=context)

@@ -1,11 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.db.models import Avg
 from django.urls import reverse
 from taggit.managers import TaggableManager
-from django.db.models import Avg
 from django.core.validators import MinValueValidator, MaxValueValidator
-
+from django.core.exceptions import ValidationError
+from decimal import Decimal
 
 def category_images_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/categories/image_<id>/
@@ -265,9 +264,9 @@ DISCOUNT_TYPE = [
 ]
 
 DISCOUNT_WEIGHT = [
-    ('l', 'Light'),
-    ('m', 'Medium'),
-    ('h', 'Heavy'),
+    ('1', 'Light'),
+    ('2', 'Medium'),
+    ('3', 'Heavy'),
 ]
 
 
@@ -296,6 +295,24 @@ class Discount(models.Model):
     start = models.DateField(verbose_name="Start", null=True, blank=True, help_text="Дата начала действия скидки")
     end = models.DateField(verbose_name="End", null=True, blank=True, help_text="Дата окончания действия скидки")
     is_active = models.BooleanField(default=False, help_text="Статус скидки (активна/не активна)")
+
+    def clean(self):
+        if not self.percent and not self.discount_volume:
+            raise ValidationError('Можно указать либо процент скидки, либо величину!')
+        return super().clean()
+
+    @property
+    def get_volume(self):
+        """
+        Если тип скидки "на набор" и указан процент скидки, то получаем сумму скидки на указанные товары
+        """
+        total = 0
+        if self.type == 's' and self.percent and self.products.all():
+            for item in self.products.all():
+                total += item.price
+            return round((Decimal(int(self.percent) / 100) * total), 2)
+        else:
+            return None
 
     def __str__(self):
         return self.title
