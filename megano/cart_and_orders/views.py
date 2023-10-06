@@ -77,9 +77,6 @@ class OrderView(View):
         :return: HTTP-ответ с детальной информацией о заказе.
         """
 
-        if not self.cart:
-            return redirect()
-
         product_seller = self.cart.get_cart(request)
 
         total_price = self.get_total_price(product_seller)
@@ -94,14 +91,15 @@ class OrderView(View):
 
     def post(self, request: HttpRequest) -> HttpResponse:
         """
-        Обработчик POST-запросов для отображения детальной информации о продукте.
+        Обработчик POST-запросов для отображения детальной информации о заказе.
 
         :param request: Запрос пользователя.
-        :return: HTTP-ответ с детальной информацией о товаре.
+        :return: HTTP-ответ с детальной информацией о заказе.
         """
         order_form = OrderForm(request.POST)
         cart = self.cart.get_cart(request)
         user = request.user
+        total_price = self.get_total_price(self.cart.get_cart(request))
 
         if order_form.is_valid():
 
@@ -118,6 +116,7 @@ class OrderView(View):
                 address=order_form.cleaned_data['address'],
                 delivery_method=order_form.cleaned_data['delivery'],
                 payment_method=order_form.cleaned_data['payment'],
+                total_price=total_price,
             )
 
             order.save()
@@ -136,7 +135,7 @@ class OrderView(View):
 
                 order_item.save()
 
-                print(product_seller, quantity)
+            request.session['current_order_id'] = order.id
 
             return redirect('paymentapp:payment')
         else:

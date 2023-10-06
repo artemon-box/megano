@@ -22,7 +22,9 @@ class Order(models.Model):
 
     """
     ORDER_STATUS_CHOICES = [
-        ('pending', 'Ожидает подтверждения'),
+        ('pending', 'Ожидает оплаты'),
+        ('paid', 'Оплачен'),
+        ('failed', 'Ошибка оплаты'),
         ('processing', 'Обрабатывается'),
         ('shipped', 'Отправлен'),
         ('delivered', 'Доставлен'),
@@ -35,6 +37,7 @@ class Order(models.Model):
     address = models.CharField(max_length=200)
     delivery_method = models.CharField(max_length=100, default=None)
     payment_method = models.CharField(max_length=100, default=None)
+    total_price = models.DecimalField(max_digits=100, decimal_places=2, verbose_name="полная цена заказа")
 
     status = models.CharField(
         max_length=20,

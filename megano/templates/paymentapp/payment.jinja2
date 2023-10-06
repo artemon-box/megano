@@ -19,15 +19,16 @@
         </div>
         <div class="Section">
             <div class="wrap">
-                <form class="form Payment" action="#" method="post">
+                <form class="form Payment" action="{{ url('paymentapp:payment') }}" method="post">
+                    {% csrf_token %}
                     <div class="Payment-card">
                         <div class="form-group">
                             <label class="form-label">Номер карты
                             </label>
-                            <input class="form-input Payment-bill" id="numero1" name="numero1" type="text" placeholder="9999 9999" data-mask="9999 9999" data-validate="require pay">
+                            <input class="form-input Payment-bill" id="numero1" name="number" type="text" placeholder="9999 9999" data-mask="9999 9999" data-validate="require pay">
                         </div>
                     </div>
-                    <div class="Payment-pay"><a class="btn btn_primary" href="progressPayment.html">Оплатить</a>
+                    <div class="Payment-pay"><button class="btn btn_primary" type="submit">Оплатить</button>
                     </div>
                 </form>
             </div>

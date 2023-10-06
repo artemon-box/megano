@@ -55,8 +55,6 @@ class SellerDetailView(View):
         # top_products = seller.productseller_set.order_by('-total_sold')[:10]
         top_products = seller.productseller_set.all()[:10]
 
-        print(top_products)
-
         context = {
             'seller': seller,
             'top_products': top_products
