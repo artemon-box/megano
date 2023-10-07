@@ -1,10 +1,9 @@
 from django.contrib.auth import get_user_model
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import Avg
 from django.urls import reverse
 from taggit.managers import TaggableManager
-from django.db.models import Avg
-from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 def category_images_directory_path(instance, filename):
@@ -256,44 +255,69 @@ class AllowedRelation(models.Model):
         ordering = ["category", "feature", "value"]
 
     def __str__(self):
-        return f'{self.category} {self.feature} {self.value}'
+        return f"{self.category} {self.feature} {self.value}"
 
 
 DISCOUNT_TYPE = [
-    ('p', 'Discount for product'),
-    ('s', 'Discount for set'),
-    ('c', 'Discount for cart'),
+    ("p", "Discount for product"),
+    ("s", "Discount for set"),
+    ("c", "Discount for cart"),
 ]
 
 DISCOUNT_WEIGHT = [
-    ('l', 'Light'),
-    ('m', 'Medium'),
-    ('h', 'Heavy'),
+    ("l", "Light"),
+    ("m", "Medium"),
+    ("h", "Heavy"),
 ]
 
 
 class Discount(models.Model):
     title = models.CharField(verbose_name="Title", max_length=32, null=True, help_text="Название скидки")
-    description = models.TextField(verbose_name="Description", max_length=255,
-                                   null=True, blank=True, help_text="Описание скидки")
-    type = models.CharField(max_length=2, choices=DISCOUNT_TYPE,
-                            default='p', verbose_name='Discount type', help_text="Тип скидки")
-    weight = models.CharField(max_length=1, choices=DISCOUNT_WEIGHT,
-                              default='l', verbose_name='Discount "weight"', help_text="'Вес' скидки")
-    percent = models.IntegerField(verbose_name="Percent",
-                                  validators=[MinValueValidator(0), MaxValueValidator(99)],
-                                  default=None, null=True, blank=True, help_text="Процент скидки")
-    discount_volume = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Discount volume',
-                                          null=True, blank=True, default=None, help_text='Сумма предоставляемой скидки')
-    cart_numbers = models.IntegerField(verbose_name="Goods in Cart",
-                                       validators=[MinValueValidator(0)],
-                                       default=0, null=True, blank=True,
-                                       help_text="Минимальное кол-во товаров в корзине для скидки")
-    cart_price = models.DecimalField(max_digits=100, decimal_places=2, verbose_name='All cart price',
-                                     null=True, blank=True, default=0, help_text='Минимальная стоиомсть всей корзины '
-                                                                                 'для предоставления скидки')
-    products = models.ManyToManyField(ProductSeller, related_name='products', default=None, blank=True)
-    categories = models.ManyToManyField(Category, related_name='group', default=None, blank=True)
+    description = models.TextField(
+        verbose_name="Description", max_length=255, null=True, blank=True, help_text="Описание скидки"
+    )
+    type = models.CharField(
+        max_length=2, choices=DISCOUNT_TYPE, default="p", verbose_name="Discount type", help_text="Тип скидки"
+    )
+    weight = models.CharField(
+        max_length=1, choices=DISCOUNT_WEIGHT, default="l", verbose_name='Discount "weight"', help_text="'Вес' скидки"
+    )
+    percent = models.IntegerField(
+        verbose_name="Percent",
+        validators=[MinValueValidator(0), MaxValueValidator(99)],
+        default=None,
+        null=True,
+        blank=True,
+        help_text="Процент скидки",
+    )
+    discount_volume = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        verbose_name="Discount volume",
+        null=True,
+        blank=True,
+        default=None,
+        help_text="Сумма предоставляемой скидки",
+    )
+    cart_numbers = models.IntegerField(
+        verbose_name="Goods in Cart",
+        validators=[MinValueValidator(0)],
+        default=0,
+        null=True,
+        blank=True,
+        help_text="Минимальное кол-во товаров в корзине для скидки",
+    )
+    cart_price = models.DecimalField(
+        max_digits=100,
+        decimal_places=2,
+        verbose_name="All cart price",
+        null=True,
+        blank=True,
+        default=0,
+        help_text="Минимальная стоиомсть всей корзины " "для предоставления скидки",
+    )
+    products = models.ManyToManyField(ProductSeller, related_name="products", default=None, blank=True)
+    categories = models.ManyToManyField(Category, related_name="group", default=None, blank=True)
     start = models.DateField(verbose_name="Start", null=True, blank=True, help_text="Дата начала действия скидки")
     end = models.DateField(verbose_name="End", null=True, blank=True, help_text="Дата окончания действия скидки")
     is_active = models.BooleanField(default=False, help_text="Статус скидки (активна/не активна)")

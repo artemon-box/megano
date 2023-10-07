@@ -25,5 +25,5 @@ urlpatterns = [
         ProductDetailView.as_view(),
         name="product_detail",
     ),
-    path('discounts', discount_list, name='discounts'),
+    path("discounts", discount_list, name="discounts"),
 ]

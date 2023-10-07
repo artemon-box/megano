@@ -1,16 +1,15 @@
 from typing import List
+
 from django.utils import timezone
-from shopapp.models import Product
 from histviewapp.models import HistoryViewed
+from shopapp.models import Product
 
 
 class HistoryService:
     @staticmethod
     def add_product(user, product: Product) -> None:
         history, created = HistoryViewed.objects.update_or_create(
-            user=user,
-            product=product,
-            defaults={'watched_at': timezone.now()}
+            user=user, product=product, defaults={"watched_at": timezone.now()}
         )
 
     @staticmethod
