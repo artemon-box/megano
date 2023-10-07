@@ -174,3 +174,9 @@ class OrderView(View):
             return render(request, 'cart_and_orders/order.jinja2', context)
 
 
+class ClearCartView(View):
+    def get(self, request: HttpRequest) -> HttpResponse:
+        cart_service = CartService()
+        cart_service.clear_cart(request)
+
+        return redirect(request.META["HTTP_REFERER"])

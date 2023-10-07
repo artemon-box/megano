@@ -6,6 +6,7 @@ from django.http import HttpRequest, HttpResponse, JsonResponse
 from cart_and_orders.services.cart import CartService
 from django.contrib import messages
 from django.core.cache import cache
+from .tasks import bar, import_json
 
 from .models import Discount
 from .models import Seller
@@ -15,14 +16,19 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from django.views.generic import TemplateView
+from histviewapp.services.history import HistoryService
 
 from .forms import AddToCartForm, ProductReviewForm
-from .models import Product, ProductReview, ProductSeller
+from .models import Discount, Product, ProductReview, ProductSeller
 from .services.compared_products import ComparedProductsService
 from cart_and_orders.services.cart import CartService
 from .forms import AddToCartForm, ProductReviewForm, FileImportForm
 from .models import ProductSeller
 from .services.discount import DiscountService
+from .services.limited_edition_and_offers import (
+    get_limited_edition_products,
+    get_limited_offers,
+)
 from .services.product_review import ProductReviewService
 from .services.recently_viewed import RecentlyViewedService
 from .utils.details_cache import get_cached_product_by_slug
@@ -44,7 +50,9 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["limited_offers"] = get_limited_offers()
         context["top_products"] = get_cached_top_products()
+        context["limited_edition"] = get_limited_edition_products()
         return context
 
 
@@ -154,7 +162,6 @@ class ProductDetailView(View):
             if form.is_valid():
                 order_quantity = form.cleaned_data["order_quantity"]
                 seller_id = request.POST.get("seller_id")
-                print(request.GET)
                 try:
                     seller = ProductSeller.objects.get(id=seller_id)
                     seller_quantity = seller.quantity
@@ -379,18 +386,13 @@ class ClearComparison(View):
     def get(self, request):
         compare_list = ComparedProductsService(request)
         compare_list.clear()
-        return redirect('shopapp:compare_list')
+        return redirect("shopapp:compare_list")
 
 
 def discount_list(request: HttpRequest):
-    discounts = Discount.objects.all().prefetch_related('products', 'categories')
-    context = {
-        'discounts': discounts
-    }
-    return render(request, 'discounts.jinja2', context=context)
-
-
-from .tasks import bar, import_json
+    discounts = Discount.objects.all().prefetch_related("products", "categories")
+    context = {"discounts": discounts}
+    return render(request, "discounts.jinja2", context=context)
 
 
 def test_celery(request):

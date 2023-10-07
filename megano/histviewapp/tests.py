@@ -1,17 +1,17 @@
-from django.test import TestCase
 from django.contrib.auth import get_user_model
-from shopapp.models import Product, Category, ProductSeller, Seller
+from django.test import TestCase
 from histviewapp.models import HistoryViewed
 from histviewapp.services.history import HistoryService
+from shopapp.models import Category, Product, ProductSeller, Seller
 
 
 # Create your tests here.
 class TestHistoryService(TestCase):
     def setUp(self) -> None:
-        self.user = get_user_model().objects.create_user(email='testuser@skill.box', password='testpassword')
-        category = Category.objects.create(name='testcategory')
-        self.product1 = Product.objects.create(category=category, name='Product 1')
-        self.product2 = Product.objects.create(category=category, name='Product 2')
+        self.user = get_user_model().objects.create_user(email="testuser@skill.box", password="testpassword")
+        category = Category.objects.create(name="testcategory")
+        self.product1 = Product.objects.create(category=category, name="Product 1")
+        self.product2 = Product.objects.create(category=category, name="Product 2")
 
     def test_add_product(self):
         self.assertFalse(HistoryService.is_product_watched(self.user, self.product1))

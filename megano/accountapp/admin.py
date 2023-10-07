@@ -48,7 +48,7 @@ class MyUserAdmin(admin.ModelAdmin):
 
 
 @admin.register(PasswordResetCode)
-class MyUserAdmin(admin.ModelAdmin):
+class UserResetCodeAdmin(admin.ModelAdmin):
     list_display = (
         "user",
         "code",

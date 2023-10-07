@@ -199,7 +199,9 @@
                                         {% for review in product_reviews %}
                                             <div class="Comment" style="margin-bottom: 20px">
                                                 <div class="Comment-column Comment-column_pict">
+                                                    {% if review.user.avatar %}
                                                     <div class="Comment-avatar" style="background-image: url('{{ review.user.avatar.url }}')"></div>
+                                                    {% endif %}
                                                 </div>
                                                 <div class="Comment-column">
                                                     <header class="Comment-header">
