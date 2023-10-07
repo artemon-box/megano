@@ -117,3 +117,12 @@ class CartService:
             cart_item.save()
 
         request.session["cart"] = {}
+
+    def clear_cart(self, request):
+        user = request.user
+
+        if user.is_authenticated:
+            CartItems.objects.filter(user=user).delete()
+
+        else:
+            request.session["cart"] = {}

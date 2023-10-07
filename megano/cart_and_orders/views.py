@@ -46,3 +46,11 @@ class ChangeCountInCartView(View):
             user_id = request.user.id
             cart_service = CartService()
             cart_service.change_count_of_product_in_cart(user_id, product_id, new_count)
+
+
+class ClearCartView(View):
+    def get(self, request: HttpRequest) -> HttpResponse:
+        cart_service = CartService()
+        cart_service.clear_cart(request)
+
+        return redirect(request.META["HTTP_REFERER"])

@@ -50,23 +50,22 @@ EMAIL_USE_SSL = True
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django_jinja',
-    'rest_framework',
-    'taggit',
-
-    'admin_settings.apps.AdminSettingsConfig',
-    'cart_and_orders.apps.CartAndOrdersConfig',
-    'paymentapp.apps.PaymentappConfig',
-    'shopapp.apps.ShopappConfig',
-    'accountapp.apps.AccountappConfig',
-    'profileapp.apps.ProfileappConfig',
-    'histviewapp.apps.HistviewappConfig',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django_jinja",
+    "rest_framework",
+    "taggit",
+    "admin_settings.apps.AdminSettingsConfig",
+    "cart_and_orders.apps.CartAndOrdersConfig",
+    "paymentapp.apps.PaymentappConfig",
+    "shopapp.apps.ShopappConfig",
+    "accountapp.apps.AccountappConfig",
+    "profileapp.apps.ProfileappConfig",
+    "histviewapp.apps.HistviewappConfig",
 ]
 
 MIDDLEWARE = [
