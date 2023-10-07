@@ -1,0 +1,58 @@
+<div class="Section Section_column Section_columnLeft Section_columnDesktop">
+    <div class="wrap">
+        <div class="Section-column">
+            <div class="Section-columnSection Section-columnSection_mark">
+                <header class="Section-columnHeader">
+                    <strong class="Section-columnTitle">ОГРАНИЧЕННЫЕ ПРЕДЛОЖЕНИЯ
+                    </strong>
+                </header>
+                {% if limited_offers %}
+                    <div class="Card"><a class="Card-picture"
+                                         href="{{ url('shopapp:product_detail', product_slug=limited_offers.product.slug) }}"><img
+                            src="{{ limited_offers.product.image.url }}" alt="{{ limited_offers.product.name }}"></a>
+                        <div class="Card-content">
+                            <strong class="Card-title"><a
+                                    href="{{ url('shopapp:product_detail', product_slug=limited_offers.product.slug) }}">{{ limited_offers.product.name }}</a>
+                            </strong>
+                            <div class="Card-description">
+                                <div class="Card-cost"><span
+                                        class="Card-priceOld">${{ limited_offers.price }}</span><span
+                                        class="Card-price">${{ limited_offers.price - 50 }}</span>
+                                </div>
+                                <div class="Card-category">{{ limited_offers.product.category.name }}
+                                </div>
+                            </div>
+                            <div class="CountDown" data-date="31.09.2020 03:59">
+                                <div class="CountDown-block">
+                                    <div class="CountDown-wrap">
+                                        <div class="CountDown-days">-1098</div>
+                                        <span class="CountDown-label">days</span>
+                                    </div>
+                                </div>
+                                <div class="CountDown-block">
+                                    <div class="CountDown-wrap">
+                                        <div class="CountDown-hours">-8</div>
+                                        <span class="CountDown-label">hours</span>
+                                    </div>
+                                </div>
+                                <div class="CountDown-block">
+                                    <div class="CountDown-wrap">
+                                        <div class="CountDown-minutes">-42</div>
+                                        <span class="CountDown-label">mins</span>
+                                    </div>
+                                </div>
+                                <div class="CountDown-block">
+                                    <div class="CountDown-wrap">
+                                        <div class="CountDown-secs">-28</div>
+                                        <span class="CountDown-label">secs</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        {% include 'shopapp/top_products.jinja2' %}
+    </div>
+</div>

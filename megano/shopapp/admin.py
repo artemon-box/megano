@@ -61,6 +61,7 @@ class ProductSellerAdmin(admin.ModelAdmin):
         "price",
         "free_delivery",
         "quantity",
+        "is_limited_edition",
     )
 
 

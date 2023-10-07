@@ -1,4 +1,5 @@
 import os
+import re
 
 from django.conf import settings
 from django.contrib.auth import authenticate, login
@@ -64,7 +65,7 @@ class ProfileAvatarView(APIView):
 
             # Генерируем новое имя файла
             email = user.email
-            filename = f"{email.replace('@', '_').replace('.', '_')}_avatar{os.path.splitext(request.FILES['avatar'].name)[-1]}"
+            filename = re.sub(r"[@.]", "_", email) + "_avatar" + os.path.splitext(request.FILES["avatar"].name)[-1]
 
             # Сохраняем новый аватар
             user.avatar.save(filename, request.FILES["avatar"])
