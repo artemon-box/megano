@@ -77,7 +77,7 @@ class CartService:
                 del cart[str(product_id)]
                 request.session["cart"] = cart
 
-    def change_count_of_product_in_cart(self, request, product_id, new_count):
+    def change_count_of_product_in_cart(self, request, product_id, new_quantity):
         """
         Изменение количества товара в корзине текущего пользователя
         """
@@ -85,12 +85,12 @@ class CartService:
 
         if user.is_authenticated:
             cart_item = CartItems.objects.get(user=user, product_seller_id=product_id)
-            cart_item.quantity = new_count
+            cart_item.quantity = new_quantity
             cart_item.save()
 
         else:
             cart = request.session.get("cart", {})
-            cart[product_id] = new_count
+            cart[product_id] = new_quantity
             request.session["cart"] = cart
 
     def merge_carts(self, request, user):

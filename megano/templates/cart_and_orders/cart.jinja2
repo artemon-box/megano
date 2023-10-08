@@ -41,15 +41,16 @@
                                         <div class="Cart-block Cart-block_amount">
                                             <div class="Cart-amount">
                                                 <div class="Amount">
-                                                    <button class="Amount-remove" type="button"></button>
+                                                    <button class="Amount-remove" type="submit"></button>
                                                     <input class="Amount-input form-input" name="order_quantity"
                                                            type="text" max="{{ item.product_seller.quantity }}"
                                                            value="{{ item.quantity }}">
-                                                    <button class="Amount-add" type="button"></button>
+                                                    <button class="Amount-add" type="submit"></button>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="Cart-block Cart-block_delete">
+                                            <div class="Cart-block Cart-block_delete"><input class="Cart-update" type="submit" value="Обновить товар"></div>
                                             <a class="Cart-delete"
                                                href="{{ url('cart_and_orders:remove_from_cart', product_id=item.product_seller.id) }}"><img
                                                     src="{{ static('assets/img/icons/card/delete.svg') }}"
@@ -72,8 +73,10 @@
                     </div>
                     <div class="Cart-block">
                         {% if cart_items %}
-                            <a class="btn btn_success btn_lg" href="order.jinja2">Оформить заказ</a>
-                            <a class="btn btn_success btn_lg" href="{{ url('cart_and_orders:clear_cart') }}">Очистить корзину</a>
+                            <a class="btn btn_success btn_lg" style="margin-right: 20px; margin-bottom: 20px" href="order.jinja2">Оформить
+                                заказ</a>
+                            <a class="btn btn_success btn_lg" style="margin-right: 20px; margin-bottom: 20px"  href="{{ url('cart_and_orders:clear_cart') }}">Очистить
+                                корзину</a>
                         {% endif %}
                     </div>
                 </div>
