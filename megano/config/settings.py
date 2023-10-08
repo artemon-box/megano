@@ -50,22 +50,24 @@ EMAIL_USE_SSL = True
 # Application definition
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "django_jinja",
-    "rest_framework",
-    "taggit",
-    "admin_settings.apps.AdminSettingsConfig",
-    "cart_and_orders.apps.CartAndOrdersConfig",
-    "paymentapp.apps.PaymentappConfig",
-    "shopapp.apps.ShopappConfig",
-    "accountapp.apps.AccountappConfig",
-    "profileapp.apps.ProfileappConfig",
-    "histviewapp.apps.HistviewappConfig",
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django_jinja',
+    'rest_framework',
+    'taggit',
+    'django_celery_results',
+
+    'admin_settings.apps.AdminSettingsConfig',
+    'cart_and_orders.apps.CartAndOrdersConfig',
+    'paymentapp.apps.PaymentappConfig',
+    'shopapp.apps.ShopappConfig',
+    'accountapp.apps.AccountappConfig',
+    'profileapp.apps.ProfileappConfig',
+    'histviewapp.apps.HistviewappConfig',
 ]
 
 MIDDLEWARE = [
@@ -196,3 +198,20 @@ CACHES = {
 FIXTURE_DIRS = [
     "fixtures",
 ]
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_CACHE_BACKEND = 'default'
+CELERY_TIMEZONE = "Europe/Moscow"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+DELIVERY_CHOICES = (
+    ('ordinary', 'Обычная доставка'),
+    ('express', 'Экспресс доставка'),
+)
+
+PAYMENT_CHOICES = (
+    ('online', 'Онлайн картой'),
+    ('someone', 'Онлайн со случайного чужого счета'),
+)

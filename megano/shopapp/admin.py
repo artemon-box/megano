@@ -1,3 +1,5 @@
+import json
+
 from django.contrib import admin
 from django.contrib.admin import forms
 from django.db.models import QuerySet
@@ -18,6 +20,15 @@ from .models import (
     ProductSeller,
     Seller,
 )
+from django.db.models import QuerySet
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render, redirect
+from taggit.models import Tag
+from django.urls import path
+from .forms import ProductFeatureForm, FileImportForm
+
+from .models import *
+from .views import start_import_json, get_status, run_task
 
 
 @admin.register(Category)
@@ -90,6 +101,13 @@ class ProductSellerAdmin(admin.ModelAdmin):
         "quantity",
         "is_limited_edition",
     )
+
+    def get_urls(self):
+        urls = super().get_urls()
+        new_urls = [
+            path('import-products-json', start_import_json, name='import_products_json',),
+        ]
+        return new_urls + urls
 
 
 admin.site.register(ExtraImage)

@@ -1,0 +1,42 @@
+{% extends 'admin/base.html' %}
+{% block extrahead %}
+    {% load static %}
+    <script type="text/javascript" src="{% static 'assets/js/jquery-3.4.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/js/for_import.js' %}"></script>
+{% endblock %}
+{% block content %}
+    <div>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h2>{{ header }}</h2>
+            {{ form.as_p }}
+            <div class="submit-row">
+                <input class="button" type="submit" value="Upload file">
+                {#                <button class="button" type="submit" data-type="1">Upload file</button>#}
+            </div>
+        </form>
+    </div>
+    <br>
+    <hr>
+    <br>
+    <div class="field is-grouped">
+        <p class="control">
+            <button class="button is-primary" data-type="1">Short</button>
+        </p>
+    </div>
+    <br><br>
+    <h1>Статус импорта:</h1>
+    <div>
+        <table class="table is-fullwidth">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Status</th>
+                <th>Result</th>
+            </tr>
+            </thead>
+            <tbody id="tasks">
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

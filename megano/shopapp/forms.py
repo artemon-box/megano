@@ -80,3 +80,15 @@ class ProductFeatureForm(forms.ModelForm):
         restrict_on_form_field="feature",
         restrict_on_relation="allowedrelation__feature",
     )
+
+
+class FileImportForm(forms.Form):
+    file = forms.FileField()
+    email = forms.EmailField(
+        widget=forms.EmailInput(
+            attrs={
+                'placeholder': 'введите почту для отправки уведомления',
+                'size': 40,
+            }
+        )
+    )

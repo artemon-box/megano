@@ -73,7 +73,7 @@
                     </div>
                     <div class="Cart-block">
                         {% if cart_items %}
-                            <a class="btn btn_success btn_lg" style="margin-right: 20px; margin-bottom: 20px" href="order.jinja2">Оформить
+                            <a class="btn btn_success btn_lg" style="margin-right: 20px; margin-bottom: 20px" href="{{ url('cart_and_orders:order') }}">Оформить
                                 заказ</a>
                             <a class="btn btn_success btn_lg" style="margin-right: 20px; margin-bottom: 20px"  href="{{ url('cart_and_orders:clear_cart') }}">Очистить
                                 корзину</a>
