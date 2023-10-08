@@ -47,9 +47,9 @@ class ChangeCountInCartView(View):
         form = AddToCartForm(request.POST)
         if form.is_valid():
             new_count = form.cleaned_data["order_quantity"]
-            user_id = request.user.id
             cart_service = CartService()
-            cart_service.change_count_of_product_in_cart(user_id, product_id, new_count)
+            cart_service.change_count_of_product_in_cart(request, product_id, new_count)
+            return redirect(request.META["HTTP_REFERER"])
 
 
 class OrderView(View):
