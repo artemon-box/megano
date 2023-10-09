@@ -1,12 +1,12 @@
+from cart_and_orders.models import Order
+
+
 class CompletedOrdersService:
-    def get_orders(self, user_id):
+    def get_orders(self, user):
         """
         получение списка совершенных заказов для конкретного пользователя
         """
-        pass
 
-    def add_to_orders(self, user_id, order_id):
-        """
-        добавление заказа в список совершенных для конкретного пользователя
-        """
-        pass
+        orders = Order.objects.get(user=user).filter(status='delivered')
+
+        return orders
