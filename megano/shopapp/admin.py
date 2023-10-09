@@ -27,7 +27,7 @@ from taggit.models import Tag
 from django.urls import path
 from .forms import ProductFeatureForm, FileImportForm
 
-from .models import *
+
 from .views import get_status, run_task, ImportProducts
 
 
@@ -187,7 +187,7 @@ class ProductDiscountAdmin(admin.ModelAdmin):
 
     def product_list(self, obj):
         if obj.products.all():
-            return list(obj.products.all().values_list("id", flat=True))
+            return list(obj.products.all())
         else:
             return "-"
 
