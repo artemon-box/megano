@@ -3,21 +3,17 @@ import json
 from celery.result import AsyncResult
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpRequest, HttpResponse, JsonResponse
-from cart_and_orders.services.cart import CartService
 from django.contrib import messages
 from django.core.cache import cache
 from .tasks import test_task, import_json
 
-from .models import Discount
-from .models import Seller
 from django.core.paginator import Paginator
 from django.db.models import Min
 from django.views import View
 from django.views.generic import TemplateView
-from histviewapp.services.history import HistoryService
 
 from .forms import AddToCartForm, ProductReviewForm, FileImportForm
-from .models import Discount, Product, ProductReview, ProductSeller, ProductFeature
+from .models import Discount, Product, ProductReview, ProductSeller, ProductFeature, Seller
 from .services.compared_products import ComparedProductsService
 from cart_and_orders.services.cart import CartService
 from .services.discount import DiscountService
@@ -30,9 +26,6 @@ from .services.recently_viewed import RecentlyViewedService
 from .utils.details_cache import get_cached_product_by_slug
 from .utils.top_products import get_cached_top_products
 
-from django.shortcuts import render, redirect
-
-from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from histviewapp.services.history import HistoryService
 
@@ -268,7 +261,7 @@ def catalog_list(request: HttpRequest):
 
 class AddToComparison(View):
     """
-    добавить товар в список сравниваемых товаров
+    Добавить товар в список сравниваемых товаров
     """
 
     def get(self, request, **kwargs):
@@ -279,7 +272,7 @@ class AddToComparison(View):
 
 class RemoveFromComparison(View):
     """
-    удалить товар из списка сравниваемых товаров
+    Удалить товар из списка сравниваемых товаров
     """
 
     def get(self, request, **kwargs):
@@ -290,7 +283,7 @@ class RemoveFromComparison(View):
 
 class ComparisonOfProducts(View):
     """
-    вывести список сравниваемых товаров
+    Вывести список сравниваемых товаров
     """
 
     temlate_name = "shopapp/comparison.jinja2"
@@ -387,7 +380,6 @@ def discount_list(request: HttpRequest):
     discounts = Discount.objects.all().prefetch_related("products", "categories")
     context = {"discounts": discounts}
     return render(request, "discounts.jinja2", context=context)
-
 
 
 class ImportProducts(View):

@@ -88,6 +88,7 @@ def unmark_limited_edition(modeladmin: admin.ModelAdmin, request: HttpRequest, q
 
 @admin.register(ProductSeller)
 class ProductSellerAdmin(admin.ModelAdmin):
+    change_list_template = 'shopapp/productsellers_changelist.html'
     actions = [
         mark_limited_edition,
         unmark_limited_edition,
