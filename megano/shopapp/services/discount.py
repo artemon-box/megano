@@ -37,16 +37,18 @@ class DiscountService:
         products_in_cart = []
         categories_in_cart = []
         quantity_in_cart = 0
+        total_price = 0
 
-        for item in products:
-            products_in_cart.append(item["product_seller"])
-            categories_in_cart.append(item["product_seller"].product.category)
-            quantity_in_cart += item["quantity"]
+        if products:
+            for item in products:
+                products_in_cart.append(item["product_seller"])
+                categories_in_cart.append(item["product_seller"].product.category)
+                quantity_in_cart += item["quantity"]
 
-        if isinstance(products[0], dict):
-            total_price = sum(item["quantity"] * item["product_seller"].price for item in products)
-        else:
-            total_price = sum(item.quantity * item.product_seller.price for item in products)
+            if isinstance(products[0], dict):
+                total_price = sum(item["quantity"] * item["product_seller"].price for item in products)
+            else:
+                total_price = sum(item.quantity * item.product_seller.price for item in products)
 
         all_discounts = (
             Discount.objects.filter(is_active=True)
