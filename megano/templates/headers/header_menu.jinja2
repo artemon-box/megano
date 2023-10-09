@@ -12,7 +12,14 @@
                         </li>
                         <li class="menu-item"><a href="#"><span class="menu-label menu-label_success">Скидки</span></a><a class="menu-link" href="{{ url('shopapp:catalog_list') }}">Каталог</a>
                         </li>
-                        <li class="menu-item"><a class="menu-link" href="{{ url('shopapp:compare_list') }}">Сравнение</a>
+                        <li class="menu-item">
+                            <a class="menu-link" href="{{ url('shopapp:compare_list') }}">
+                                {% if compare_list|length > 0 %}
+                                Сравнение({{ compare_list|length }})
+                                {% else %}
+                                Сравнение
+                                {% endif %}
+                            </a>
                         </li>
                     </ul>
                 </div>

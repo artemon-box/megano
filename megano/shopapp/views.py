@@ -1,29 +1,21 @@
 import json
 
 from celery.result import AsyncResult
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpRequest, HttpResponse, JsonResponse
-from cart_and_orders.services.cart import CartService
 from django.contrib import messages
 from django.core.cache import cache
-from .tasks import bar, import_json
+from .tasks import test_task, import_json
 
-from .models import Discount
-from .models import Seller
 from django.core.paginator import Paginator
 from django.db.models import Min
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from django.views.generic import TemplateView
-from histviewapp.services.history import HistoryService
 
-from .forms import AddToCartForm, ProductReviewForm
-from .models import Discount, Product, ProductReview, ProductSeller
+from .forms import AddToCartForm, ProductReviewForm, FileImportForm
+from .models import Discount, Product, ProductReview, ProductSeller, ProductFeature, Seller
 from .services.compared_products import ComparedProductsService
 from cart_and_orders.services.cart import CartService
-from .forms import AddToCartForm, ProductReviewForm, FileImportForm
-from .models import ProductSeller
 from .services.discount import DiscountService
 from .services.limited_edition_and_offers import (
     get_limited_edition_products,
@@ -34,11 +26,6 @@ from .services.recently_viewed import RecentlyViewedService
 from .utils.details_cache import get_cached_product_by_slug
 from .utils.top_products import get_cached_top_products
 
-from django.shortcuts import render, redirect
-
-from django.views import View
-from .models import Product, ProductFeature
-from .services.compared_products import ComparedProductsService
 from django.views.decorators.csrf import csrf_exempt
 from histviewapp.services.history import HistoryService
 
@@ -274,7 +261,7 @@ def catalog_list(request: HttpRequest):
 
 class AddToComparison(View):
     """
-    добавить товар в список сравниваемых товаров
+    Добавить товар в список сравниваемых товаров
     """
 
     def get(self, request, **kwargs):
@@ -285,7 +272,7 @@ class AddToComparison(View):
 
 class RemoveFromComparison(View):
     """
-    удалить товар из списка сравниваемых товаров
+    Удалить товар из списка сравниваемых товаров
     """
 
     def get(self, request, **kwargs):
@@ -296,7 +283,7 @@ class RemoveFromComparison(View):
 
 class ComparisonOfProducts(View):
     """
-    вывести список сравниваемых товаров
+    Вывести список сравниваемых товаров
     """
 
     temlate_name = "shopapp/comparison.jinja2"
@@ -395,47 +382,36 @@ def discount_list(request: HttpRequest):
     return render(request, "discounts.jinja2", context=context)
 
 
-def test_celery(request):
-    # active_task =
-    res = bar.delay()
-    return HttpResponse(f'<h1>Test celery</h1>'
-                        f'<h1>{res.id}</h1>')
-
-
-def start_import_json(request):
-    if request.method == 'GET':
+class ImportProducts(View):
+    def get(self, request):
         form = FileImportForm()
         context = {'form': form, 'header': 'Upload from JSON file'}
         return render(request, 'admin_settings/upload_file_form.html', context)
-    form = FileImportForm(request.POST, request.FILES)
-    if not form.is_valid():
-        context = {'form': form, 'header': 'Upload from JSON file'}
-        return render(request, 'admin_settings/upload_file_form.html', context, status=400)
 
-    products_from_json = json.load(form.files['file'])
-    email = request.POST.get('email')
-    print(products_from_json)
-    print(email)
-    # task = import_json.delay()
-    #
-    #     for product in products_from_json:
-    #         ProductSeller.objects.create(
-    #             prduct=Product.objects.get(id=product['product']),
-    #             seller=Seller.objects.get(id=product['seller']),
-    #             price=product['price'],
-    #             quantity=product['quantity'],
-    #         )
-    #
-    # return JsonResponse({"task_id": task.id}, status=202)
-    return redirect(request.META.get('HTTP_REFERER'))
+    def post(self, request):
+        form = FileImportForm(request.POST, request.FILES)
+        email = form.data['email']
+        file = form.files['file']
+        context = {'form': form, 'header': 'Upload from JSON file'}
+        if file.name.endswith('.json'):
+            if not form.is_valid():
+                return render(request, 'admin_settings/upload_file_form.html', context, status=400)
+
+            products_from_json = json.load(file)
+            task = import_json.delay(products_from_json, file.name, email)
+
+            messages.info(request, 'Импорт начат, Вам придет уведомление на указанный адрес.')
+            return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            messages.error(request, 'Неверное расширение файла')
+            return render(request, 'admin_settings/upload_file_form.html', context)
 
 
 # @csrf_exempt
 def run_task(request):
     if request.POST:
         task_type = request.POST.get("type")
-        print(task_type)
-        task = import_json.delay(int(task_type))
+        task = test_task.delay(int(task_type))
         return JsonResponse({"task_id": task.id}, status=202)
 
 

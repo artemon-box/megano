@@ -4,6 +4,7 @@ from django.db import models
 from django.db.models import Avg
 from django.urls import reverse
 from taggit.managers import TaggableManager
+from django.template.defaultfilters import slugify
 
 
 def category_images_directory_path(instance, filename):
@@ -55,6 +56,10 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Product, self).save(*args, **kwargs)
 
     @property
     def popularity(self):
