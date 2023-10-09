@@ -71,6 +71,12 @@
                         <strong class="Cart-title">Итого:</strong>
                         <span class="Cart-price">${{ total_price }}</span>
                     </div>
+                    {% if price_with_discount %}
+                    <div class="Cart-block Cart-block_total">
+                        <strong class="Cart-title">Цена со скидкой:</strong>
+                        <span class="Cart-price" style="color: #3cb878;">${{ price_with_discount }}</span>
+                    </div>
+                    {% endif %}
                     <div class="Cart-block">
                         {% if cart_items %}
                             <a class="btn btn_success btn_lg" style="margin-right: 20px; margin-bottom: 20px" href="{{ url('cart_and_orders:order') }}">Оформить
@@ -80,6 +86,75 @@
                         {% endif %}
                     </div>
                 </div>
+{#====================================================================================================================#}
+                <div class="Comments" id="comments-section">
+                {% if discount %}
+                    <span class="Cart-title" style="margin-bottom: 25px;">Применена скидка:</span>
+                    <div class="Comment" style="margin-bottom: 20px">
+                        <div class="Comment-column Comment-column_pict">
+                            <div class="Comment-avatar" style="background-image: url('../static/assets/img/icons/card/discount.svg')"></div>
+                        </div>
+                        <div class="Comment-column">
+                            <header class="Comment-header">
+                                <div>
+                                    <strong class="Comment-title">{{ discount.title }}</strong>
+                                    <span class="Comment-date">
+                                        {% if discount.start and discount.end %}
+                                            Скидка действительна с {{ discount.start.strftime('%d-%m-%Y') }} по {{ discount.end.strftime('%d-%m-%Y') }}
+                                        {% endif %}
+                                        {% if discount.start and not discount.end %}
+                                            Скидка действительна с {{ discount.start.strftime('%d-%m-%Y') }}
+                                        {% endif %}
+                                        {% if not discount.start and discount.end %}
+                                            Скидка действительна по {{ discount.end.strftime('%d-%m-%Y') }}
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </header>
+                            <div class="Comment-content">
+                                <span class="Comment-date">{{ discount.description }}</span>
+                                {% if discount.type == "c" %}
+                                    <div>Скидка применена на корзину</div>
+                                    {% if discount.cart_numbers %}
+                                        <div>Минимальное кол-во товаров в корзине для скидки: {{ discount.cart_numbers }} шт</div>
+                                    {% endif %}
+                                    {% if discount.cart_price %}
+                                        <div>Минимальная сумма товаров в корзине для скидки: ${{ discount.cart_price }}</div>
+                                    {% endif %}
+                                {% endif %}
+                                {% if discount.type == "s" %}
+                                    <div>Скидка примена на набор товаров в корзине</div>
+                                    {% if discount.products.all() %}
+                                        <div>Необходимый набор продуктов в корзине для скидки:
+                                        {% for product in discount.products.all() %}
+                                            {{ product }},
+                                        {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    {% if discount.categories.all() %}
+                                        <div>Необходимый набор категорий товаров в корзине для скидки:
+                                        {% for category in discount.categories.all() %}
+                                             {{ category }},
+                                        {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                                {% if discount.type == "p" %}
+                                    <div>Скидка примена на товары в корзине</div>
+                                {% endif %}
+                                {% if discount.percent %}
+                                    <div>Размер скидки: {{ discount.percent }}%</div>
+                                {% endif %}
+                                {% if discount.discount_volume %}
+                                    <div>Размер скидки: ${{ discount.discount_volume }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{{ url('shopapp:discounts') }}"><span class="menu-label menu-label_success">Все скидки магазина...👉🏽</span></a>
+                {% endif %}
+            </div>
+{#====================================================================================================================#}
             </div>
         </div>
     </div>

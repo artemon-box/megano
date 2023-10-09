@@ -1,9 +1,12 @@
+from shopapp.services.discount import DiscountService
+
 from .services.cart import CartService
 
 
 def cart_context(request):
     cart_service = CartService()
     cart_items = cart_service.get_cart(request)
+    discount = DiscountService()
 
     total_quantity = 0
     total_price = 0
@@ -16,4 +19,11 @@ def cart_context(request):
             total_quantity = sum(item.quantity for item in cart_items)
             total_price = sum(item.quantity * item.product_seller.price for item in cart_items)
 
-    return {"total_quantity": total_quantity, "total_price": total_price}
+    price_with_discount, discount = discount.calculate_discount_price_product(cart_items)
+
+    return {
+        "total_quantity": total_quantity,
+        "total_price": total_price,
+        "price_with_discount": price_with_discount,
+        "discount": discount,
+    }

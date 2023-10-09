@@ -376,10 +376,14 @@ class ClearComparison(View):
         return redirect("shopapp:compare_list")
 
 
-def discount_list(request: HttpRequest):
-    discounts = Discount.objects.all().prefetch_related("products", "categories")
-    context = {"discounts": discounts}
-    return render(request, "discounts.jinja2", context=context)
+class DiscountList(View):
+    template_name = "discounts.jinja2"
+    model = Discount
+
+    def get(self, request):
+        discounts = Discount.objects.all().prefetch_related("products", "categories")
+        context = {"discounts": discounts}
+        return render(request, self.template_name, context=context)
 
 
 class ImportProducts(View):
