@@ -1,0 +1,107 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}
+Профиль
+{% endblock %}
+
+{% block content %}
+<div class="Middle Middle_top">
+
+    <div class="Section Section_column Section_columnLeft">
+        <div class="wrap">
+            <div class="Section-column">
+                <div class="Section-columnSection">
+                    <header class="Section-header">
+                        <strong class="Section-title">Навигация
+                        </strong>
+                    </header>
+                    <div class="Section-columnContent">
+                        <div class="NavigateProfile">
+                            <ul class="menu menu_vt">
+                                <li class="menu-item"><a class="menu-link" href="{{ url('profileapp:account') }}">Личный
+                                    кабинет</a>
+                                </li>
+                                <li class="menu-item"><a class="menu-link" href="{{ url('profileapp:profile') }}">Профиль</a>
+                                </li>
+                                <li class="menu-item"><a class="menu-link" href="#">История заказов</a>
+                                </li>
+                                <li class="menu-item_ACTIVE menu-item"><a class="menu-link"
+                                                                          href="{{ url('histviewapp:products') }}">История
+                                    просмотров</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="Section-content">
+                <div class="Cards">
+                    {% if dealers %}
+                    {% for dealer in dealers %}
+                    <div class="Card">
+                        {% if dealer.product.image %}
+                        <a class="Card-picture"
+                           href="{{ url('shopapp:product_detail', product_slug=dealer.product.slug) }}"> {# ссылка на
+                            product_detail #}
+                            <img src="{{ dealer.product.image.url }}" alt="{{ dealer.product }}">
+                        </a>
+                        {% else %}
+                        <a class="Card-picture"
+                           href="{{ url('shopapp:product_detail', product_slug=dealer.product.slug) }}"> {# ссылка на
+                            product_detail #}
+                            <h2>Изображение отсуствует</h2>
+                        </a>
+                        {% endif %}
+                        <div class="Card-content">
+                            <strong class="Card-title">
+                                <a href="{{ url('shopapp:product_detail', product_slug=dealer.product.slug) }}">{{
+                                    dealer.product }}</a> {# ссылка на product_detail #}
+                            </strong>
+                            <span style="color: dodgerblue;">
+                              {% if dealer.product.description|length > 200 %}
+                                {{ dealer.product.description[:200] }}...
+                              {%  else %}
+                                {{ dealer.product.description }}
+                              {% endif %}
+                          </span> {# была ссылка на product_detail #}
+                            <p style="display: flex; justify-content: space-between">
+                                <span><img src="{{ static('assets/img/icons/card/seller.svg') }}"
+                                           title="Количество продавцов" alt="seller.svg"/>:{{ dealer.product.sellers.count() }}</span>
+                                {# кол-во продавцов #}
+                                <a href="{{ url('shopapp:product_detail', product_slug=dealer.product.slug) }}#reviews"
+                                   style="color: #000000;">
+                                    <img src="{{ static('assets/img/icons/card/review.svg') }}"
+                                         title="Количество отзывов" alt="review.svg"/>:{{ dealer.product.reviews }} {#
+                                    кол-во отзывов #}
+                                </a> {# кол-во отзывов #}
+                            </p>
+
+                            <div class="Card-description">
+                                <div class="Card-cost" style="height: 26px;">
+
+                                </div>
+                                <div class="Card-category" style="height: 26px;">
+
+                                </div>
+                                <div class="Card-hover">
+                                    <a class="Card-btn" href="#" title="Добавить в корзину"> {# добавить в корзину #}
+                                        <img src="{{ static('assets/img/icons/card/cart.svg') }}" alt="cart.svg"/>
+                                    </a>
+                                    <a class="Card-btn" href="{{ url('shopapp:compare_add', product_id=dealer.id) }}"
+                                       title="Добавить в список сравнения"> {# добавить в список сравнения #}
+                                        <img src="{{ static('assets/img/icons/card/compare.svg') }}" alt="#"/>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <h4>У вас нет истории просмотров</h4>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

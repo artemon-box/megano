@@ -1,0 +1,86 @@
+{% extends 'base.jinja2' %}
+{% block title %}
+    Корзина
+{% endblock %}
+
+{% block content %}
+    <div class="Middle Middle_top">
+        <div class="Section">
+            <div class="wrap">
+                <h1>Корзина товаров</h1>
+                <div class="Cart-products">
+                    {% if cart_items %}
+                        {% for item in cart_items %}
+                            <form class="form Cart"
+                                  action="{{ url('cart_and_orders:change_cart_quantity', product_id=item.product_seller.id) }}"
+                                  method="post">
+                                {% csrf_token %}
+                                <div class="Cart-product">
+                                    <div class="Cart-block Cart-block_row">
+                                        <div class="Cart-block Cart-block_pict">
+                                            <a class="Cart-pict"
+                                               href="{{ url('shopapp:product_detail', product_slug=item.product_seller.product.slug) }}"><img
+                                                    class="Cart-img"
+                                                    src="{{ item.product_seller.product.image.url }}"
+                                                    alt="{{ item.product_seller.product.name }}"></a>
+                                        </div>
+                                        <div class="Cart-block Cart-block_info">
+                                            <a class="Cart-title"
+                                               href="{{ url('shopapp:product_detail', product_slug=item.product_seller.product.slug) }}">{{ item.product_seller.product.name }}</a>
+                                            <div class="Cart-desc">{{ item.product_seller.product.description }}</div>
+                                        </div>
+                                        <div class="Cart-block Cart-block_price">
+                                            <div class="Cart-price">
+                                                ${{ item.product_seller.price * item.quantity }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="Cart-block Cart-block_row">
+                                        <div class="Cart-block Cart-block_seller">
+                                            <!-- Seller info -->
+                                        </div>
+                                        <div class="Cart-block Cart-block_amount">
+                                            <div class="Cart-amount">
+                                                <div class="Amount">
+                                                    <button class="Amount-remove" type="submit"></button>
+                                                    <input class="Amount-input form-input" name="order_quantity"
+                                                           type="text" max="{{ item.product_seller.quantity }}"
+                                                           value="{{ item.quantity }}">
+                                                    <button class="Amount-add" type="submit"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="Cart-block Cart-block_delete">
+                                            <div class="Cart-block Cart-block_delete"><input class="Cart-update" type="submit" value="Обновить товар"></div>
+                                            <a class="Cart-delete"
+                                               href="{{ url('cart_and_orders:remove_from_cart', product_id=item.product_seller.id) }}"><img
+                                                    src="{{ static('assets/img/icons/card/delete.svg') }}"
+                                                    alt="Удалить из корзины"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        {% endfor %}
+                    {% else %}
+                        <h2> Товары еще не добавлены в корзину</h2>
+                        <p class="Card-title">Посмотрите предложения на <a href="/">главной странице</a>,
+                            воспользуйтесь <a href="/catalog">каталогом</a> или поиском</p>
+                    {% endif %}
+                </div>
+                <div class="Cart-total">
+                    <div class="Cart-block Cart-block_total">
+                        <strong class="Cart-title">Итого:</strong>
+                        <span class="Cart-price">${{ total_price }}</span>
+                    </div>
+                    <div class="Cart-block">
+                        {% if cart_items %}
+                            <a class="btn btn_success btn_lg" style="margin-right: 20px; margin-bottom: 20px" href="{{ url('cart_and_orders:order') }}">Оформить
+                                заказ</a>
+                            <a class="btn btn_success btn_lg" style="margin-right: 20px; margin-bottom: 20px"  href="{{ url('cart_and_orders:clear_cart') }}">Очистить
+                                корзину</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

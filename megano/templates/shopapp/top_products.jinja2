@@ -15,8 +15,12 @@
                         <div class="Card-cost"><span class="Card-price">${{ top_product.price }}</span></div>
                         <div class="Card-category">{{ top_product.product.category.name }}</div>
                         <div class="Card-hover">
-                            <a class="Card-btn" href="#"><img src="{{ static('assets/img/icons/card/cart.svg') }}"
-                                                              alt="Добавить в корзину"></a>
+                            <a class="Card-btn" href="{{ url('cart_and_orders:add_to_cart', product_id=top_product.id) }}" title="Добавить в корзину">
+                                <img src="{{ static('assets/img/icons/card/cart.svg') }}" alt="Добавить в корзину"/>
+                            </a>
+                            <a class="Card-btn" href="{{ url('shopapp:compare_add', product_id=top_product.id) }}" title="Добавить в список сравнения">
+                                <img src="{{ static('assets/img/icons/card/compare.svg') }}" alt="Сравнение"/>
+                            </a>
                         </div>
                     </div>
                 </div>

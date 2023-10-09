@@ -1209,6 +1209,7 @@ a.Cart-title {
 }
 
 .Cart-block + .Cart-block {
+    justify-content: center;
     margin-left: 20px;
 }
 

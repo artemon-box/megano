@@ -6,5 +6,8 @@
 {% endblock %}
 
 {% block content %}
-    {% include 'shopapp/top_products.jinja2' %}
+    <div class="Middle">
+        {% include 'shopapp/limited_offers.jinja2' %}
+        {% include 'shopapp/limited_edition.jinja2' %}
+    </div>
 {% endblock %}

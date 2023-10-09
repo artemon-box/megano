@@ -47,7 +47,7 @@
                                 </h2>
                                 <div class="ProductCard-info">
                                     <div class="ProductCard-cost">
-                                        <div class="ProductCard-price">{{ average_price }} $
+                                        <div class="ProductCard-price">от {{ minimum_price }} $
                                         </div>
                                     </div>
                                 </div>
@@ -73,13 +73,13 @@
                                         <form action="{{ url('shopapp:catalog_list') }}" id="form_catalog" method="post">
                                             {% csrf_token %}
                                                 {% for tag in tags %}
-                                                    <a href="javascript:;" id="tag_link"  class="Tags-link">{{ tag.name }}</a>
+                                                    <a href="javascript:" id="tag_link"  class="Tags-link">{{ tag.name }}</a>
                                                 {% if not loop.last %}
                                                     ,
                                                 {% endif %}
                                                 {% endfor %}
                                                     <input type="hidden" name="tag" id="tag_value" value="">
-                                                    <input type="hidden" name="price" value="1;100000">
+{#                                                    <input type="hidden" name="price" value="1;100000">#}
                                         </form>
                                 </div>
                             </div>
@@ -118,7 +118,7 @@
                                                     <div class="Order-personal">
                                                         <div class="row">
                                                             <div class="row-block">
-                                                                <a class="Order-title" href="#">
+                                                                <a class="Order-title" href="{{ url( 'shopapp:seller_detail', product_seller.seller.slug) }}">
                                                                     {{ product_seller.seller.name }}
                                                                 </a>
                                                                 <form method="post" action="{{ url( 'shopapp:product_detail', product.slug) }}">
@@ -194,11 +194,14 @@
                                     </h3>
                                 </header>
                                 <div class="Comments" id="comments-section">
+
                                     {% if product_reviews %}
                                         {% for review in product_reviews %}
                                             <div class="Comment" style="margin-bottom: 20px">
                                                 <div class="Comment-column Comment-column_pict">
+                                                    {% if review.user.avatar %}
                                                     <div class="Comment-avatar" style="background-image: url('{{ review.user.avatar.url }}')"></div>
+                                                    {% endif %}
                                                 </div>
                                                 <div class="Comment-column">
                                                     <header class="Comment-header">
@@ -230,22 +233,30 @@
                                         </div>
                                     {% endif %}
                                 </div>
-                                <header class="Section-header Section-header_product">
+                                <header class="Section-header Section-header_product" style="margin-bottom: 20px">
                                     <h3 class="Section-title">Добавить отзыв
                                     </h3>
                                 </header>
-                                <div class="Tabs-addComment">
-                                    <form class="form" action="{{ url( 'shopapp:product_detail', product.slug) }}" method="post">
-                                        {% csrf_token %}
-                                        <div class="form-group">
-                                            <textarea class="form-textarea" name="review_text" id="review" placeholder="Отзыв"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <button class="btn btn_muted" type="submit">Отправить отзыв
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
+                                {% if request.user.is_authenticated %}
+                                    <div class="Tabs-addComment">
+                                        <form class="form" action="{{ url( 'shopapp:product_detail', product.slug) }}" method="post">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <textarea class="form-textarea" name="review_text" id="review" placeholder="Отзыв"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <button class="btn btn_muted" type="submit">Отправить отзыв
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                {% else %}
+                                    <div>
+                                        <div style="font-size: 18px; color: #df3349 ;margin-bottom: 20px; padding: 20px; background-color: whitesmoke">Чтобы оставить отзыв, вам нужно авторизоваться</div>
+                                        <a class="btn btn_primary" style="margin-right: 10px" href="{{ url('accountapp:login') }}">Вход</a>
+                                        <a class="btn btn_primary" href="{{ url('accountapp:registration') }}">Регистрация</a>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -253,6 +264,8 @@
 
             </div>
         </div>
+    </div>
+
     <script>
         if (window.location.hash === "#reviews") {  // если query-string содержит #reviews
             setTimeout(() => { // то выполняем функцию
@@ -275,9 +288,6 @@
             document.getElementById("show_sellers").click();
         }
     </script>
-
-    </div>
-
     <script>
         function showSellers () {
             document.getElementById("show_sellers").click();
