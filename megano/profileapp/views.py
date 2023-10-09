@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .forms import ProfileAvatarForm, ProfileForm
+from cart_and_orders.models import Order
 
 
 class AccountView(View):
@@ -18,7 +19,28 @@ class AccountView(View):
         if not request.user.is_authenticated:
             return redirect("/")
         user = request.user
-        return render(request, self.template_name, {"user": user})
+        status_view = ['created', 'pending', 'paid', 'failed', 'processing' 'shipped']
+        orders = Order.objects.filter(user=user, status__in=status_view)
+        return render(request, self.template_name, {"user": user,
+                                                    "orders": orders,
+                                                    "DELIVERY_CHOICES": settings.DELIVERY_CHOICES,
+                                                    "PAYMENT_CHOICES": settings.PAYMENT_CHOICES,
+                                                    "ORDER_STATUS_CHOICES": Order.ORDER_STATUS_CHOICES,})
+
+
+class HistoryOrdersView(View):
+    template_name = "historyorder.jinja2"
+
+    def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect("/")
+        user = request.user
+        orders = Order.objects.filter(user=user)
+        return render(request, self.template_name, {"user": user,
+                                                    "orders": orders,
+                                                    "DELIVERY_CHOICES": settings.DELIVERY_CHOICES,
+                                                    "PAYMENT_CHOICES": settings.PAYMENT_CHOICES,
+                                                    "ORDER_STATUS_CHOICES": Order.ORDER_STATUS_CHOICES,})
 
 
 class ProfileView(View):

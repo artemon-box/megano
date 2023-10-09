@@ -8,28 +8,8 @@
 <div class="Middle Middle_top">
         <div class="Section Section_column Section_columnLeft">
             <div class="wrap">
-                <div class="Section-column">
-                    <div class="Section-columnSection">
-                        <header class="Section-header">
-                            <strong class="Section-title">Навигация
-                            </strong>
-                        </header>
-                        <div class="Section-columnContent">
-                            <div class="NavigateProfile">
-                                <ul class="menu menu_vt">
-                                    <li class="menu-item_ACTIVE menu-item"><a class="menu-link" href="{{ url('profileapp:account') }}">Личный кабинет</a>
-                                    </li>
-                                    <li class="menu-item"><a class="menu-link" href="{{ url('profileapp:profile') }}">Профиль</a>
-                                    </li>
-                                    <li class="menu-item"><a class="menu-link" href="#">История заказов</a>
-                                    </li>
-                                    <li class="menu-item"><a class="menu-link" href="{{ url('histviewapp:products') }}">История просмотров</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% set view_page = "account" %}
+                {% include "account_navigation.jinja2" %}
                 <div class="Section-content">
                     <div class="Account">
                         <div class="Account-group">
@@ -46,43 +26,68 @@
                             </div>
                         </div>
                         <div class="Account-group">
-                            <div class="Account-column Account-column_full">
-                                <div class="Order Order_anons">
-                                    <div class="Order-personal">
-                                        <div class="row">
-                                            <div class="row-block"><a class="Order-title" href="#">Заказ <span class="Order-numberOrder">№200</span> от <span class="Order-dateOrder">21.07.2020</span></a>
-                                                <div class="Account-editLink"><a href="#">История заказов</a>
-                                                </div>
-                                            </div>
-                                            <div class="row-block">
-                                                <div class="Order-info Order-info_delivery">
-                                                    <div class="Order-infoType">Тип доставки:
+                            <div class="Account-column Account-column_full Orders">
+                                {% if orders %}
+
+                                    {% for order in orders %}
+                                        <div class="Order Order_anons">
+                                            <div class="Order-personal">
+                                                <div class="row">
+                                                    <div class="row-block">
+                                                        <a class="Order-title" href="#">Заказ <span class="Order-numberOrder">№{{ order.id }}</span> от <span class="Order-dateOrder">21.07.2020</span></a>
+                                                        <div class="Account-editLink">
+                                                            <a href="#">История заказов</a>
+                                                        </div>
                                                     </div>
-                                                    <div class="Order-infoContent">Обычная доставка
-                                                    </div>
-                                                </div>
-                                                <div class="Order-info Order-info_pay">
-                                                    <div class="Order-infoType">Оплата:
-                                                    </div>
-                                                    <div class="Order-infoContent">Онлайн картой
-                                                    </div>
-                                                </div>
-                                                <div class="Order-info">
-                                                    <div class="Order-infoType">Общая стоимость:
-                                                    </div>
-                                                    <div class="Order-infoContent">200.99$
-                                                    </div>
-                                                </div>
-                                                <div class="Order-info Order-info_status">
-                                                    <div class="Order-infoType">Статус:
-                                                    </div>
-                                                    <div class="Order-infoContent">Не оплачен
+                                                    <div class="row-block">
+                                                        <div class="Order-info Order-info_delivery">
+                                                            <div class="Order-infoType">Тип доставки:
+                                                            </div>
+                                                            <div class="Order-infoContent">
+                                                                {% for choice in DELIVERY_CHOICES %}
+                                                                    {% if choice.0 == order.delivery_method %}
+                                                                        {{ choice.1 }}
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                        <div class="Order-info Order-info_pay">
+                                                            <div class="Order-infoType">Оплата:
+                                                            </div>
+                                                            <div class="Order-infoContent">
+                                                                {% for choice in PAYMENT_CHOICES %}
+                                                                    {% if choice.0 == order.payment_method %}
+                                                                        {{ choice.1 }}
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                        <div class="Order-info">
+                                                            <div class="Order-infoType">Общая стоимость:
+                                                            </div>
+                                                            <div class="Order-infoContent">{{ order.total_price }}$
+                                                            </div>
+                                                        </div>
+                                                        <div class="Order-info Order-info_status">
+                                                            <div class="Order-infoType">Статус:
+                                                            </div>
+                                                            <div class="Order-infoContent">
+                                                                {% for choice in ORDER_STATUS_CHOICES %}
+                                                                    {% if choice.0 == order.status %}
+                                                                        {{ choice.1 }}
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    {% endfor %}
+
+                                {% else %}
+                                    <p>Заказов нет</p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
