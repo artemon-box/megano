@@ -156,6 +156,8 @@ class OrderView(View):
 
             request.session['current_order_id'] = order.id
 
+            self.cart.clear_cart(request)
+
             if order_form.cleaned_data['payment'] == 'online':
                 return redirect('paymentapp:payment')
             else:
