@@ -394,20 +394,18 @@ class ImportProducts(View):
 
     def post(self, request):
         form = FileImportForm(request.POST, request.FILES)
-        email = form.data['email']
-        file = form.files['file']
         context = {'form': form, 'header': 'Upload from JSON file'}
-        if file.name.endswith('.json'):
-            if not form.is_valid():
-                return render(request, 'admin_settings/upload_file_form.html', context, status=400)
-
+        if not form.is_valid():
+            return render(request, 'admin_settings/upload_file_form.html', context, status=400)
+        email = form.data['email'] if form.data['email'] else request.user.email
+        file = form.files['file']
+        try:
             products_from_json = json.load(file)
-            task = import_json.delay(products_from_json, file.name, email)
-
+            task = import_json.delay([(products_from_json, file.name), ], email)
             messages.info(request, 'Импорт начат, Вам придет уведомление на указанный адрес.')
             return redirect(request.META.get('HTTP_REFERER'))
-        else:
-            messages.error(request, 'Неверное расширение файла')
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            messages.error(request, 'Файл не соответствует формату JSON')
             return render(request, 'admin_settings/upload_file_form.html', context)
 
 

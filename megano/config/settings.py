@@ -199,6 +199,8 @@ FIXTURE_DIRS = [
     "fixtures",
 ]
 
+IMPORT_FILE_DIR = os.path.join(BASE_DIR, "json_to_import")
+
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_CACHE_BACKEND = 'default'

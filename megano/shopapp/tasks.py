@@ -21,27 +21,7 @@ def test_task(task_type):
 
 
 @app.task()
-def import_json(file, file_name, email):
-    result_list = []
-    path = os.path.join(settings.BASE_DIR, 'json_to_import', file_name)
-    try:
-        for item in file:
-            category, category_result = Category.objects.get_or_create(name=item['product']['category'])
-            product, product_result = Product.objects.get_or_create(category=category, name=item['product']['name'])
-            product_seller, result = ProductSeller.objects.get_or_create(
-                product=product,
-                seller=Seller.objects.get(id=item['seller']),
-                price=item['price'],
-                quantity=item['quantity'],
-                )
-            if result:
-                result_list.append(product)
-        destination_path = os.path.join(settings.BASE_DIR, 'imported_files', 'successful', file_name)
-        shutil.move(path, destination_path)
-    except Exception:
-        destination_path = os.path.join(settings.BASE_DIR, 'imported_files', 'failed', file_name)
-        shutil.move(path, destination_path)
-
+def send_import_notification(result_list, email):
     subject = 'Импорт товаров завершен'
     if result_list:
         message = f'Импорт товаров проведен.\n' \
@@ -51,3 +31,31 @@ def import_json(file, file_name, email):
 
     # message = 'Импорт товаров завершен с ошибками: ...'  # Указать ошибки
     send_mail(subject, message, 'admin@example.com', [email])
+
+
+@app.task()
+def import_json(data_tuples, email):
+    result_list = []
+    for data_tuple in data_tuples:
+        file, file_name = data_tuple
+        path = os.path.join(settings.BASE_DIR, 'json_to_import', file_name)
+        try:
+            for item in file:
+                category, category_result = Category.objects.get_or_create(name=item['product']['category'])
+                product, product_result = Product.objects.get_or_create(category=category, name=item['product']['name'])
+                product_seller, result = ProductSeller.objects.get_or_create(
+                    product=product,
+                    seller=Seller.objects.get(id=item['seller']),
+                    price=item['price'],
+                    quantity=item['quantity'],
+                    )
+                if result:
+                    result_list.append(product.name)
+            destination_path = os.path.join(settings.BASE_DIR, 'imported_files', 'successful', file_name)
+            shutil.move(path, destination_path)
+        except Exception:
+            destination_path = os.path.join(settings.BASE_DIR, 'imported_files', 'failed', file_name)
+            shutil.move(path, destination_path)
+
+    if email:
+        send_import_notification.delay(result_list, email)
