@@ -4,7 +4,7 @@ from histviewapp.services.history import HistoryService
 
 
 class HistProductsView(View):
-    template_name = "hist_views_products.jinja2"
+    template_name = "histviewapp/hist_views_products.jinja2"
 
     def get(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
