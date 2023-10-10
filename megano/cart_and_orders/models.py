@@ -47,10 +47,10 @@ class Order(models.Model):
     )
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ['-status']
 
     def __str__(self):
-        return f"{self.user}'s order #{self.pk}"
+        return f"{self.user}'s order #{self.pk} status: {self.status}"
 
 
 class OrderProduct(models.Model):

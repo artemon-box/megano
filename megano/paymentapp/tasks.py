@@ -1,13 +1,9 @@
 import json
 
 import requests
-from celery import shared_task
-from django.http import JsonResponse
-from django.shortcuts import render, redirect
 
 from cart_and_orders.models import Order
 from config.celery import app
-import time
 
 
 @app.task

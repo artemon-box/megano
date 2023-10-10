@@ -21,7 +21,7 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 @admin.register(OrderProduct)
-class ProductSellerAdmin(admin.ModelAdmin):
+class OrderProductAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "order",

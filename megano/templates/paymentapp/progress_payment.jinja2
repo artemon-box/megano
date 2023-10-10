@@ -1,0 +1,71 @@
+{% extends 'base.jinja2' %}
+
+{% block content %}
+
+<div class="Middle Middle_top">
+        <div class="Middle-top">
+            <div class="wrap">
+                <div class="Middle-header">
+                    <h1 class="Middle-title">Ожидание оплаты
+                    </h1>
+                    <ul class="breadcrumbs Middle-breadcrumbs">
+                        <li class="breadcrumbs-item"><a href="{{ url('shopapp:index') }}">home</a>
+                        </li>
+                        <li class="breadcrumbs-item breadcrumbs-item_current"><span>Ожидание оплаты</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="Section">
+            <div class="wrap">
+                <div class="ProgressPayment">
+                    <div class="ProgressPayment-title">Ждем подтверждения оплаты платежной системой
+                    </div>
+                    <div>
+                        {{ status }}
+                    </div>
+                    <div class="ProgressPayment-icon">
+                        <div class="cssload-thecube">
+                            <div class="cssload-cube cssload-c1"></div>
+                            <div class="cssload-cube cssload-c2"></div>
+                            <div class="cssload-cube cssload-c4"></div>
+                            <div class="cssload-cube cssload-c3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function checkPaymentStatus() {
+        // Получите идентификатор задачи из сессии или другого источника
+        var task_id = "{{ task_id }}"; // Подставьте реальный идентификатор задачи
+
+        // Отправьте AJAX-запрос для получения статуса
+        $.ajax({
+            url: '/payment/check_status/', // Замените на URL, который будет обрабатывать запрос
+            type: 'GET',
+            data: { task_id: task_id },
+            success: function (data) {
+                // Обновите статус на странице
+                $('#status').text(data.status);
+
+                // Проверьте, завершена ли задача, и остановите проверку, если да
+                if (data.status === 'Заказ успешно оплачен' || data.status === 'Ошибка оплаты заказа') {
+                    clearInterval(interval);
+                }
+            },
+            error: function () {
+                console.log('Ошибка при запросе статуса оплаты');
+            }
+        });
+    }
+
+    // Вызовите функцию проверки статуса каждые 5 секунд
+    var interval = setInterval(checkPaymentStatus, 5000);
+    </script>
+
+
+{% endblock %}
