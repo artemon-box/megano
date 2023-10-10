@@ -31,6 +31,21 @@
                                     {{ seller.description }}
                                 </p>
                             </div>
+                            <div class="ProductCard-text">
+                                <p>
+                                    Телефон: +{{ seller.phone }}
+                                </p>
+                            </div>
+                            <div class="ProductCard-text" style="margin-top: 10px">
+                                <p>
+                                    Адрес: {{ seller.address }}
+                                </p>
+                            </div>
+                            <div class="ProductCard-text" style="margin-top: 10px">
+                                <p>
+                                    Почта: {{ seller.email }}
+                                </p>
+                            </div>
                         </div>
                     </div>
                     <div class="Tabs Tabs_default">
@@ -43,58 +58,58 @@
                             <div class="Tabs-block" id="products" style="display: none;">
                                 <div class="Section-content">
                                     <div class="Orders">
-                                        {% for seller_product in top_products %}
-                                            <div class="Order Order_anons">
-                                                    <div class="Order-personal">
-                                                        <div class="row">
-                                                            <div class="row-block">
-                                                                <a class="Order-title" href="{{ url( 'shopapp:product_detail', seller_product.product.slug) }}">
-                                                                    {{ seller_product.product.name }}
-                                                                </a>
-                                                                <div>
-                                                                    <a href="{{ url( 'shopapp:product_detail', seller_product.product.slug) }}">
-                                                                        <img src="{{ seller_product.product.image.url }}" alt="{{ seller_product.product.name }}"
-                                                                             style="max-height: 200px;
-                                                                             max-width: 200px;
-                                                                             margin: 10px;
-                                                                             border: 1px solid #e0e0e0;
-                                                                             padding: 10px">
+                                        {% for item in top_products %}
+                                                <div class="Order Order_anons">
+                                                        <div class="Order-personal">
+                                                            <div class="row">
+                                                                <div class="row-block">
+                                                                    <a class="Order-title" href="{{ url( 'shopapp:product_detail', item.seller_product.product.slug) }}">
+                                                                        {{ item.seller_product.product.name }}
                                                                     </a>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row-block">
-                                                                <div class="Order-info Order-info_delivery">
-                                                                    <div class="Order-infoType">Тип доставки:
-                                                                    </div>
-                                                                    <div class="Order-infoContent">Обычная доставка
-                                                                    </div>
-                                                                </div>
-                                                                <div class="Order-info Order-info_pay">
-                                                                    <div class="Order-infoType">Оплата:
-                                                                    </div>
-                                                                    <div class="Order-infoContent">Онлайн картой
+                                                                    <div>
+                                                                        <a href="{{ url( 'shopapp:product_detail', item.seller_product.product.slug) }}">
+                                                                            <img src="{{ item.seller_product.product.image.url }}" alt="{{ item.seller_product.product.name }}"
+                                                                                 style="max-height: 200px;
+                                                                                 max-width: 200px;
+                                                                                 margin: 10px;
+                                                                                 border: 1px solid #e0e0e0;
+                                                                                 padding: 10px">
+                                                                        </a>
                                                                     </div>
                                                                 </div>
-                                                                <div class="Order-info">
-                                                                    <div class="Order-infoType">Стоимость:
+                                                                <div class="row-block">
+                                                                    <div class="Order-info Order-info_delivery">
+                                                                        <div class="Order-infoType">Тип доставки:
+                                                                        </div>
+                                                                        <div class="Order-infoContent">Обычная доставка
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="Order-infoContent"><span class="Order-price">{{ seller_product.price }} $</span>
+                                                                    <div class="Order-info Order-info_pay">
+                                                                        <div class="Order-infoType">Оплата:
+                                                                        </div>
+                                                                        <div class="Order-infoContent">Онлайн картой
+                                                                        </div>
                                                                     </div>
-                                                                </div><div class="Order-info">
-                                                                    <div class="Order-infoType">В наличии
-                                                                    </div>
-                                                                    <div class="Order-infoContent"><span class="Order-price">{{ seller_product.quantity }} шт.</span>
-                                                                    </div>
-                                                                </div><div class="Order-info">
-                                                                    <div class="Order-infoType">Всего продано
-                                                                    </div>
-                                                                    <div class="Order-infoContent"><span class="Order-price">{{ seller_product.total_sold }} шт.</span>
+                                                                    <div class="Order-info">
+                                                                        <div class="Order-infoType">Стоимость:
+                                                                        </div>
+                                                                        <div class="Order-infoContent"><span class="Order-price">{{ item.seller_product.price }} $</span>
+                                                                        </div>
+                                                                    </div><div class="Order-info">
+                                                                        <div class="Order-infoType">В наличии
+                                                                        </div>
+                                                                        <div class="Order-infoContent"><span class="Order-price">{{ item.seller_product.quantity }} шт.</span>
+                                                                        </div>
+                                                                    </div><div class="Order-info">
+                                                                        <div class="Order-infoType">Всего продано
+                                                                        </div>
+                                                                        <div class="Order-infoContent"><span class="Order-price">{{ item.total_quantity }} шт.</span>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                            </div>
+                                                </div>
                                         {% endfor %}
                                     </div>
                                 </div>

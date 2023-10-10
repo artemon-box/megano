@@ -24,6 +24,7 @@ from .services.limited_edition_and_offers import (
 from .services.product_review import ProductReviewService
 from .services.recently_viewed import RecentlyViewedService
 from .utils.details_cache import get_cached_product_by_slug
+from .utils.seller_top_sales import seller_top_sales
 from .utils.top_products import get_cached_top_products
 
 from django.views.decorators.csrf import csrf_exempt
@@ -61,8 +62,7 @@ class SellerDetailView(View):
         """
 
         seller = Seller.objects.get(slug=seller_slug)
-        # top_products = seller.productseller_set.order_by('-total_sold')[:10]
-        top_products = seller.productseller_set.all()[:10]
+        top_products = seller_top_sales(seller)
 
         context = {
             'seller': seller,

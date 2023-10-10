@@ -79,7 +79,6 @@
                                                 {% endif %}
                                                 {% endfor %}
                                                     <input type="hidden" name="tag" id="tag_value" value="">
-{#                                                    <input type="hidden" name="price" value="1;100000">#}
                                         </form>
                                 </div>
                             </div>
@@ -118,7 +117,7 @@
                                                     <div class="Order-personal">
                                                         <div class="row">
                                                             <div class="row-block">
-                                                                <a class="Order-title" href="{{ url( 'shopapp:seller_detail', product_seller.seller.slug) }}">
+                                                                <a class="Order-title" style="margin-bottom: 10px" href="{{ url( 'shopapp:seller_detail', product_seller.seller.slug) }}">
                                                                     {{ product_seller.seller.name }}
                                                                 </a>
                                                                 <form method="post" action="{{ url( 'shopapp:product_detail', product.slug) }}">
@@ -137,6 +136,11 @@
                                                                                 <img class="btn-icon" src="{{ static('assets/img/icons/card/cart_white.svg') }}" alt="cart_white.svg">
                                                                                 <span class="btn-content">Купить</span>
                                                                             </button>
+                                                                        </div>
+                                                                        <div>
+                                                                            <a class="Card-btn" style="margin-left: 20px" href="{{ url('shopapp:compare_add', product_id=product_seller.id) }}" title="Добавить в список сравнения"> {# добавить в список сравнения #}
+                                                                                <img src="{{ static('assets/img/icons/card/compare.svg') }}" style="margin-top: 0" alt="#"/>
+                                                                            </a>
                                                                         </div>
                                                                     </div>
                                                                 </form>
