@@ -1,7 +1,7 @@
 {% extends 'base.jinja2' %}
 
 {% block title %}
-    Аккаунт
+    История заказов
 {% endblock %}
 
 {% block content %}
@@ -9,10 +9,10 @@
         <div class="Section Section_column Section_columnLeft">
             <div class="wrap">
                 {% set view_page = "hist_order" %}
-                {% include 'account_navigation.jinja2' %}
+                {% include 'profileapp/account_navigation.jinja2' %}
                 <div class="Section-content">
                     <div class="Orders">
-                        {% include "orders_list.jinja2" %}
+                        {% include 'profileapp/orders_list.jinja2' %}
                     </div>
                 </div>
             </div>

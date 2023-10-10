@@ -1,7 +1,7 @@
 {% extends 'base.jinja2' %}
 
 {% block title %}
-Профиль
+    История просмотра
 {% endblock %}
 
 {% block content %}
@@ -10,7 +10,7 @@
     <div class="Section Section_column Section_columnLeft">
         <div class="wrap">
             {% set view_page = "hist_product" %}
-            {% include 'account_navigation.jinja2' %}
+            {% include 'profileapp/account_navigation.jinja2' %}
             <div class="Section-content">
                 <div class="Cards">
                     {% if dealers %}

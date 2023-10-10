@@ -12,7 +12,7 @@ from .models import PasswordResetCode
 
 
 class RegistrationView(View):
-    template_name = "registration.jinja2"
+    template_name = "accountapp/registration.jinja2"
     form_class = RegistrationForm
 
     def get(self, request):
@@ -39,7 +39,7 @@ class RegistrationView(View):
 
 
 class LoginView(View):
-    template_name = "login.jinja2"
+    template_name = "accountapp/login.jinja2"
 
     def get(self, request):
         if request.user.is_authenticated:
@@ -73,7 +73,7 @@ class LogoutView(LogoutView):
 
 
 class PasswordResetView(View):
-    template_name = "password_reset.jinja2"
+    template_name = "accountapp/password_reset.jinja2"
     form_class = PasswordResetForm
 
     def get(self, request):
@@ -93,7 +93,7 @@ class PasswordResetView(View):
                 if user.is_active:
                     password_reset_code = PasswordResetCode.objects.create_password_reset_code(user)
                     password_reset_code.send_password_reset_email()
-                    return render(request, "password_reset_success.jinja2")
+                    return render(request, "accountapp/password_reset_success.jinja2")
 
             except get_user_model().DoesNotExist:
                 pass
@@ -106,7 +106,7 @@ class PasswordResetView(View):
 
 
 class PasswordResetConfirm(View):
-    template_name = "password_reset_confirm.jinja2"
+    template_name = "accountapp/password_reset_confirm.jinja2"
     form_class = PasswordNewForm
 
     def get(self, request):

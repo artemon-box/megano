@@ -13,7 +13,7 @@ from cart_and_orders.models import Order
 
 
 class AccountView(View):
-    template_name = "account.jinja2"
+    template_name = "profileapp/account.jinja2"
 
     def get(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -29,7 +29,7 @@ class AccountView(View):
 
 
 class HistoryOrdersView(View):
-    template_name = "historyorder.jinja2"
+    template_name = "profileapp/historyorder.jinja2"
 
     def get(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -44,7 +44,7 @@ class HistoryOrdersView(View):
 
 
 class ProfileView(View):
-    template_name = "profile.jinja2"
+    template_name = "profileapp/profile.jinja2"
     form_class = ProfileForm
 
     def get(self, request, *args, **kwargs):
