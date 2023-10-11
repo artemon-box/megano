@@ -28,13 +28,13 @@
                             <header class="Section-header">
                                 <h3 class="Section-title">
                                     <span class="Comment-date">
-                                        Всего скидок: {{ discounts|length }}
+                                        Всего скидок: {{ all_discounts|length }}
                                     </span>
                                 </h3>
                             </header>
                             <div class="Comments" id="comments-section">
-                                {% if discounts %}
-                                    {% for discount in discounts %}
+                                {% if all_discounts %}
+                                    {% for discount in all_discounts %}
                                 <div class="Comment" style="margin-bottom: 20px">
                                     <div class="Comment-column Comment-column_pict">
                                         <div class="Comment-avatar" style="background-image: url('../static/assets/img/icons/card/discount.svg')"></div>

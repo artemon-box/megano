@@ -339,7 +339,7 @@ class Discount(models.Model):
         Если тип скидки "на набор" и указан процент скидки, то получаем сумму скидки на указанные товары
         """
         total = 0
-        if self.type == "s" and self.percent and self.products.all():
+        if self.type == "s" and self.percent and self.products.all() and not self.categories.all():
             for item in self.products.all():
                 total += item.price
             return round((Decimal(int(self.percent) / 100) * total), 2)
