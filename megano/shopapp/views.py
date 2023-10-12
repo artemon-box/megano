@@ -382,7 +382,7 @@ class DiscountList(View):
 
     def get(self, request):
         discounts = Discount.objects.all().prefetch_related("products", "categories")
-        context = {"all_discounts": discounts}
+        context = {"all_discounts": discounts}  # all_discounts т.к. в context_processors уже есть "discounts"
         return render(request, self.template_name, context=context)
 
 

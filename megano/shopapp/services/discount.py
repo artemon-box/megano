@@ -37,7 +37,6 @@ class DiscountService:
         products_in_cart = []
         categories_in_cart = []
         quantity_in_cart = 0
-        # total_price = 0
         products_with_quantity = []
 
         if products:
@@ -147,7 +146,8 @@ class DiscountService:
                                 product.product.category in discount.categories.all() or product in discount.products.all()
                         ):  # если категория продукта попадает в категории скидки
                             products_price += product.price
-                    discount_volume = round(Decimal(discount.percent / 100) * products_price, 2)
+                    discount_volume = round(Decimal(discount.percent / 100) * Decimal(products_price),
+                                            2)  # Decimal(p_p)
                     discount_choice[discount_volume] = discount.id
             max_key = max(
                 discount_choice, key=lambda key: Decimal(str(key))
@@ -169,7 +169,6 @@ class DiscountService:
         """
         Рассчитать цену со скидкой на товар с дополнительным необязательным параметром Цена товара
         """
-
         data = self.get_priority_discount(products, total_price)
         result = []
 
@@ -192,20 +191,19 @@ class DiscountService:
                     result.append(price_with_discount)
                     result.append(discounts)
                     return result
-                    # return price_with_discount, discounts
 
                 if discount.type == "s":  # если на набор
-                    set_price = 0
+                    set_price = Decimal(0)  # added Decimal
                     for product_seller in data["products"]:
                         if product_seller.product in discount.products.all() or product_seller.product.category in discount.categories.all():
-                            set_price += product_seller.price
+                            set_price += Decimal(product_seller.price)  # added Decimal
                     if discount.percent:
-                        discount_volume = round(set_price * Decimal(discount.percent / 100), 2)
+                        discount_volume = round(set_price * discount.percent / 100, 2)
                     else:
                         discount_volume = discount.discount_volume
                     set_price_with_discount = set_price - discount_volume
                     if base_price and set_price_with_discount < base_price:
-                        price_with_discount = total_price - set_price + base_price
+                        price_with_discount = total_price - Decimal(set_price) + base_price
                     elif not base_price and set_price_with_discount < Decimal(1):
                         price_with_discount = total_price - set_price + Decimal(1)
                     else:
@@ -224,7 +222,7 @@ class DiscountService:
                             set_price += (item[0].price * item[1])
                             count += item[1]
                     if discount.percent:
-                        total_discount = round(set_price * Decimal(discount.percent / 100),
+                        total_discount = round(set_price * discount.percent / 100,  # deleted Decimal(disc..../100)
                                                2)  # величина скидки, если указан процент
                         top_discounts[discount] = total_discount
                     elif discount.discount_volume:
@@ -233,19 +231,26 @@ class DiscountService:
 
                 top_discounts = sorted(top_discounts.items(), key=lambda x: x[1],
                                        reverse=True)  # сортируем скидки в порядке убвания величины скидки (список кортежей)
-                discount_sum = 0
+                discount_sum = Decimal(0)  # added Decimal(0)
                 used_discounts = []
                 for discount in top_discounts:
+                    print(data["products_pcs"])
                     for item in data["products_pcs"]:
+                        print(item[0], item[0] in discount[0].products.all(), discount[0].products.all())
+                        print(item[0].product.category, item[0].product.category in discount[0].categories.all(), discount[0].categories.all())
                         if (item[0] in discount[0].products.all() or
                                 item[0].product.category in discount[0].categories.all()):
                             if discount[0].percent:
-                                discount_sum += round(item[0].price * Decimal(discount[0].percent / 100), 2) * item[1]
+                                discount_sum += (round(item[0].price * discount[0].percent / 100, 2) * item[1])  # deleted Decimal(discount[0].percent / 100)
+                                #print('111111', item[1], round(item[0].price * discount[0].percent / 100, 2))
                             else:
-                                discount_sum += discount[0].discount_volume * item[1]
-                            data["products_pcs"].remove(item) # удаляем продукт, на который была применена скидка
-                            used_discounts.append(discount[0])  #  добавляем эту скидку в список применненныых
-
+                                discount_sum += (discount[0].discount_volume * item[1])
+                                #print('22222', item[1], discount[0].discount_volume)
+                            #print(discount_sum)
+                            data["products_pcs"].remove(item)  # удаляем продукт, на который была применена скидка
+                            if discount[0] not in used_discounts:
+                                used_discounts.append(discount[0])  # добавляем эту скидку в список применненныых
+                print(data["products_pcs"])
                 price_with_discount = total_price - discount_sum
 
                 if base_price and price_with_discount < base_price:
