@@ -1,10 +1,13 @@
 import json
+import uuid
 
 from celery.result import AsyncResult
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.contrib import messages
 from django.core.cache import cache
+
+from admin_settings.utils import ImportLogHelper as Log
 from .tasks import test_task, import_json
 
 from django.core.paginator import Paginator
@@ -399,13 +402,22 @@ class ImportProducts(View):
             return render(request, 'admin_settings/upload_file_form.html', context, status=400)
         email = form.data['email'] if form.data['email'] else request.user.email
         file = form.files['file']
+        seller_id = request.user.seller_set.first().id
+        import_id = uuid.uuid4()
         try:
             products_from_json = json.load(file)
-            task = import_json.delay([(products_from_json, file.name), ], email)
+            log_data = {'import_id': import_id, 'user_id': request.user.id}
+            task = import_json.delay([(products_from_json, file.name), ], email, seller_id, log_data)
             messages.info(request, 'Импорт начат, Вам придет уведомление на указанный адрес.')
+            Log.info(user=request.user, import_id=import_id, message='Задача по импорту отправлена в очередь Celery.')
             return redirect(request.META.get('HTTP_REFERER'))
         except (UnicodeDecodeError, json.JSONDecodeError):
             messages.error(request, 'Файл не соответствует формату JSON')
+            Log.critical(
+                user=request.user,
+                import_id=import_id,
+                message=f'Импорт из файла "{file.name}" НЕ выполнен! Файл не соответствует формату JSON.'
+            )
             return render(request, 'admin_settings/upload_file_form.html', context)
 
 
