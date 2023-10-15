@@ -6,23 +6,23 @@
                     <strong class="Section-columnTitle">ОГРАНИЧЕННЫЕ ПРЕДЛОЖЕНИЯ
                     </strong>
                 </header>
-                {% if limited_offers %}
+                {% if limited_offer %}
                     <div class="Card"><a class="Card-picture"
-                                         href="{{ url('shopapp:product_detail', product_slug=limited_offers.product.slug) }}"><img
-                            src="{{ limited_offers.product.image.url }}" alt="{{ limited_offers.product.name }}"></a>
+                                         href="{{ url('shopapp:product_detail', product_slug=limited_offer.product.slug) }}"><img
+                            src="{{ limited_offer.product.image.url }}" alt="{{ limited_offer.product.name }}"></a>
                         <div class="Card-content">
                             <strong class="Card-title"><a
-                                    href="{{ url('shopapp:product_detail', product_slug=limited_offers.product.slug) }}">{{ limited_offers.product.name }}</a>
+                                    href="{{ url('shopapp:product_detail', product_slug=limited_offer.product.slug) }}">{{ limited_offer.product.name }}</a>
                             </strong>
                             <div class="Card-description">
                                 <div class="Card-cost"><span
-                                        class="Card-priceOld">${{ limited_offers.price }}</span><span
-                                        class="Card-price">${{ limited_offers.price - 50 }}</span>
+                                        class="Card-priceOld">${{ limited_offer.price }}</span><span
+                                        class="Card-price">${{ limited_offer.price - 50 }}</span>
                                 </div>
-                                <div class="Card-category">{{ limited_offers.product.category.name }}
+                                <div class="Card-category">{{ limited_offer.product.category.name }}
                                 </div>
                             </div>
-                            <div class="CountDown" data-date="31.09.2020 03:59">
+                            <div class="CountDown" data-date="{{ current_date }}">
                                 <div class="CountDown-block">
                                     <div class="CountDown-wrap">
                                         <div class="CountDown-days">-1098</div>
@@ -56,3 +56,27 @@
         {% include 'shopapp/top_products.jinja2' %}
     </div>
 </div>
+<script>
+    var countdownElement = document.querySelector('.CountDown');
+    var currentDate = new Date();
+    var endDate = new Date(currentDate);
+    endDate.setHours(23, 59, 59, 0);
+
+    function updateCountdown() {
+        var currentTime = new Date();
+        var timeRemaining = endDate - currentTime;
+
+        var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+        countdownElement.querySelector('.CountDown-days').textContent = days;
+        countdownElement.querySelector('.CountDown-hours').textContent = hours;
+        countdownElement.querySelector('.CountDown-minutes').textContent = minutes;
+        countdownElement.querySelector('.CountDown-secs').textContent = seconds;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+</script>
