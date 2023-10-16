@@ -1,13 +1,20 @@
 [
   {
-    "product": {"category": "Фотоаппараты", "name": "Canon EOS 350D", "slug":  "canon-eos-350d"},
-    "seller": 2,
+    "product": {
+      "category": "Фотоаппараты",
+      "name": "Canon EOS 350D",
+      "slug":  "canon-eos-350d",
+      "image": "json_to_import/images/eos350d.jpg"
+    },
     "price": 500,
     "quantity": 1
   },
   {
-    "product": {"category": "Фотоаппараты", "name": "Nikon 5000"},
-    "seller": 2,
+    "product": {
+      "category": "Фотоаппараты",
+      "name": "Nikon 5000",
+      "image": "json_to_import/images/nikon5000.png"
+    },
     "price": 600,
     "quantity": 2
   }
