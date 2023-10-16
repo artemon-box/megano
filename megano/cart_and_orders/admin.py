@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from cart_and_orders.models import Order, OrderProduct
+from cart_and_orders.models import Order, OrderProduct, DeliveryMethod
 
 
 @admin.register(Order)
@@ -29,4 +29,14 @@ class OrderProductAdmin(admin.ModelAdmin):
         "seller",
         "price",
         "quantity",
+    )\
+
+
+
+@admin.register(DeliveryMethod)
+class DeliveryMethodAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "price",
+        "order_minimal_price",
     )
