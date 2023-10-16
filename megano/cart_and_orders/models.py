@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from config.settings import ORDER_STATUS_CHOICES
 from shopapp.models import Product, Seller, ProductSeller
 
 
@@ -33,6 +32,25 @@ class DeliveryMethod(models.Model):
         return self.name
 
 
+class StatusOrder(models.TextChoices):
+    CREATED = "created", "Cоздан"
+    PENDING = "pending", "Ожидает оплаты"
+    PAID = "paid", "Оплачен"
+    FAILED = "failed", "Ошибка оплаты"
+    PROCESSING = "processing", "Обрабатывается"
+    SHIPPED = "shipped", "Отправлен"
+    DELIVERED = "delivered", "Доставлен"
+    CANCELED = "canceled", "Отменен"
+
+    @classmethod
+    def get_main_status(cls):
+        """
+        Список для показа основных заказов в кабинете пользователя
+        """
+        return [cls.CREATED.value, cls.PENDING.value, cls.PAID.value, cls.FAILED.value,
+                cls.PROCESSING.value, cls.SHIPPED.value, ]
+
+
 class Order(models.Model):
     """
     Таблица для хранения данных о заказах.
@@ -55,8 +73,8 @@ class Order(models.Model):
 
     status = models.CharField(
         max_length=20,
-        choices=ORDER_STATUS_CHOICES,
-        default='created'
+        choices=StatusOrder.choices,
+        default=StatusOrder.CREATED,
     )
 
     class Meta:

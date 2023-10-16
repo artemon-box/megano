@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.core.validators import RegexValidator
+import re
 
 
 class ProfileAvatarForm(forms.ModelForm):
@@ -21,8 +22,8 @@ class ProfileAvatarForm(forms.ModelForm):
 
 class ProfileForm(forms.ModelForm):
     phone_regex = RegexValidator(
-        regex=r"^375\d{9}$",
-        message="Введите номер телефона в формате: '375xxxxxxxxx'",
+        regex=r"^\+\s7\s\(\d{3}\)\s\d{3}\s\d{2}\s\d{2}$",
+        message="Введите номер телефона в формате: '+ 7 (xxx) xxx xx xx'",
     )
     name_regex = RegexValidator(
         regex=r"^[а-яА-ЯёЁa-zA-Z]+\s[а-яА-ЯёЁa-zA-Z]+\s[а-яА-ЯёЁa-zA-Z]+$",
@@ -40,9 +41,9 @@ class ProfileForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Если у instance есть номер телефона, добавляем "375"
+        # Если у instance есть номер телефона, добавляем "7"
         if self.instance.phone:
-            self.initial["phone"] = "375" + str(self.instance.phone)
+            self.initial["phone"] = "+7" + str(self.instance.phone)
 
     def clean_name(self):
         name = self.cleaned_data.get("name")
@@ -59,10 +60,12 @@ class ProfileForm(forms.ModelForm):
         return email
 
     def clean_phone(self):
-        phone = self.cleaned_data["phone"]
-        if phone[3:] == self.instance.phone:
+        phone_form = self.cleaned_data["phone"]
+        digits = re.findall(r'\d', phone_form)
+        phone = ''.join(digits)[1:]
+        if phone == self.instance.phone:
             return phone
-        if get_user_model().objects.filter(phone=phone[3:]).exists():
+        if get_user_model().objects.filter(phone=phone).exists():
             self.add_error("phone", "Этот номер телефона занят.")
         return phone
 
@@ -79,7 +82,7 @@ class ProfileForm(forms.ModelForm):
 
     def save(self, commit=True):
         instance = super().save(commit=False)
-        instance.phone = instance.phone[3:]
+        instance.phone = instance.phone
         if commit:
             instance.save()
         return instance
