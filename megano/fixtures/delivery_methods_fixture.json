@@ -1,0 +1,20 @@
+[
+  {
+    "model": "cart_and_orders.deliverymethod",
+    "pk": 1,
+    "fields": {
+      "name": "Обычная доставка",
+      "price": "200.00",
+      "order_minimal_price": "2000.00"
+    }
+  },
+  {
+    "model": "cart_and_orders.deliverymethod",
+    "pk": 2,
+    "fields": {
+      "name": "Экспресс доставка",
+      "price": "500.00",
+      "order_minimal_price": null
+    }
+  }
+]

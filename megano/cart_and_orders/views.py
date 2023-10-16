@@ -81,7 +81,6 @@ class OrderView(View):
         user_orders = Order.objects.filter(user_id=request.user, status='created')
         if user_orders:
             user_orders.delete()
-        print(user_orders)
 
         if not product_seller:
             raise Http404("Корзина пуста")

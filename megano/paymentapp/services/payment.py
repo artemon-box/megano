@@ -39,8 +39,8 @@ class PaymentService:
 
         result = process_payment.AsyncResult(task_id)
         if result.state == 'SUCCESS':
-            return {'status': 'Заказ успешно оплачен'}
+            return {'status': 'success'}
         elif result.state == 'FAILURE':
-            return {'status': 'Ошибка оплаты заказа'}
+            return {'status': 'failed'}
         else:
-            return {'status': 'Ожидание подтверждения оплаты'}
+            return {'status': 'pending'}

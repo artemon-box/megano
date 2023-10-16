@@ -30,8 +30,6 @@ def process_payment(order_id, card_number, price):
         response = requests.post(url, json=data)
         result = response.json()
 
-        print('task-result:', result)
-
         order = Order.objects.get(id=order_id)
         if result['status'] == 'success':
             order.status = "paid"

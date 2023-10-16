@@ -4,7 +4,6 @@ from django.views import View
 
 from cart_and_orders.models import Order
 from cart_and_orders.services.cart import CartService
-from .forms import PaymentForm
 from .services.payment import PaymentService
 
 
@@ -132,7 +131,16 @@ class ProgressPaymentView(View):
 
 
 class CheckPaymentStatusView(View):
+    """
+    Представление для получения статуса оплаты заказа.
+    """
     def get(self, request):
+        """
+        Обработчик GET-запроса для получения статуса оплаты заказа.
+
+        :param request: Запрос пользователя.
+        :return: JSON-ответ со статусом оплаты заказа.
+        """
 
         payment_service = PaymentService()
         task_id = request.session.get('task_id')
