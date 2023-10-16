@@ -31,9 +31,10 @@ class AccountView(View):
 class HistoryOrdersView(View):
     template_name = "profileapp/historyorder.jinja2"
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, order_id: int):
         if not request.user.is_authenticated:
             return redirect("/")
+        print(order_id)
         user = request.user
         orders = Order.objects.filter(user=user)
         return render(request, self.template_name, {"user": user,
