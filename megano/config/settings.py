@@ -217,3 +217,14 @@ PAYMENT_CHOICES = (
     ('online', 'Онлайн картой'),
     ('someone', 'Онлайн со случайного чужого счета'),
 )
+
+ORDER_STATUS_CHOICES = [
+    ('created', 'Cоздан'),
+    ('pending', 'Ожидает оплаты'),
+    ('paid', 'Оплачен'),
+    ('failed', 'Ошибка оплаты'),
+    ('processing', 'Обрабатывается'),
+    ('shipped', 'Отправлен'),
+    ('delivered', 'Доставлен'),
+    ('canceled', 'Отменен'),
+]

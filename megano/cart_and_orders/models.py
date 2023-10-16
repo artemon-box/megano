@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+
+from config.settings import ORDER_STATUS_CHOICES
 from shopapp.models import Product, Seller, ProductSeller
 
 
@@ -36,16 +38,6 @@ class Order(models.Model):
     Таблица для хранения данных о заказах.
 
     """
-    ORDER_STATUS_CHOICES = [
-        ('created', 'Cоздан'),
-        ('pending', 'Ожидает оплаты'),
-        ('paid', 'Оплачен'),
-        ('failed', 'Ошибка оплаты'),
-        ('processing', 'Обрабатывается'),
-        ('shipped', 'Отправлен'),
-        ('delivered', 'Доставлен'),
-        ('canceled', 'Отменен'),
-    ]
 
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True)

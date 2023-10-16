@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 
 from cart_and_orders.models import Order
+from cart_and_orders.services.cart import CartService
 from .forms import PaymentForm
 from .services.payment import PaymentService
 
@@ -36,20 +37,24 @@ class PaymentView(View):
         :param request: Запрос пользователя.
         :return: HTTP-ответ с детальной информацией об оплате.
         """
-        print(request.POST)
 
         payment_service = PaymentService()
+        cart = CartService()
+
+        cart.clear_cart(request)
 
         current_order_id = request.session.get('current_order_id')
         if current_order_id:
             order = Order.objects.get(id=current_order_id)
             total_price = order.total_price
+            order.status = 'pending'
+            order.save()
         else:
             raise ValueError('Заказ в обработке')
 
         card_number = request.POST['number'].replace(" ", "")
 
-        # payment_service.initiate_payment(order.id, card_number, total_price)
+        payment_service.initiate_payment(order.id, card_number, total_price)
 
         del request.session['current_order_id']
 
@@ -87,11 +92,16 @@ class PaymentSomeoneView(View):
         """
 
         payment_service = PaymentService()
+        cart = CartService()
+
+        cart.clear_cart(request)
 
         current_order_id = request.session.get('current_order_id')
         if current_order_id:
             order = Order.objects.get(id=current_order_id)
             total_price = order.total_price
+            order.status = 'pending'
+            order.save()
         else:
             raise ValueError('Заказ в обработке')
 

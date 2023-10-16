@@ -1,6 +1,7 @@
 from cart_and_orders.models import Order
 import requests
 from paymentapp.tasks import process_payment
+from paymentapp.utils.quantity_correction import quantity_correction
 
 
 class PaymentService:
@@ -15,6 +16,7 @@ class PaymentService:
         :return: Успешность и информация о запросе на оплату.
         """
 
+        quantity_correction(order_id, increase=False)
         payment_task = process_payment.apply_async(args=(order_id, card_number, price))
 
         return {
