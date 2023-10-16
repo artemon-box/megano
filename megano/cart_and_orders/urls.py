@@ -6,7 +6,7 @@ from .views import (
     ChangeCountInCartView,
     ClearCartView,
     RemoveFromCartView,
-    OrderView,
+    OrderView, OrderConfirmView,
 )
 
 app_name = "cart_and_orders"
@@ -18,4 +18,5 @@ urlpatterns = [
     path("remove/<int:product_id>/", RemoveFromCartView.as_view(), name="remove_from_cart"),
     path("clear/", ClearCartView.as_view(), name="clear_cart"),
     path('order/', OrderView.as_view(), name='order'),
+    path('order/confirm', OrderConfirmView.as_view(), name='order_confirm'),
 ]

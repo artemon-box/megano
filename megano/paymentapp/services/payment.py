@@ -31,22 +31,14 @@ class PaymentService:
         :param task_id: ID задачи оплаты из Celery.
         :return: Статус оплаты и информация о заказе.
         """
-        try:
-            task_result = process_payment.AsyncResult(task_id)
-            if task_result.state == "SUCCESS":
-                order_id, payment_status, price = task_result.result
-                order = Order.objects.get(id=order_id)
-                return {
-                    "success": True,
-                    "message": f"Статус оплаты заказа {order.id}: {payment_status}",
-                }
-            else:
-                return {
-                    "success": False,
-                    "message": "Запрос на оплату еще не завершен.",
-                }
-        except Exception as e:
-            return {
-                "success": False,
-                "message": str(e),
-            }
+
+        if not task_id:
+            raise ValueError('Идентификатор задачи отсутствует')
+
+        result = process_payment.AsyncResult(task_id)
+        if result.state == 'SUCCESS':
+            return {'status': 'Заказ успешно оплачен'}
+        elif result.state == 'FAILURE':
+            return {'status': 'Ошибка оплаты заказа'}
+        else:
+            return {'status': 'Ожидание подтверждения оплаты'}

@@ -16,6 +16,21 @@ class CartItems(models.Model):
         )
 
 
+class DeliveryMethod(models.Model):
+    name = models.CharField(max_length=100, verbose_name='Название метода доставки')
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена доставки')
+    order_minimal_price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        verbose_name='Цена заказа для расчёта стоимости доставки',
+        blank=True,
+        null=True,
+    )
+
+    def __str__(self):
+        return self.name
+
+
 class Order(models.Model):
     """
     Таблица для хранения данных о заказах.
@@ -36,9 +51,15 @@ class Order(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True)
     city = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
-    delivery_method = models.CharField(max_length=100, default=None)
+    delivery_method = models.ForeignKey(DeliveryMethod, on_delete=models.CASCADE, null=True, verbose_name='Метод доставки')
     payment_method = models.CharField(max_length=100, default=None)
-    total_price = models.DecimalField(max_digits=100, decimal_places=2, verbose_name="полная цена заказа")
+    total_price = models.DecimalField(
+        max_digits=100,
+        decimal_places=2,
+        verbose_name="полная цена заказа",
+        blank=True,
+        null=True,
+    )
 
     status = models.CharField(
         max_length=20,
@@ -47,10 +68,10 @@ class Order(models.Model):
     )
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ['-status']
 
     def __str__(self):
-        return f"{self.user}'s order #{self.pk}"
+        return f"{self.user}'s order #{self.pk} status: {self.status}"
 
 
 class OrderProduct(models.Model):

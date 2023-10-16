@@ -1,4 +1,4 @@
-from django.http import HttpRequest, HttpResponse, Http404
+from django.http import HttpRequest, HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, redirect
 from django.views import View
 
@@ -53,7 +53,7 @@ class PaymentView(View):
 
         del request.session['current_order_id']
 
-        return redirect('shopapp:index')
+        return redirect('paymentapp:progress_payment')
 
 
 class PaymentSomeoneView(View):
@@ -85,7 +85,6 @@ class PaymentSomeoneView(View):
         :param request: Запрос пользователя.
         :return: HTTP-ответ с детальной информацией об оплате.
         """
-        print(request.POST)
 
         payment_service = PaymentService()
 
@@ -98,9 +97,36 @@ class PaymentSomeoneView(View):
 
         card_number = request.POST['number'].replace(" ", "")
 
-        # payment_service.initiate_payment(order.id, card_number, total_price)
+        response = payment_service.initiate_payment(order.id, card_number, total_price)
+        request.session['task_id'] = response['task_id']
 
         del request.session['current_order_id']
 
-        return redirect('shopapp:index')
+        return redirect('paymentapp:progress_payment')
 
+
+class ProgressPaymentView(View):
+    """
+    Представление для отображения страницы оформления заказа.
+    """
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+        """
+        Обработчик GET-запроса для ожидания подтверждения оплаты заказа.
+
+        :param request: Запрос пользователя.
+        :return: HTTP-ответ со страницей ожидания подтверждения оплаты.
+        """
+
+        return render(request, 'paymentapp/progress_payment.jinja2')
+
+
+class CheckPaymentStatusView(View):
+    def get(self, request):
+
+        payment_service = PaymentService()
+        task_id = request.session.get('task_id')
+
+        status = payment_service.get_payment_status(task_id)['status']
+
+        return JsonResponse({'status': status})
