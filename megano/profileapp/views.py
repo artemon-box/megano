@@ -27,7 +27,7 @@ class AccountView(View):
                                                     "orders": orders,
                                                     "DELIVERY_CHOICES": settings.DELIVERY_CHOICES,
                                                     "PAYMENT_CHOICES": settings.PAYMENT_CHOICES,
-                                                    "ORDER_STATUS_CHOICES": ORDER_STATUS_CHOICES,}) #"ORDER_STATUS_CHOICES": StatusOrder.choices, })
+                                                    "ORDER_STATUS_CHOICES": ORDER_STATUS_CHOICES, })
 
 
 class HistoryOrdersView(View):
