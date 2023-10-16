@@ -8,6 +8,7 @@ from django.views import View
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from config.settings import ORDER_STATUS_CHOICES
 from .forms import ProfileAvatarForm, ProfileForm
 from cart_and_orders.models import Order
 
@@ -25,7 +26,7 @@ class AccountView(View):
                                                     "orders": orders,
                                                     "DELIVERY_CHOICES": settings.DELIVERY_CHOICES,
                                                     "PAYMENT_CHOICES": settings.PAYMENT_CHOICES,
-                                                    "ORDER_STATUS_CHOICES": Order.ORDER_STATUS_CHOICES,})
+                                                    "ORDER_STATUS_CHOICES": ORDER_STATUS_CHOICES,})
 
 
 class HistoryOrdersView(View):

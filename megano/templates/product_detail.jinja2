@@ -59,7 +59,7 @@
                             </div>
                             <div class="ProductCard-cart">
                                 <div class="ProductCard-cartElement">
-                                     <a class="btn btn_primary" onclick="showSellers();" href="#" id="scrollToSellers">
+                                     <a class="btn btn_primary" onclick="showSellers();" id="scrollToSellers">
                                         <img class="btn-icon" src="{{ static('assets/img/icons/card/cart_white.svg') }}" alt="cart_white.svg" />
                                         <span class="btn-content">Купить</span>
                                      </a>
@@ -84,7 +84,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="Tabs Tabs_default">
+                    <div class="Tabs Tabs_default" id="tabs_default">
                         <div class="Tabs-links">
                             <a class="Tabs-link" href="#description">
                                 <span>Описание</span>
@@ -111,7 +111,7 @@
                             </div>
                             <div class="Tabs-block" id="sellers" style="display: none;">
                                 <div class="Section-content">
-                                    <div class="Orders">
+                                    <div class="Orders" id="orders">
                                         {% for product_seller in product_sellers %}
                                             <div class="Order Order_anons">
                                                     <div class="Order-personal">
@@ -289,18 +289,11 @@
     </script>
     <script>
         function showSellers () {
-            document.getElementById("show_sellers").click();
+            const element = document.getElementById("show_sellers");
+            element.click();
+            element.scrollIntoView({behavior: "smooth"});
         }
     </script>
-    <script>
-        function showSellers () {
-            document.getElementById("show_sellers").click();
-            const sellersElement = document.getElementById("show_sellers");
 
-            if (sellersElement) {
-                sellersElement.scrollIntoView({ behavior: "smooth" });
-            }
-        }
-    </script>
 
 {% endblock %}

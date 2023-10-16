@@ -7,5 +7,5 @@ urlpatterns = [
     path('payment/', PaymentView.as_view(), name='payment'),
     path('payment_someone/', PaymentSomeoneView.as_view(), name='payment_someone'),
     path('progress_payment/', ProgressPaymentView.as_view(), name='progress_payment'),
-    path('payment/check_status/', CheckPaymentStatusView.as_view(), name='check_payment_status'),
+    path('check_status/', CheckPaymentStatusView.as_view(), name='check_payment_status'),
 ]

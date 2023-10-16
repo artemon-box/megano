@@ -2,7 +2,16 @@
 
 {% block content %}
 
-<div class="Middle Middle_top">
+    <head>
+        <script src="{{ static('assets/js/jquery-3.4.1.min.js') }}"></script>
+        <script src="{{ static('assets/plg/form/jquery.form.js') }}"></script>
+        <script src="{{ static('assets/plg/form/jquery.maskedinput.min.js') }}"></script>
+        <script src="{{ static('assets/plg/range/ion.rangeSlider.min.js') }}"></script>
+        <script src="{{ static('assets/js/scripts.js') }}"></script>
+    </head>
+
+
+    <div class="Middle Middle_top">
         <div class="Middle-top">
             <div class="wrap">
                 <div class="Middle-header">
@@ -20,10 +29,12 @@
         <div class="Section">
             <div class="wrap">
                 <div class="ProgressPayment">
-                    <div class="ProgressPayment-title">Ждем подтверждения оплаты платежной системой
+                    <div class="ProgressPayment-title" id="progress">Ждем подтверждения оплаты платежной системой
                     </div>
                     <div>
-                        {{ status }}
+                        {% if status %}
+                            {{ status }}
+                        {%  endif %}
                     </div>
                     <div class="ProgressPayment-icon">
                         <div class="cssload-thecube">
@@ -39,32 +50,28 @@
     </div>
 
     <script>
-    function checkPaymentStatus() {
-        // Получите идентификатор задачи из сессии или другого источника
-        var task_id = "{{ task_id }}"; // Подставьте реальный идентификатор задачи
-
-        // Отправьте AJAX-запрос для получения статуса
-        $.ajax({
-            url: '/payment/check_status/', // Замените на URL, который будет обрабатывать запрос
-            type: 'GET',
-            data: { task_id: task_id },
-            success: function (data) {
-                // Обновите статус на странице
-                $('#status').text(data.status);
-
-                // Проверьте, завершена ли задача, и остановите проверку, если да
-                if (data.status === 'Заказ успешно оплачен' || data.status === 'Ошибка оплаты заказа') {
-                    clearInterval(interval);
+        function checkStatus() {
+            $.ajax({
+                url: 'http://127.0.0.1:8000/payment/check_status/',
+                type: 'GET',
+                success: function(data) {
+                   if (data.status === 'success' || data.status === 'failed') {
+                        // Если статус 'success', перенаправляем на accounts.
+                        console.log('Статус успешен. Перенаправление на другой URL.');
+                        window.location.href = 'http://127.0.0.1:8000/accounts/';
+                    }
+                    else {
+                        // Если статус не 'success', повторяем запрос через 2 секунды.
+                        console.log('Статус не успешен. Повторяем через 5 секунд.');
+                        setTimeout(checkStatus, 5000);
+                    }
+                },
+                error: function() {
+                    console.log('Ошибка AJAX-запроса');
                 }
-            },
-            error: function () {
-                console.log('Ошибка при запросе статуса оплаты');
-            }
-        });
-    }
-
-    // Вызовите функцию проверки статуса каждые 5 секунд
-    var interval = setInterval(checkPaymentStatus, 5000);
+            });
+        }
+        checkStatus();
     </script>
 
 
