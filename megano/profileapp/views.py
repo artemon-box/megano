@@ -21,7 +21,7 @@ class AccountView(View):
         if not request.user.is_authenticated:
             return redirect("/")
         user = request.user
-        status_view = ['created', 'pending', 'paid', 'failed', 'processing' 'shipped']
+        status_view = StatusOrder.get_main_status()
         orders = Order.objects.filter(user=user, status__in=status_view)
 
         context = {
