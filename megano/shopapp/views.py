@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.core.cache import cache
 
 from admin_settings.utils import ImportLogHelper as Log
-from .tasks import test_task, import_json
+from .tasks import import_json
 
 from django.core.paginator import Paginator
 from django.db.models import Min
@@ -30,7 +30,6 @@ from .utils.details_cache import get_cached_product_by_slug
 from .utils.seller_top_sales import seller_top_sales
 from .utils.top_products import get_cached_top_products
 
-from django.views.decorators.csrf import csrf_exempt
 from histviewapp.services.history import HistoryService
 
 
@@ -391,8 +390,21 @@ class DiscountList(View):
 
 class ImportProducts(View):
     def get(self, request):
+        task_id = request.session.get('task_id', False)
         form = FileImportForm()
         context = {'form': form, 'header': 'Upload from JSON file'}
+        if task_id:
+            task_result = AsyncResult(task_id)
+            context['current_task_id'] = task_id
+            context['current_task_status'] = task_result.status
+            context['current_task_result'] = task_result.result
+            if task_result.status in ['SUCCESS', 'FAILURE', 'REVOKED']:
+                context['allowed_new_task'] = True
+                request.session['task_id'] = None
+            else:
+                context['allowed_new_task'] = False
+        else:
+            context['allowed_new_task'] = True
         return render(request, 'admin_settings/upload_file_form.html', context)
 
     def post(self, request):
@@ -408,6 +420,7 @@ class ImportProducts(View):
             products_from_json = json.load(file)
             log_data = {'import_id': import_id, 'user_id': request.user.id}
             task = import_json.delay([(products_from_json, file.name), ], email, seller_id, log_data)
+            request.session['task_id'] = task.id
             messages.info(request, 'Импорт начат, Вам придет уведомление на указанный адрес.')
             Log.info(user=request.user, import_id=import_id, message='Задача по импорту отправлена в очередь Celery.')
             return redirect(request.META.get('HTTP_REFERER'))
@@ -419,22 +432,3 @@ class ImportProducts(View):
                 message=f'Импорт из файла "{file.name}" НЕ выполнен! Файл не соответствует формату JSON.'
             )
             return render(request, 'admin_settings/upload_file_form.html', context)
-
-
-# @csrf_exempt
-def run_task(request):
-    if request.POST:
-        task_type = request.POST.get("type")
-        task = test_task.delay(int(task_type))
-        return JsonResponse({"task_id": task.id}, status=202)
-
-
-# @csrf_exempt
-def get_status(request, task_id):
-    task_result = AsyncResult(task_id)
-    result = {
-        "task_id": task_id,
-        "task_status": task_result.status,
-        "task_result": task_result.result
-    }
-    return JsonResponse(result, status=200)
