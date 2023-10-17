@@ -88,8 +88,8 @@ class FileImportForm(forms.Form):
         required=False,
         widget=forms.EmailInput(
             attrs={
-                'placeholder': 'введите почту для отправки уведомления',
-                'size': 40,
+                "placeholder": "введите почту для отправки уведомления",
+                "size": 40,
             }
-        )
+        ),
     )

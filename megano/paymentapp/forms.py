@@ -2,5 +2,4 @@ from django import forms
 
 
 class PaymentForm(forms.Form):
-
-    number = forms.CharField(label='Номер карты')
+    number = forms.CharField(label="Номер карты")

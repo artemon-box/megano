@@ -8,6 +8,6 @@ class CompletedOrdersService:
         Получение списка совершенных заказов для конкретного пользователя
         """
 
-        orders = Order.objects.get(user=user).filter(status='delivered')
+        orders = Order.objects.get(user=user).filter(status="delivered")
 
         return orders

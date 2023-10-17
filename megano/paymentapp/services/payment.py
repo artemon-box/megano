@@ -1,5 +1,5 @@
-from cart_and_orders.models import Order
 import requests
+from cart_and_orders.models import Order
 from paymentapp.tasks import process_payment
 from paymentapp.utils.quantity_correction import quantity_correction
 

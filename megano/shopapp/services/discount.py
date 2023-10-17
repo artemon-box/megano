@@ -1,4 +1,5 @@
 from decimal import Decimal
+
 from django.db.models import Max, Q
 from django.utils import timezone as django_timezone
 from shopapp.models import Discount

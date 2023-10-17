@@ -1,11 +1,13 @@
 from decimal import Decimal
+
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.urls import reverse
-from taggit.managers import TaggableManager
 from django.template.defaultfilters import slugify
+from django.urls import reverse
+from django.utils import timezone
+from taggit.managers import TaggableManager
 
 
 def category_images_directory_path(instance, filename):
@@ -134,6 +136,11 @@ class ProductSeller(models.Model):
 
     def __str__(self):
         return f"{self.product} by {self.seller} for ${self.price}"
+
+
+class DailyOfferProduct(models.Model):
+    product = models.ForeignKey(ProductSeller, on_delete=models.CASCADE)
+    selected_date = models.DateField(default=timezone.now)
 
 
 class Seller(models.Model):
