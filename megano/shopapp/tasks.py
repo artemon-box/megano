@@ -14,12 +14,6 @@ from admin_settings.utils import ImportLogHelper as Log
 
 
 @app.task()
-def test_task(task_type):
-    time.sleep(task_type * 10)
-    return 'task completed!'
-
-
-@app.task()
 def send_import_notification(result_list, error_list, email):
     subject = 'Импорт товаров завершен'
     message = ''
@@ -35,6 +29,7 @@ def send_import_notification(result_list, error_list, email):
 
 @app.task()
 def import_json(data_tuples, email, seller_id, log_data):
+    time.sleep(10)
     result_list, error_list = [], []
     user_id = log_data["user_id"]
     user = User.objects.get(id=user_id) if user_id else None

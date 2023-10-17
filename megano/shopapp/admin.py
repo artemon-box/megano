@@ -28,7 +28,7 @@ from django.urls import path
 from .forms import ProductFeatureForm, FileImportForm
 
 
-from .views import get_status, run_task, ImportProducts
+from .views import ImportProducts
 
 
 @admin.register(Category)

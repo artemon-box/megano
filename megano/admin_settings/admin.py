@@ -33,5 +33,5 @@ class ImportLogAdmin(admin.ModelAdmin):
     list_display = ['id', 'user', 'import_id', 'timestamp', 'level', 'message']
     list_display_links = ['id', 'user', 'import_id']
     search_fields = ['timestamp', 'import_id']
-    list_filter = ['user', 'import_id', 'level']
+    list_filter = ['user', 'level', 'import_id']
     ordering = ["timestamp"]
