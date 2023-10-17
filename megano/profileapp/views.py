@@ -8,9 +8,10 @@ from django.views import View
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from config.settings import ORDER_STATUS_CHOICES
 from .forms import ProfileAvatarForm, ProfileForm
-from cart_and_orders.models import Order
+from cart_and_orders.models import Order, StatusOrder
+from cart_and_orders.utils.get_total_price import get_total_price_delivery
+from cart_and_orders.services.cart import CartService
 
 
 class AccountView(View):
@@ -20,28 +21,53 @@ class AccountView(View):
         if not request.user.is_authenticated:
             return redirect("/")
         user = request.user
-        status_view = ['created', 'pending', 'paid', 'failed', 'processing' 'shipped']
+        status_view = StatusOrder.get_main_status()
         orders = Order.objects.filter(user=user, status__in=status_view)
-        return render(request, self.template_name, {"user": user,
-                                                    "orders": orders,
-                                                    "DELIVERY_CHOICES": settings.DELIVERY_CHOICES,
-                                                    "PAYMENT_CHOICES": settings.PAYMENT_CHOICES,
-                                                    "ORDER_STATUS_CHOICES": ORDER_STATUS_CHOICES,})
+
+        context = {
+            "user": user,
+            "orders": orders,
+            "DELIVERY_CHOICES": settings.DELIVERY_CHOICES,
+            "PAYMENT_CHOICES": settings.PAYMENT_CHOICES,
+            "ORDER_STATUS_CHOICES": StatusOrder.choices,
+        }
+        return render(request, self.template_name, context)
 
 
 class HistoryOrdersView(View):
+    template_name_id = "profileapp/historyorder_id.jinja2"
     template_name = "profileapp/historyorder.jinja2"
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, order_id=None, **kwargs):
         if not request.user.is_authenticated:
             return redirect("/")
-        user = request.user
-        orders = Order.objects.filter(user=user)
-        return render(request, self.template_name, {"user": user,
-                                                    "orders": orders,
-                                                    "DELIVERY_CHOICES": settings.DELIVERY_CHOICES,
-                                                    "PAYMENT_CHOICES": settings.PAYMENT_CHOICES,
-                                                    "ORDER_STATUS_CHOICES": Order.ORDER_STATUS_CHOICES,})
+        if order_id:
+            request.session['current_order_id'] = order_id
+            current_order_id = request.session.get('current_order_id')
+            order = Order.objects.get(id=current_order_id)
+            total_price = get_total_price_delivery(current_order_id)
+            cart = CartService()
+            product_seller = cart.get_cart(request)
+
+            context = {
+                'order': order,
+                'order_price': total_price,
+                'cart': product_seller,
+                'STATUS_ORDER': StatusOrder,
+            }
+            return render(request, self.template_name_id, context)
+        else:
+            user = request.user
+            orders = Order.objects.filter(user=user)
+
+            context = {
+                "user": user,
+                "orders": orders,
+                "DELIVERY_CHOICES": settings.DELIVERY_CHOICES,
+                "PAYMENT_CHOICES": settings.PAYMENT_CHOICES,
+                "ORDER_STATUS_CHOICES": StatusOrder.choices,
+            }
+            return render(request, self.template_name, context)
 
 
 class ProfileView(View):
@@ -98,3 +124,4 @@ class ProfileAvatarView(APIView):
         if "avatar" in form.errors:
             error_message = form.errors["avatar"][0]
         return Response({"message": error_message}, status=400)
+
