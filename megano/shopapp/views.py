@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.contrib import messages
 from django.core.cache import cache
+from django.utils import timezone
 
 from admin_settings.utils import ImportLogHelper as Log
 from .tasks import import_json
@@ -20,9 +21,8 @@ from .models import Discount, Product, ProductReview, ProductSeller, ProductFeat
 from .services.compared_products import ComparedProductsService
 from cart_and_orders.services.cart import CartService
 from .services.discount import DiscountService
-from .services.limited_edition_and_offers import (
-    get_limited_edition_products,
-    get_limited_offers,
+from .services.limited_edition_and_limited_offer import (
+    get_daily_offer, get_limited_edition_products
 )
 from .services.product_review import ProductReviewService
 from .services.recently_viewed import RecentlyViewedService
@@ -40,7 +40,8 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["limited_offers"] = get_limited_offers()
+        context["current_date"] = timezone.now().strftime("%Y-%m-%dT%H:%M:%S")
+        context["limited_offer"] = get_daily_offer()
         context["top_products"] = get_cached_top_products()
         context["limited_edition"] = get_limited_edition_products()
         return context
@@ -302,7 +303,7 @@ class ComparisonOfProducts(View):
         # Если товары в списке сранения не из одной категории, выводится философское сообщение на тему попытки
         # сравнить то, что сравнить нельзя и сравнивается только цена.
         if not all(
-            [product.product.category == compared_products[0].product.category for product in compared_products]
+                [product.product.category == compared_products[0].product.category for product in compared_products]
         ):
             context["message"] = (
                 "Все сравниваемые товары должны быть из одной категории, в противном случае "
