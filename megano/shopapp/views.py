@@ -199,7 +199,7 @@ def catalog_list(request: HttpRequest):
 
         if qs:
             if title:
-                qs = qs.filter(product__name__icontains=title)  # фильтр по вхождению строки в название товара
+                qs = qs.filter(product__name__iregex=title)  # фильтр по вхождению строки в название товара
             if available:
                 qs = qs.filter(quantity__gt=0)  # фильтр по наличию товара
             if free_delivery:

@@ -231,28 +231,23 @@ class DiscountService:
 
                 top_discounts = sorted(top_discounts.items(), key=lambda x: x[1],
                                        reverse=True)  # сортируем скидки в порядке убвания величины скидки (список кортежей)
-                discount_sum = Decimal(0)  # added Decimal(0)
+                discount_sum = Decimal(0) # added Decimal(0)
                 used_discounts = []
+                discounted_products = [] # товары на которые уже сделана скидка
                 for discount in top_discounts:
-                    print(data["products_pcs"])
                     for item in data["products_pcs"]:
-                        print(item[0], item[0] in discount[0].products.all(), discount[0].products.all())
-                        print(item[0].product.category, item[0].product.category in discount[0].categories.all(), discount[0].categories.all())
                         if (item[0] in discount[0].products.all() or
                                 item[0].product.category in discount[0].categories.all()):
-                            if discount[0].percent:
-                                discount_sum += (round(item[0].price * discount[0].percent / 100, 2) * item[1])  # deleted Decimal(discount[0].percent / 100)
-                                #print('111111', item[1], round(item[0].price * discount[0].percent / 100, 2))
-                            else:
-                                discount_sum += (discount[0].discount_volume * item[1])
-                                #print('22222', item[1], discount[0].discount_volume)
-                            #print(discount_sum)
-                            data["products_pcs"].remove(item)  # удаляем продукт, на который была применена скидка
-                            if discount[0] not in used_discounts:
-                                used_discounts.append(discount[0])  # добавляем эту скидку в список применненныых
-                print(data["products_pcs"])
-                price_with_discount = total_price - discount_sum
-
+                            if item not in discounted_products:
+                                if discount[0].percent:
+                                    discount_sum += round(Decimal(item[0].price * discount[0].percent / 100), 2) * item[
+                                        1]  # added Decimal(
+                                else:
+                                    discount_sum += discount[0].discount_volume * item[1]
+                                discounted_products.append(item)
+                                if discount[0] not in used_discounts:
+                                    used_discounts.append(discount[0])  # добавляем эту скидку в список применненныых
+                price_with_discount = total_price - Decimal(discount_sum)  # added float for test
                 if base_price and price_with_discount < base_price:
                     price_with_discount = base_price
                 elif not base_price and price_with_discount < Decimal(1):

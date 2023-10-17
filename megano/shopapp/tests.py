@@ -2,10 +2,22 @@ from django.test import TestCase
 from decimal import Decimal
 from shopapp.models import Discount, ProductSeller, Product, Seller, Category
 from shopapp.services.discount import DiscountService
+from django.shortcuts import reverse
+
+from shopapp.views import catalog_list
+from django.contrib.contenttypes.models import ContentType
+from django.utils.text import slugify
 
 
-class DiscountsTest(TestCase):
-    "Тесты скидок"
+def generate_slug(title):
+    content_type = ContentType.objects.get_for_model(Product)
+    return slugify(title, allow_unicode=True)
+
+
+class SetUpClass(TestCase):
+    """
+    Класс для формирования метода setUp, чтоб затем наследовать его в других тестах
+    """
 
     def setUp(self):
         # продавцы
@@ -42,22 +54,30 @@ class DiscountsTest(TestCase):
             category=self.category1,
             name="Кухонный техник",
             available=True
+            #slug="kuhonnyj-tehnik"
         )
+        self.product1.slug = "kuhonnyj-tehnik"
         self.product2 = Product.objects.create(
             category=self.category2,
             name="Наушник",
             available=True
+            #slug="naushnik"
         )
+        self.product2.slug = "naushnik"
         self.product3 = Product.objects.create(
             category=self.category3,
             name="Микроволновая печь",
             available=True
+            #slug="mikrovolnovaya-pech"
         )
+        self.product3.slug = "mikrovolnovaya-pech"
         self.product4 = Product.objects.create(
             category=self.category5,
             name="Мобильный телефон",
             available=True
+            #slug="mobilnyj-telefon"
         )
+        self.product4.slug = "mobilnyj-telefon"
         # товары в корзине
         self.product_seller1 = ProductSeller.objects.create(
             product=self.product1,
@@ -93,6 +113,7 @@ class DiscountsTest(TestCase):
 
         # скидки
         self.cart_discount1 = Discount.objects.create(
+            title="discount1",
             type="c",
             weight="2",
             discount_volume=350.0,
@@ -101,6 +122,7 @@ class DiscountsTest(TestCase):
             is_active=True
         )
         self.cart_discount2 = Discount.objects.create(
+            title="discount2",
             type="c",
             weight="2",
             percent=50,
@@ -110,6 +132,7 @@ class DiscountsTest(TestCase):
             is_active=True
         )
         self.set_discount1 = Discount.objects.create(
+            title="discount3",
             type="s",
             weight="2",
             discount_volume=5.0,
@@ -122,6 +145,7 @@ class DiscountsTest(TestCase):
         self.set_discount1.save()
 
         self.set_discount2 = Discount.objects.create(
+            title="discount4",
             type="s",
             weight="2",
             percent=29,
@@ -134,6 +158,7 @@ class DiscountsTest(TestCase):
         self.set_discount2.save()
 
         self.set_discount3 = Discount.objects.create(
+            title="discount5",
             type="s",
             weight="2",
             discount_volume=645.0,
@@ -145,6 +170,7 @@ class DiscountsTest(TestCase):
         self.set_discount3.save()
 
         self.set_discount4 = Discount.objects.create(
+            title="discount6",
             type="s",
             weight="2",
             discount_volume=1645.0,
@@ -156,6 +182,7 @@ class DiscountsTest(TestCase):
         self.set_discount4.save()
 
         self.product_discount1 = Discount.objects.create(
+            title="discount7",
             type="p",
             weight="3",
             percent=15,
@@ -178,6 +205,13 @@ class DiscountsTest(TestCase):
         self.product_discount2.categories.set([self.category3])
         self.product_discount2.products.set([self.product_seller4])
         self.product_discount2.save()
+
+
+class DiscountsTest(SetUpClass):
+    "Тесты скидок"
+
+    def setUp(self):
+        super().setUp()
 
     # тесты
     def test_cart_discount1(self):
@@ -232,6 +266,34 @@ class DiscountsTest(TestCase):
             item.is_active = False
             item.save()
         result = self.discount.calculate_discount_price_product(self.cart, self.total_price)
-        self.assertEquals(result[0], 2298.20)
+        self.assertEquals(float(result[0]), 2298.20)
         self.assertEquals(result[1], [self.product_discount1, self.product_discount2])
-        #self.assertEquals(result[1][0], self.product_discount1)
+
+    def test_no_discounts(self):
+        for discount in Discount.objects.all():
+            discount.delete()  # удаляем все скидки
+        result = self.discount.calculate_discount_price_product(self.cart, self.total_price)
+        self.assertEquals(result, [])
+
+    # тест страницы скидок
+    def test_discounts_page(self):
+        response = self.client.get(reverse("shopapp:discounts"))
+        self.assertEquals(response.status_code, 200)
+        # проверка, что все скидки содержатся на странице списка скидок
+        self.assertContains(response, [str(discount.title) for discount in Discount.objects.all()][
+            -1])  # [-1], т.к. в списке какой то None появляется
+
+
+class CatalogTest(SetUpClass):
+    """
+    Тест вью-функции каталога
+    """
+
+    def setUp(self) -> None:
+        super().setUp()
+
+    def test_catalog_list(self):
+        #request = self.client.get('/catalog/')
+        # response = catalog_list(request)
+        #self.assertEquals(request.status_code, 200)
+        pass

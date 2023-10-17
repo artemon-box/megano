@@ -22,30 +22,32 @@
                                 <div class="Card-category">{{ limited_offers.product.category.name }}
                                 </div>
                             </div>
-                            <div class="CountDown" data-date="31.09.2020 03:59">
+{#                            <div class="CountDown" data-date="31.12.2023 03:59">#}
+                            <div class="CountDown" data-date="Oct 23, 2023 14:22">
                                 <div class="CountDown-block">
                                     <div class="CountDown-wrap">
-                                        <div class="CountDown-days">-1098</div>
+                                        <div class="CountDown-days" id="days">-1098</div>
                                         <span class="CountDown-label">days</span>
                                     </div>
                                 </div>
                                 <div class="CountDown-block">
                                     <div class="CountDown-wrap">
-                                        <div class="CountDown-hours">-8</div>
+                                        <div class="CountDown-hours" id="hours">-8</div>
                                         <span class="CountDown-label">hours</span>
                                     </div>
                                 </div>
                                 <div class="CountDown-block">
                                     <div class="CountDown-wrap">
-                                        <div class="CountDown-minutes">-42</div>
+                                        <div class="CountDown-minutes" id="min">-42</div>
                                         <span class="CountDown-label">mins</span>
                                     </div>
                                 </div>
                                 <div class="CountDown-block">
                                     <div class="CountDown-wrap">
-                                        <div class="CountDown-secs">-28</div>
+                                        <div class="CountDown-secs" id="sec">-28</div>
                                         <span class="CountDown-label">secs</span>
                                     </div>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -56,3 +58,45 @@
         {% include 'shopapp/top_products.jinja2' %}
     </div>
 </div>
+<script>
+    const days = document.getElementById("days"); // берем элементы дни, часы, минут, секунды
+    const hours = document.getElementById("hours");
+    const minutes = document.getElementById("min");
+    const seconds = document.getElementById("sec");
+    const countDownElement = document.querySelector('.CountDown');
+    const date = countDownElement.getAttribute('data-date');  // берем дату которая указана в data-date
+
+    // Устанавливаем дату и время, до которого хотим посчитать разницу
+    let countDownDate = new Date(date).getTime();  //"Oct 19, 2023 00:00:00"
+
+    let updateTimer = setInterval(function () {
+      // Получаем текущее дату и время
+      let now = new Date().getTime();
+      // Находим разницу между текущим временем и заданным
+      let difference = countDownDate - now;
+
+      // Рассчитываем дни, часы, минуты и секунды
+      let daysDif = Math.floor(difference / (1000 * 60 * 60 * 24));
+      let hoursDif = Math.floor(
+        (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      let minutesDif = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      let secondsDif = Math.floor((difference % (1000 * 60)) / 1000);
+
+      // Вставляем значения в таймер
+      days.innerHTML = daysDif;
+      hours.innerHTML = hoursDif;
+      minutes.innerHTML = minutesDif;
+      seconds.innerHTML = secondsDif;
+
+      // Когда таймер дойдет до заданной даты и времени и риусем "-" в строках
+      if (difference < 0) {
+        clearInterval(updateTimer);
+        days.innerHTML = "-";
+        hours.innerHTML = "-";
+        minutes.innerHTML = "-";
+        seconds.innerHTML = "-";
+      }
+      // Обновляем функцию с интервалом 1 секунда
+    }, 1000);
+</script>

@@ -121,7 +121,7 @@
                             {% endfor %}
                         </div>
                         <div class="Card-hover">
-                            <a class="Card-btn" href="#" title="Добавить в корзину"> {# добавить в корзину #}
+                            <a class="Card-btn" href="{{ url('cart_and_orders:add_to_cart', product_id=dealer.id) }}" title="Добавить в корзину"> {# добавить в корзину #}
                                 <img src="{{ static('assets/img/icons/card/cart.svg') }}" alt="cart.svg"/>
                             </a>
                              <a class="Card-btn" href="{{ url('shopapp:compare_add', product_id=dealer.id) }}" title="Добавить в список сравнения"> {# добавить в список сравнения #}
