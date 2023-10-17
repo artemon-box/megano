@@ -1,17 +1,17 @@
+from django.http import HttpRequest
 from django.test import TestCase
 from decimal import Decimal
+
+from django.urls import resolve
 from shopapp.models import Discount, ProductSeller, Product, Seller, Category
 from shopapp.services.discount import DiscountService
 from django.shortcuts import reverse
 
+import unittest
+from django.test.client import RequestFactory
 from shopapp.views import catalog_list
 from django.contrib.contenttypes.models import ContentType
 from django.utils.text import slugify
-
-
-def generate_slug(title):
-    content_type = ContentType.objects.get_for_model(Product)
-    return slugify(title, allow_unicode=True)
 
 
 class SetUpClass(TestCase):
@@ -52,32 +52,24 @@ class SetUpClass(TestCase):
         # товары
         self.product1 = Product.objects.create(
             category=self.category1,
-            name="Кухонный техник",
+            name="kuhonnyj-tehnik",
             available=True
-            #slug="kuhonnyj-tehnik"
         )
-        self.product1.slug = "kuhonnyj-tehnik"
         self.product2 = Product.objects.create(
             category=self.category2,
-            name="Наушник",
+            name="naushnik",
             available=True
-            #slug="naushnik"
         )
-        self.product2.slug = "naushnik"
         self.product3 = Product.objects.create(
             category=self.category3,
-            name="Микроволновая печь",
+            name="mikrovolnovaya-pech",
             available=True
-            #slug="mikrovolnovaya-pech"
         )
-        self.product3.slug = "mikrovolnovaya-pech"
         self.product4 = Product.objects.create(
             category=self.category5,
-            name="Мобильный телефон",
+            name="mobilnyj-telefon",
             available=True
-            #slug="mobilnyj-telefon"
         )
-        self.product4.slug = "mobilnyj-telefon"
         # товары в корзине
         self.product_seller1 = ProductSeller.objects.create(
             product=self.product1,
@@ -293,7 +285,12 @@ class CatalogTest(SetUpClass):
         super().setUp()
 
     def test_catalog_list(self):
-        #request = self.client.get('/catalog/')
-        # response = catalog_list(request)
-        #self.assertEquals(request.status_code, 200)
-        pass
+        response = self.client.get("/catalog/")
+        self.assertEquals(response.status_code, 200)
+
+    def test_context(self):
+        data = {'price': '0;100000'}
+        response = self.client.post("/catalog/", data=data)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "shopapp/catalog.jinja2")
+
