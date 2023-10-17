@@ -1,0 +1,22 @@
+<div class="Section-column">
+    <div class="Section-columnSection">
+        <header class="Section-header">
+            <strong class="Section-title">Навигация
+            </strong>
+        </header>
+        <div class="Section-columnContent">
+            <div class="NavigateProfile">
+                <ul class="menu menu_vt">
+                    <li class="{{ 'menu-item_ACTIVE' if view_page == 'account' else '' }} menu-item"><a class="menu-link" href="{{ url('profileapp:account') }}">Личный кабинет</a>
+                    </li>
+                    <li class="{{ 'menu-item_ACTIVE' if view_page == 'profile' else '' }} menu-item"><a class="menu-link" href="{{ url('profileapp:profile') }}">Профиль</a>
+                    </li>
+                    <li class="{{ 'menu-item_ACTIVE' if view_page == 'hist_order' else '' }} menu-item"><a class="menu-link" href="{{ url('profileapp:historyorder') }}">История заказов</a>
+                    </li>
+                    <li class="{{ 'menu-item_ACTIVE' if view_page == 'hist_product' else '' }} menu-item"><a class="menu-link" href="{{ url('histviewapp:products') }}">История просмотров</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

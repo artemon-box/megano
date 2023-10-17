@@ -1,6 +1,7 @@
 from cart_and_orders.models import Order
 import requests
 from paymentapp.tasks import process_payment
+from paymentapp.utils.quantity_correction import quantity_correction
 
 
 class PaymentService:
@@ -15,6 +16,7 @@ class PaymentService:
         :return: Успешность и информация о запросе на оплату.
         """
 
+        quantity_correction(order_id, increase=False)
         payment_task = process_payment.apply_async(args=(order_id, card_number, price))
 
         return {
@@ -31,22 +33,14 @@ class PaymentService:
         :param task_id: ID задачи оплаты из Celery.
         :return: Статус оплаты и информация о заказе.
         """
-        try:
-            task_result = process_payment.AsyncResult(task_id)
-            if task_result.state == "SUCCESS":
-                order_id, payment_status, price = task_result.result
-                order = Order.objects.get(id=order_id)
-                return {
-                    "success": True,
-                    "message": f"Статус оплаты заказа {order.id}: {payment_status}",
-                }
-            else:
-                return {
-                    "success": False,
-                    "message": "Запрос на оплату еще не завершен.",
-                }
-        except Exception as e:
-            return {
-                "success": False,
-                "message": str(e),
-            }
+
+        if not task_id:
+            raise ValueError('Идентификатор задачи отсутствует')
+
+        result = process_payment.AsyncResult(task_id)
+        if result.state == 'SUCCESS':
+            return {'status': 'success'}
+        elif result.state == 'FAILURE':
+            return {'status': 'failed'}
+        else:
+            return {'status': 'pending'}

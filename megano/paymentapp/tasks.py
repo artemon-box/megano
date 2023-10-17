@@ -1,13 +1,9 @@
 import json
 
 import requests
-from celery import shared_task
-from django.http import JsonResponse
-from django.shortcuts import render, redirect
 
 from cart_and_orders.models import Order
 from config.celery import app
-import time
 
 
 @app.task
@@ -33,8 +29,6 @@ def process_payment(order_id, card_number, price):
 
         response = requests.post(url, json=data)
         result = response.json()
-
-        print('task-result:', result)
 
         order = Order.objects.get(id=order_id)
         if result['status'] == 'success':

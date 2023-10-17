@@ -1,0 +1,111 @@
+{% extends 'base.jinja2' %}
+
+<script src="{{ static('assets/js/scripts.js') }}"></script>
+
+{% block content %}
+    <header class="Section-header Section-header_sm">
+        <h2 class="Section-title" style="margin-left: 40px; margin-top: 20px">Подтверждение заказа
+        </h2>
+    </header>
+    <div class="Order-infoBlock" style="margin-left: 40px; margin-right: 40px">
+        <div class="Order-personal">
+            <div class="row">
+                <div class="row-block">
+                    <div class="Order-info">
+                        <div class="Order-infoType">ФИО:
+                        </div>
+                        <div class="Order-infoContent" id="nameContent" >
+                            {{ order.user.name }}
+                        </div>
+                    </div>
+                    <div class="Order-info">
+                        <div class="Order-infoType">Телефон:
+                        </div>
+                        <div class="Order-infoContent" id="phoneContent">
+                            +7 {{ order.user.phone }}
+                        </div>
+                    </div>
+                    <div class="Order-info">
+                        <div class="Order-infoType">E-mail:
+                        </div>
+                        <div class="Order-infoContent" id="mailContent">
+                            {{ order.user.email }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row-block">
+                    <div class="Order-info Order-info_delivery">
+                        <div class="Order-infoType">Тип доставки:
+                        </div>
+                        <div class="Order-infoContent" id="deliveryContent">
+                            {{ order.delivery_method }}
+                        </div>
+                    </div>
+                    <div class="Order-info">
+                        <div class="Order-infoType">Город:
+                        </div>
+                        <div class="Order-infoContent" id="cityContent">
+                            {{ order.city }}
+                        </div>
+                    </div>
+                    <div class="Order-info">
+                        <div class="Order-infoType">Адрес:
+                        </div>
+                        <div class="Order-infoContent" id="addressContent">
+                            {{ order.address }}
+                        </div>
+                    </div>
+                    <div class="Order-info Order-info_pay">
+                        <div class="Order-infoType">Оплата:
+                        </div>
+                        <div class="Order-infoContent" id="paymentContent">{{ order.payment_method }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="Cart Cart_order">
+            {% for item in cart %}
+                <div class="Cart-product">
+                    <div class="Cart-block Cart-block_row">
+                        <div class="Cart-block Cart-block_pict"><a class="Cart-pict" href="#"><img
+                                class="Cart-img" src="{{ item.product_seller.product.image.url }}"
+                                alt="card.jpg"></a>
+                        </div>
+                        <div class="Cart-block Cart-block_info"><a class="Cart-title"
+                                                                   href="#">{{ item.product_seller.product.name }}</a>
+                            <div class="Cart-desc">
+                                {% if item.product_seller.product.description|length > 200 %}
+                                    {{ item.product_seller.product.description[:200] }}...
+                                {% else %}
+                                    {{ item.product_seller.product.description }}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="Cart-block Cart-block_price">
+                            <div class="Cart-price">{{ item.product_seller.price }}$
+                            </div>
+                        </div>
+                    </div>
+                    <div class="Cart-block Cart-block_row">
+                        <div class="Cart-block Cart-block_amount">{{ item.quantity }} шт.
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="Cart-total">
+                <div class="Cart-block Cart-block_total">
+                    <strong class="Cart-title">Итого:
+                    </strong><span class="Cart-price">{{ order_price }}$</span>
+                </div>
+                <div class="Cart-block">
+                    {% if order.payment_method == 'online' %}
+                        <a class="btn btn_primary" href="{{ url('paymentapp:payment') }}">Оплатить</a>
+                    {% else %}
+                        <a class="btn btn_primary" href="{{ url('paymentapp:payment_someone') }}">Оплатить</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -6,8 +6,9 @@ from django.http import HttpRequest, HttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.views import View
 from .forms import OrderForm
-from .models import Order, OrderProduct
+from .models import Order, OrderProduct, DeliveryMethod
 from .services.cart import CartService
+from .utils.get_total_price import get_total_price_delivery
 
 
 class CartView(View):
@@ -67,18 +68,6 @@ class OrderView(View):
 
         return re.sub(r"\D", "", phone)[1:]
 
-    @classmethod
-    def get_total_price(cls, cart):
-        """
-        Метод получения полной стоимости заказа
-        """
-
-        total_price = 0
-
-        for item in cart:
-            total_price += item['product_seller'].price
-        return total_price
-
     def get(self, request: HttpRequest) -> HttpResponse:
         """
         Обработчик GET-запроса для отображения информации о заказе.
@@ -89,16 +78,17 @@ class OrderView(View):
 
         product_seller = self.cart.get_cart(request)
 
+        user_orders = Order.objects.filter(user_id=request.user, status='created')
+        if user_orders:
+            user_orders.delete()
+
         if not product_seller:
             raise Http404("Корзина пуста")
 
-        total_price = self.get_total_price(product_seller)
-
-        order_form = OrderForm(initial={'delivery': 'ordinary', 'payment': 'online'})
+        first_delivery_method = DeliveryMethod.objects.first()
+        order_form = OrderForm(initial={'delivery': first_delivery_method, 'payment': 'online'})
         context = {
             'form': order_form,
-            'cart': product_seller,
-            'total_price': total_price,
         }
         return render(request, 'cart_and_orders/order.jinja2', context)
 
@@ -112,7 +102,6 @@ class OrderView(View):
         order_form = OrderForm(request.POST)
         cart = self.cart.get_cart(request)
         user = request.user
-        total_price = self.get_total_price(self.cart.get_cart(request))
 
         if order_form.is_valid():
 
@@ -135,7 +124,6 @@ class OrderView(View):
                 address=order_form.cleaned_data['address'],
                 delivery_method=order_form.cleaned_data['delivery'],
                 payment_method=order_form.cleaned_data['payment'],
-                total_price=total_price,
             )
 
             order.save()
@@ -154,24 +142,47 @@ class OrderView(View):
 
                 order_item.save()
 
+            order.total_price = get_total_price_delivery(order.id)
+            order.save()
+
             request.session['current_order_id'] = order.id
 
-            if order_form.cleaned_data['payment'] == 'online':
-                return redirect('paymentapp:payment')
-            else:
-                return redirect('paymentapp:payment_someone')
+            return redirect('cart_and_orders:order_confirm')
 
         else:
 
-            product_seller = self.cart.get_cart(request)
-            total_price = self.get_total_price(product_seller)
-
             context = {
                 'form': order_form,
-                'cart': product_seller,
-                'total_price': total_price,
             }
             return render(request, 'cart_and_orders/order.jinja2', context)
+
+
+class OrderConfirmView(View):
+    """
+    Представление для отображения страницы подтверждения заказа.
+    """
+
+    cart = CartService()
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+        """
+        Обработчик GET-запроса для отображения информации о заказе.
+
+        :param request: Запрос пользователя.
+        :return: HTTP-ответ с детальной информацией о заказе.
+        """
+        current_order_id = request.session.get('current_order_id')
+        order = Order.objects.get(id=current_order_id)
+        total_price = get_total_price_delivery(current_order_id)
+        product_seller = self.cart.get_cart(request)
+
+        context = {
+            'order': order,
+            'order_price': total_price,
+            'cart': product_seller,
+        }
+
+        return render(request, 'cart_and_orders/order_confirm.jinja2', context)
 
 
 class ClearCartView(View):

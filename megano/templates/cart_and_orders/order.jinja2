@@ -37,9 +37,6 @@
                                     </li>
                                     <li class="menu-item"><a class="menu-link" href="#step3">Шаг 3. Способ оплаты</a>
                                     </li>
-                                    <li class="menu-item"><a class="menu-link" href="#step4">Шаг 4. Подтверждение
-                                        заказа</a>
-                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -151,104 +148,9 @@
                                     {% endfor %}
                                 </fieldset>
                             </div>
-                            <div class="Order-footer"><a class="btn btn_success Order-next" href="#step4" onclick="updateValues()">Дальше</a>
-                            </div>
-                        </div>
-                        <div class="Order-block" id="step4">
-                            <header class="Section-header Section-header_sm">
-                                <h2 class="Section-title">Шаг 4. Подтверждение заказа
-                                </h2>
-                            </header>
-                            <div class="Order-infoBlock">
-                                <div class="Order-personal">
-                                    <div class="row">
-                                        <div class="row-block">
-                                            <div class="Order-info">
-                                                <div class="Order-infoType">ФИО:
-                                                </div>
-                                                <div class="Order-infoContent" id="nameContent">
-                                                </div>
-                                            </div>
-                                            <div class="Order-info">
-                                                <div class="Order-infoType">Телефон:
-                                                </div>
-                                                <div class="Order-infoContent" id="phoneContent">
-                                                </div>
-                                            </div>
-                                            <div class="Order-info">
-                                                <div class="Order-infoType">E-mail:
-                                                </div>
-                                                <div class="Order-infoContent" id="mailContent">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row-block">
-                                            <div class="Order-info Order-info_delivery">
-                                                <div class="Order-infoType">Тип доставки:
-                                                </div>
-                                                <div class="Order-infoContent" id="deliveryContent">
-                                                </div>
-                                            </div>
-                                            <div class="Order-info">
-                                                <div class="Order-infoType">Город:
-                                                </div>
-                                                <div class="Order-infoContent" id="cityContent">
-                                                </div>
-                                            </div>
-                                            <div class="Order-info">
-                                                <div class="Order-infoType">Адрес:
-                                                </div>
-                                                <div class="Order-infoContent" id="addressContent">
-                                                </div>
-                                            </div>
-                                            <div class="Order-info Order-info_pay">
-                                                <div class="Order-infoType">Оплата:
-                                                </div>
-                                                <div class="Order-infoContent" id="paymentContent">Онлайн картой
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="Cart Cart_order">
-                                    {% for item in cart %}
-                                        <div class="Cart-product">
-                                            <div class="Cart-block Cart-block_row">
-                                                <div class="Cart-block Cart-block_pict"><a class="Cart-pict" href="#"><img
-                                                        class="Cart-img" src="{{ item.product_seller.product.image.url }}"
-                                                        alt="card.jpg"></a>
-                                                </div>
-                                                <div class="Cart-block Cart-block_info"><a class="Cart-title" href="#">{{ item.product_seller.product.name }}</a>
-                                                    <div class="Cart-desc">
-                                                        {% if item.product_seller.product.description|length > 200 %}
-                                                            {{ item.product_seller.product.description[:200] }}...
-                                                        {% else %}
-                                                            {{ item.product_seller.product.description }}
-                                                        {% endif %}
-                                                    </div>
-                                                </div>
-                                                <div class="Cart-block Cart-block_price">
-                                                    <div class="Cart-price">{{ item.product_seller.price }}$
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="Cart-block Cart-block_row">
-                                                <div class="Cart-block Cart-block_amount">{{ item.quantity }} шт.
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                    <div class="Cart-total">
-                                        <div class="Cart-block Cart-block_total">
-                                            <strong class="Cart-title">Итого:
-                                            </strong><span class="Cart-price">{{ total_price }}$</span>
-                                        </div>
-                                        <div class="Cart-block">
-                                            <button class="btn btn_primary btn_lg" type="submit">Оплатить
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="Cart-block">
+                                <button class="btn btn_success" type="submit" style="margin-top: 20px">Дальше
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -256,46 +158,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        function updateValues() {
-            var name = document.getElementById('name');
-            var phone = document.getElementById('phone');
-            var mail = document.getElementById('mail');
-            var city = document.getElementById('city');
-            var address = document.getElementById('address');
-
-            var deliveryRadioButtons = document.getElementsByName('{{ form.delivery.name }}');
-            var paymentRadioButtons = document.getElementsByName('{{ form.payment.name }}');
-
-            var nameContent = document.getElementById('nameContent');
-            var phoneContent = document.getElementById('phoneContent');
-            var mailContent = document.getElementById('mailContent');
-            var deliveryContent = document.getElementById('deliveryContent');
-            var paymentContent = document.getElementById('paymentContent');
-            var cityContent = document.getElementById('cityContent');
-            var addressContent = document.getElementById('addressContent');
-
-            for (var i = 0; i < deliveryRadioButtons.length; i++) {
-                if (deliveryRadioButtons[i].checked) {
-                    deliveryContent.textContent = deliveryRadioButtons[i].parentNode.textContent.trim();
-                    break;
-                }
-            }for (var i = 0; i < paymentRadioButtons.length; i++) {
-                if (paymentRadioButtons[i].checked) {
-                    paymentContent.textContent = paymentRadioButtons[i].parentNode.textContent.trim();
-                    break;
-                }
-            }
-
-            nameContent.textContent = name.value;
-            phoneContent.textContent = phone.value;
-            mailContent.textContent = mail.value;
-            cityContent.textContent = city.value;
-            addressContent.textContent = address.value;
-        }
-
-    </script>
 
 {% endblock %}
 
