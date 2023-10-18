@@ -201,7 +201,7 @@ def catalog_list(request: HttpRequest):
 
         if qs:
             if title:
-                qs = qs.filter(product__name__icontains=title)  # фильтр по вхождению строки в название товара
+                qs = qs.filter(product__name__iregex=title)  # фильтр по вхождению строки в название товара
             if available:
                 qs = qs.filter(quantity__gt=0)  # фильтр по наличию товара
             if free_delivery:
@@ -387,7 +387,7 @@ class DiscountList(View):
 
     def get(self, request):
         discounts = Discount.objects.all().prefetch_related("products", "categories")
-        context = {"discounts": discounts}
+        context = {"all_discounts": discounts}  # all_discounts т.к. в context_processors уже есть "discounts"
         return render(request, self.template_name, context=context)
 
 

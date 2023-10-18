@@ -88,8 +88,9 @@
                 </div>
 {#====================================================================================================================#}
                 <div class="Comments" id="comments-section">
-                {% if discount %}
+                {% if discounts %}
                     <span class="Cart-title" style="margin-bottom: 25px;">Применена скидка:</span>
+                {% for discount in discounts %}
                     <div class="Comment" style="margin-bottom: 20px">
                         <div class="Comment-column Comment-column_pict">
                             <div class="Comment-avatar" style="background-image: url('../static/assets/img/icons/card/discount.svg')"></div>
@@ -127,20 +128,34 @@
                                     {% if discount.products.all() %}
                                         <div>Необходимый набор продуктов в корзине для скидки:
                                         {% for product in discount.products.all() %}
-                                            {{ product }},
+                                            {{ product }}{{ ", " if not loop.last else "." }}
                                         {% endfor %}
                                         </div>
                                     {% endif %}
                                     {% if discount.categories.all() %}
                                         <div>Необходимый набор категорий товаров в корзине для скидки:
                                         {% for category in discount.categories.all() %}
-                                             {{ category }},
+                                             {{ category }}{{ ", " if not loop.last else "." }}
                                         {% endfor %}
                                         </div>
                                     {% endif %}
                                 {% endif %}
                                 {% if discount.type == "p" %}
                                     <div>Скидка примена на товары в корзине</div>
+                                {% if discount.products.all() %}
+                                    <div>Скидка распространяется на следующие продукты:
+                                    {% for product in discount.products.all() %}
+                                        {{ product }}{{ ", " if not loop.last else "." }}
+                                    {% endfor %}
+                                    </div>
+                                {% endif %}
+                                {% if discount.categories.all() %}
+                                    <div>Скидка распространяется на следующие категории продуктов:
+                                    {% for category in discount.categories.all() %}
+                                         {{ category }}{{ ", " if not loop.last else "." }}
+                                    {% endfor %}
+                                    </div>
+                                {% endif %}
                                 {% endif %}
                                 {% if discount.percent %}
                                     <div>Размер скидки: {{ discount.percent }}%</div>
@@ -151,6 +166,7 @@
                             </div>
                         </div>
                     </div>
+                    {% endfor %}
                     <a href="{{ url('shopapp:discounts') }}"><span class="menu-label menu-label_success">Все скидки магазина...👉🏽</span></a>
                 {% endif %}
             </div>
