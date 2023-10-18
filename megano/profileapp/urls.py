@@ -5,10 +5,9 @@ from .views import AccountView, HistoryOrdersView, ProfileAvatarView, ProfileVie
 app_name = "profileapp"
 
 urlpatterns = [
-    path("profile/avatar/", ProfileAvatarView.as_view(), name="profile_avatar"),
-    path("profile/", ProfileView.as_view(), name="profile"),
-    path("", AccountView.as_view(), name="account"),
-    path("orders/history-order/", HistoryOrdersView.as_view(), name="historyorder"),
+    path("accounts/profile/avatar/", ProfileAvatarView.as_view(), name="profile_avatar"),
+    path("accounts/profile/", ProfileView.as_view(), name="profile"),
+    path("accounts/", AccountView.as_view(), name="account"),
     path("orders/history-order/<int:order_id>/", HistoryOrdersView.as_view(), name="historyorder_id"),
     path("orders/history-order/", HistoryOrdersView.as_view(), name="historyorder"),
 ]
