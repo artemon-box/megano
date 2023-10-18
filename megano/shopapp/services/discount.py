@@ -258,7 +258,7 @@ class DiscountService:
                                 discounted_products.append(item)
                                 if discount[0] not in used_discounts:
                                     used_discounts.append(discount[0])  # добавляем эту скидку в список применненныых
-                price_with_discount = total_price - Decimal(discount_sum)  # added float for test
+                price_with_discount = total_price - Decimal(discount_sum)
                 if base_price and price_with_discount < base_price:
                     price_with_discount = base_price
                 elif not base_price and price_with_discount < Decimal(1):
