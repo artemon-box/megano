@@ -1,41 +1,36 @@
 import json
 import uuid
 
-from admin_settings.utils import ImportLogHelper as Log
-from cart_and_orders.services.cart import CartService
 from celery.result import AsyncResult
+from django.shortcuts import get_object_or_404, redirect, render
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.contrib import messages
 from django.core.cache import cache
+from django.utils import timezone
+
+from admin_settings.utils import ImportLogHelper as Log
+from .tasks import import_json
+
 from django.core.paginator import Paginator
 from django.db.models import Min
-from django.http import HttpRequest, HttpResponse, JsonResponse
-from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
-from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
-from histviewapp.services.history import HistoryService
 
-from .forms import AddToCartForm, FileImportForm, ProductReviewForm
-from .models import (
-    Discount,
-    Product,
-    ProductFeature,
-    ProductReview,
-    ProductSeller,
-    Seller,
-)
+from .forms import AddToCartForm, ProductReviewForm, FileImportForm
+from .models import Discount, Product, ProductReview, ProductSeller, ProductFeature, Seller
 from .services.compared_products import ComparedProductsService
+from cart_and_orders.services.cart import CartService
 from .services.discount import DiscountService
-from .services.limited_edition_and_offers import (
-    get_limited_edition_products,
-    get_limited_offers,
+from .services.limited_edition_and_limited_offer import (
+    get_daily_offer, get_limited_edition_products
 )
 from .services.product_review import ProductReviewService
 from .services.recently_viewed import RecentlyViewedService
-from .tasks import import_json, test_task
 from .utils.details_cache import get_cached_product_by_slug
 from .utils.seller_top_sales import seller_top_sales
 from .utils.top_products import get_cached_top_products
+
+from histviewapp.services.history import HistoryService
 
 
 class HomeView(TemplateView):
@@ -45,7 +40,8 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["limited_offers"] = get_limited_offers()
+        context["current_date"] = timezone.now().strftime("%Y-%m-%dT%H:%M:%S")
+        context["limited_offer"] = get_daily_offer()
         context["top_products"] = get_cached_top_products()
         context["limited_edition"] = get_limited_edition_products()
         return context
@@ -71,7 +67,10 @@ class SellerDetailView(View):
         seller = Seller.objects.get(slug=seller_slug)
         top_products = seller_top_sales(seller)
 
-        context = {"seller": seller, "top_products": top_products}
+        context = {
+            'seller': seller,
+            'top_products': top_products
+        }
 
         return render(request, self.template_name, context)
 
@@ -304,7 +303,7 @@ class ComparisonOfProducts(View):
         # Если товары в списке сранения не из одной категории, выводится философское сообщение на тему попытки
         # сравнить то, что сравнить нельзя и сравнивается только цена.
         if not all(
-            [product.product.category == compared_products[0].product.category for product in compared_products]
+                [product.product.category == compared_products[0].product.category for product in compared_products]
         ):
             context["message"] = (
                 "Все сравниваемые товары должны быть из одной категории, в противном случае "
@@ -392,53 +391,45 @@ class DiscountList(View):
 
 class ImportProducts(View):
     def get(self, request):
+        task_id = request.session.get('task_id', False)
         form = FileImportForm()
-        context = {"form": form, "header": "Upload from JSON file"}
-        return render(request, "admin_settings/upload_file_form.html", context)
+        context = {'form': form, 'header': 'Upload from JSON file'}
+        if task_id:
+            task_result = AsyncResult(task_id)
+            context['current_task_id'] = task_id
+            context['current_task_status'] = task_result.status
+            context['current_task_result'] = task_result.result
+            if task_result.status in ['SUCCESS', 'FAILURE', 'REVOKED']:
+                context['allowed_new_task'] = True
+                request.session['task_id'] = None
+            else:
+                context['allowed_new_task'] = False
+        else:
+            context['allowed_new_task'] = True
+        return render(request, 'admin_settings/upload_file_form.html', context)
 
     def post(self, request):
         form = FileImportForm(request.POST, request.FILES)
-        context = {"form": form, "header": "Upload from JSON file"}
+        context = {'form': form, 'header': 'Upload from JSON file'}
         if not form.is_valid():
-            return render(request, "admin_settings/upload_file_form.html", context, status=400)
-        email = form.data["email"] if form.data["email"] else request.user.email
-        file = form.files["file"]
+            return render(request, 'admin_settings/upload_file_form.html', context, status=400)
+        email = form.data['email'] if form.data['email'] else request.user.email
+        file = form.files['file']
         seller_id = request.user.seller_set.first().id
         import_id = uuid.uuid4()
         try:
             products_from_json = json.load(file)
-            log_data = {"import_id": import_id, "user_id": request.user.id}
-            task = import_json.delay(
-                [
-                    (products_from_json, file.name),
-                ],
-                email,
-                seller_id,
-                log_data,
-            )
-            messages.info(request, "Импорт начат, Вам придет уведомление на указанный адрес.")
-            Log.info(user=request.user, import_id=import_id, message="Задача по импорту отправлена в очередь Celery.")
-            return redirect(request.META.get("HTTP_REFERER"))
+            log_data = {'import_id': import_id, 'user_id': request.user.id}
+            task = import_json.delay([(products_from_json, file.name), ], email, seller_id, log_data)
+            request.session['task_id'] = task.id
+            messages.info(request, 'Импорт начат, Вам придет уведомление на указанный адрес.')
+            Log.info(user=request.user, import_id=import_id, message='Задача по импорту отправлена в очередь Celery.')
+            return redirect(request.META.get('HTTP_REFERER'))
         except (UnicodeDecodeError, json.JSONDecodeError):
-            messages.error(request, "Файл не соответствует формату JSON")
+            messages.error(request, 'Файл не соответствует формату JSON')
             Log.critical(
                 user=request.user,
                 import_id=import_id,
-                message=f'Импорт из файла "{file.name}" НЕ выполнен! Файл не соответствует формату JSON.',
+                message=f'Импорт из файла "{file.name}" НЕ выполнен! Файл не соответствует формату JSON.'
             )
-            return render(request, "admin_settings/upload_file_form.html", context)
-
-
-# @csrf_exempt
-def run_task(request):
-    if request.POST:
-        task_type = request.POST.get("type")
-        task = test_task.delay(int(task_type))
-        return JsonResponse({"task_id": task.id}, status=202)
-
-
-# @csrf_exempt
-def get_status(request, task_id):
-    task_result = AsyncResult(task_id)
-    result = {"task_id": task_id, "task_status": task_result.status, "task_result": task_result.result}
-    return JsonResponse(result, status=200)
+            return render(request, 'admin_settings/upload_file_form.html', context)

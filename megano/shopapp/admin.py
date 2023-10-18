@@ -3,12 +3,10 @@ import json
 from django.contrib import admin
 from django.contrib.admin import forms
 from django.db.models import QuerySet
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import redirect, render
-from django.urls import path
+from django.http import HttpRequest
 from taggit.models import Tag
 
-from .forms import FileImportForm, ProductFeatureForm
+from .forms import ProductFeatureForm
 from .models import (
     AllowedRelation,
     Category,
@@ -22,7 +20,15 @@ from .models import (
     ProductSeller,
     Seller,
 )
-from .views import ImportProducts, get_status, run_task
+from django.db.models import QuerySet
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render, redirect
+from taggit.models import Tag
+from django.urls import path
+from .forms import ProductFeatureForm, FileImportForm
+
+
+from .views import ImportProducts
 
 
 @admin.register(Category)
@@ -100,11 +106,7 @@ class ProductSellerAdmin(admin.ModelAdmin):
     def get_urls(self):
         urls = super().get_urls()
         new_urls = [
-            path(
-                "import-products-json",
-                ImportProducts.as_view(),
-                name="import_products_json",
-            ),
+            path('import-products-json', ImportProducts.as_view(), name='import_products_json',),
         ]
         return new_urls + urls
 

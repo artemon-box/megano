@@ -1,14 +1,9 @@
 from django.urls import path
 
 from . import views
-from .views import (
-    DiscountList,
-    HomeView,
-    ProductDetailView,
-    SellerDetailView,
-    get_status,
-    run_task,
-)
+
+from .views import HomeView, ProductDetailView, SellerDetailView, DiscountList
+
 
 app_name = "shopapp"
 
@@ -33,7 +28,5 @@ urlpatterns = [
         name="product_detail",
     ),
     path("discounts/", DiscountList.as_view(), name="discounts"),
-    path("tasks/", run_task, name="run_task"),
-    path("tasks/<task_id>/", get_status, name="get_status"),
-    path("sellers/<slug:seller_slug>/", SellerDetailView.as_view(), name="seller_detail"),
+    path('sellers/<slug:seller_slug>/', SellerDetailView.as_view(), name='seller_detail'),
 ]
