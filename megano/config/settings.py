@@ -17,9 +17,9 @@ from environs import Env
 env = Env()
 env.read_env()
 
-POSTGRES_DB = env.str("POSTGRES_DB")
-POSTGRES_USER = env.str("POSTGRES_USER")
-POSTGRES_PASSWORD = env.str("POSTGRES_PASSWORD")
+POSTGRES_DB = env.str("DB_NAME")
+POSTGRES_USER = env.str("DB_USER")
+POSTGRES_PASSWORD = env.str("DB_PASS")
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
