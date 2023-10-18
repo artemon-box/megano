@@ -20,7 +20,7 @@ def send_import_notification(result_list, error_list, email):
     if result_list:
         message += f"Импортированные товары: {result_list}.\n"
     else:
-        message += f"Товары не импортированы.\n"
+        message += "Товары не импортированы.\n"
 
     send_mail(subject, message, "admin@example.com", [email])
 
