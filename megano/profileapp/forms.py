@@ -1,7 +1,8 @@
+import re
+
 from django import forms
 from django.contrib.auth import get_user_model
 from django.core.validators import RegexValidator
-import re
 
 
 class ProfileAvatarForm(forms.ModelForm):
@@ -61,8 +62,8 @@ class ProfileForm(forms.ModelForm):
 
     def clean_phone(self):
         phone_form = self.cleaned_data["phone"]
-        digits = re.findall(r'\d', phone_form)
-        phone = ''.join(digits)[1:]
+        digits = re.findall(r"\d", phone_form)
+        phone = "".join(digits)[1:]
         if phone == self.instance.phone:
             return phone
         if get_user_model().objects.filter(phone=phone).exists():

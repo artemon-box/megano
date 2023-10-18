@@ -1,6 +1,9 @@
 import os
 import re
 
+from cart_and_orders.models import Order, StatusOrder
+from cart_and_orders.services.cart import CartService
+from cart_and_orders.utils.get_total_price import get_total_price_delivery
 from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect, render
@@ -9,9 +12,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .forms import ProfileAvatarForm, ProfileForm
-from cart_and_orders.models import Order, StatusOrder
-from cart_and_orders.utils.get_total_price import get_total_price_delivery
-from cart_and_orders.services.cart import CartService
 
 
 class AccountView(View):
@@ -42,18 +42,18 @@ class HistoryOrdersView(View):
         if not request.user.is_authenticated:
             return redirect("/")
         if order_id:
-            request.session['current_order_id'] = order_id
-            current_order_id = request.session.get('current_order_id')
+            request.session["current_order_id"] = order_id
+            current_order_id = request.session.get("current_order_id")
             order = Order.objects.get(id=current_order_id)
             total_price = get_total_price_delivery(current_order_id)
             cart = CartService()
             product_seller = cart.get_cart(request)
 
             context = {
-                'order': order,
-                'order_price': total_price,
-                'cart': product_seller,
-                'STATUS_ORDER': StatusOrder,
+                "order": order,
+                "order_price": total_price,
+                "cart": product_seller,
+                "STATUS_ORDER": StatusOrder,
             }
             return render(request, self.template_name_id, context)
         else:
@@ -124,4 +124,3 @@ class ProfileAvatarView(APIView):
         if "avatar" in form.errors:
             error_message = form.errors["avatar"][0]
         return Response({"message": error_message}, status=400)
-
