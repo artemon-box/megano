@@ -1,5 +1,5 @@
-from cart_and_orders.models import Order
 import requests
+from cart_and_orders.models import Order
 from paymentapp.tasks import process_payment
 from paymentapp.utils.quantity_correction import quantity_correction
 
@@ -35,12 +35,12 @@ class PaymentService:
         """
 
         if not task_id:
-            raise ValueError('Идентификатор задачи отсутствует')
+            raise ValueError("Идентификатор задачи отсутствует")
 
         result = process_payment.AsyncResult(task_id)
-        if result.state == 'SUCCESS':
-            return {'status': 'success'}
-        elif result.state == 'FAILURE':
-            return {'status': 'failed'}
+        if result.state == "SUCCESS":
+            return {"status": "success"}
+        elif result.state == "FAILURE":
+            return {"status": "failed"}
         else:
-            return {'status': 'pending'}
+            return {"status": "pending"}

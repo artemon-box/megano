@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
-
-from shopapp.models import Product, Seller, ProductSeller
+from shopapp.models import Product, ProductSeller, Seller
 
 
 class CartItems(models.Model):
@@ -18,12 +17,12 @@ class CartItems(models.Model):
 
 
 class DeliveryMethod(models.Model):
-    name = models.CharField(max_length=100, verbose_name='Название метода доставки')
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена доставки')
+    name = models.CharField(max_length=100, verbose_name="Название метода доставки")
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена доставки")
     order_minimal_price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        verbose_name='Цена заказа для расчёта стоимости доставки',
+        verbose_name="Цена заказа для расчёта стоимости доставки",
         blank=True,
         null=True,
     )
@@ -47,8 +46,14 @@ class StatusOrder(models.TextChoices):
         """
         Список для показа основных заказов в кабинете пользователя
         """
-        return [cls.CREATED.value, cls.PENDING.value, cls.PAID.value, cls.FAILED.value,
-                cls.PROCESSING.value, cls.SHIPPED.value, ]
+        return [
+            cls.CREATED.value,
+            cls.PENDING.value,
+            cls.PAID.value,
+            cls.FAILED.value,
+            cls.PROCESSING.value,
+            cls.SHIPPED.value,
+        ]
 
 
 class Order(models.Model):
@@ -61,7 +66,9 @@ class Order(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True)
     city = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
-    delivery_method = models.ForeignKey(DeliveryMethod, on_delete=models.CASCADE, null=True, verbose_name='Метод доставки')
+    delivery_method = models.ForeignKey(
+        DeliveryMethod, on_delete=models.CASCADE, null=True, verbose_name="Метод доставки"
+    )
     payment_method = models.CharField(max_length=100, default=None)
     total_price = models.DecimalField(
         max_digits=100,
@@ -78,7 +85,7 @@ class Order(models.Model):
     )
 
     class Meta:
-        ordering = ['-status']
+        ordering = ["-status"]
 
     def __str__(self):
         return f"{self.user}'s order #{self.pk} status: {self.status}"

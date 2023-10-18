@@ -1,7 +1,6 @@
+from accountapp.models import User
 from django.db import models
 from singleton_model import SingletonModel
-
-from accountapp.models import User
 
 
 class SiteSettings(SingletonModel):
@@ -30,10 +29,10 @@ class SiteSettings(SingletonModel):
 
 class ImportLog(models.Model):
     class Level(models.TextChoices):
-        info = 'INFO'
-        warning = 'WARNING'
-        error = 'ERROR'
-        critical = 'CRITICAL'
+        info = "INFO"
+        warning = "WARNING"
+        error = "ERROR"
+        critical = "CRITICAL"
 
     user = models.ForeignKey(User, verbose_name="Пользователь", on_delete=models.SET_NULL, null=True)
     import_id = models.CharField(max_length=36, verbose_name="Идентификатор импорта")

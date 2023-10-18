@@ -1,4 +1,5 @@
 from decimal import Decimal
+
 from django.db.models import Max, Q
 from django.utils import timezone as django_timezone
 from shopapp.models import Discount
@@ -71,7 +72,8 @@ class DiscountService:
         ) | all_product_discounts.filter(categories__name__in=categories_in_cart)
         result["product_discounts"] = all_product_discounts.distinct()  # только уникальные модели
 
-        # выбираем скидки на наборы, если в корзине присутствуют товары, которые указаны в поле products и/или categories
+        # выбираем скидки на наборы, если в корзине присутствуют товары,
+        # которые указаны в поле products и/или categories
         index = []
         for set_discount in all_set_discounts:
             if set_discount.products.all() and not set_discount.categories.all():
@@ -143,11 +145,12 @@ class DiscountService:
                     products_price = 0
                     for product in data.get("products"):
                         if (
-                                product.product.category in discount.categories.all() or product in discount.products.all()
+                            product.product.category in discount.categories.all() or product in discount.products.all()
                         ):  # если категория продукта попадает в категории скидки
                             products_price += product.price
-                    discount_volume = round(Decimal(discount.percent / 100) * Decimal(products_price),
-                                            2)  # Decimal(p_p)
+                    discount_volume = round(
+                        Decimal(discount.percent / 100) * Decimal(products_price), 2
+                    )  # Decimal(p_p)
                     discount_choice[discount_volume] = discount.id
             max_key = max(
                 discount_choice, key=lambda key: Decimal(str(key))
@@ -175,7 +178,7 @@ class DiscountService:
         # для скидок на корзину и наборы
 
         if data and data.get("discount"):
-            if data.get("discount")[0].type != 'p':
+            if data.get("discount")[0].type != "p":
                 discounts = data.get("discount")
                 discount = discounts[0]
 
@@ -195,7 +198,10 @@ class DiscountService:
                 if discount.type == "s":  # если на набор
                     set_price = Decimal(0)  # added Decimal
                     for product_seller in data["products"]:
-                        if product_seller.product in discount.products.all() or product_seller.product.category in discount.categories.all():
+                        if (
+                            product_seller.product in discount.products.all()
+                            or product_seller.product.category in discount.categories.all()
+                        ):
                             set_price += Decimal(product_seller.price)  # added Decimal
                     if discount.percent:
                         discount_volume = round(set_price * discount.percent / 100, 2)
@@ -219,29 +225,34 @@ class DiscountService:
                     count = 0
                     for item in data["products_pcs"]:
                         if item[0] in discount.products.all() or item[0].product.category in discount.categories.all():
-                            set_price += (item[0].price * item[1])
+                            set_price += item[0].price * item[1]
                             count += item[1]
                     if discount.percent:
-                        total_discount = round(set_price * discount.percent / 100,  # deleted Decimal(disc..../100)
-                                               2)  # величина скидки, если указан процент
+                        total_discount = round(
+                            set_price * discount.percent / 100, 2  # deleted Decimal(disc..../100)
+                        )  # величина скидки, если указан процент
                         top_discounts[discount] = total_discount
                     elif discount.discount_volume:
                         total_discount = discount.discount_volume * count  # величина скидки, если указан уровень
                         top_discounts[discount] = total_discount
 
-                top_discounts = sorted(top_discounts.items(), key=lambda x: x[1],
-                                       reverse=True)  # сортируем скидки в порядке убвания величины скидки (список кортежей)
-                discount_sum = Decimal(0) # added Decimal(0)
+                top_discounts = sorted(
+                    top_discounts.items(), key=lambda x: x[1], reverse=True
+                )  # сортируем скидки в порядке убвания величины скидки (список кортежей)
+                discount_sum = Decimal(0)  # added Decimal(0)
                 used_discounts = []
-                discounted_products = [] # товары на которые уже сделана скидка
+                discounted_products = []  # товары на которые уже сделана скидка
                 for discount in top_discounts:
                     for item in data["products_pcs"]:
-                        if (item[0] in discount[0].products.all() or
-                                item[0].product.category in discount[0].categories.all()):
+                        if (
+                            item[0] in discount[0].products.all()
+                            or item[0].product.category in discount[0].categories.all()
+                        ):
                             if item not in discounted_products:
                                 if discount[0].percent:
-                                    discount_sum += round(Decimal(item[0].price * discount[0].percent / 100), 2) * item[
-                                        1]  # added Decimal(
+                                    discount_sum += (
+                                        round(Decimal(item[0].price * discount[0].percent / 100), 2) * item[1]
+                                    )  # added Decimal(
                                 else:
                                     discount_sum += discount[0].discount_volume * item[1]
                                 discounted_products.append(item)

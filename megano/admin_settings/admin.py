@@ -3,7 +3,7 @@ from django.core.cache import cache
 from django.shortcuts import render
 from django.urls import path
 
-from .models import SiteSettings, ImportLog
+from .models import ImportLog, SiteSettings
 
 
 @admin.register(SiteSettings)
@@ -30,8 +30,8 @@ class SiteSettingsAdmin(admin.ModelAdmin):
 
 @admin.register(ImportLog)
 class ImportLogAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'import_id', 'timestamp', 'level', 'message']
-    list_display_links = ['id', 'user', 'import_id']
-    search_fields = ['timestamp', 'import_id']
-    list_filter = ['user', 'import_id', 'level']
+    list_display = ["id", "user", "import_id", "timestamp", "level", "message"]
+    list_display_links = ["id", "user", "import_id"]
+    search_fields = ["timestamp", "import_id"]
+    list_filter = ["user", "import_id", "level"]
     ordering = ["timestamp"]

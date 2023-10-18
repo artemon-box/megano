@@ -1,4 +1,4 @@
-from cart_and_orders.models import OrderProduct, Order
+from cart_and_orders.models import Order, OrderProduct
 
 
 def get_total_price(order_id):
@@ -21,11 +21,7 @@ def get_total_price_delivery(order_id):
 
     total_price = get_total_price(order_id)
     delivery = Order.objects.get(id=order_id).delivery_method
-    unique_sellers_count = (OrderProduct.objects
-                            .filter(order__id=order_id)
-                            .values('seller')
-                            .distinct()
-                            .count())
+    unique_sellers_count = OrderProduct.objects.filter(order__id=order_id).values("seller").distinct().count()
 
     if delivery.order_minimal_price is None:
         return total_price + delivery.price

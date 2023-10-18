@@ -1,11 +1,12 @@
 from decimal import Decimal
+
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.template.defaultfilters import slugify
 from django.urls import reverse
 from taggit.managers import TaggableManager
-from django.template.defaultfilters import slugify
 
 
 def category_images_directory_path(instance, filename):
