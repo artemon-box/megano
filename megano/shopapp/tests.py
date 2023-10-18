@@ -218,7 +218,7 @@ class CatalogTest(SetUpClass):
 
     def test_context(self):
         data = {"price": "0;100000"}
-        #response = self.client.post("/catalog/", data=data)
+        # response = self.client.post("/catalog/", data=data)
         # print(dir(response))
         # print(response.context, response.json(), response.items())
         response = self.client.post("/catalog/", data=data)

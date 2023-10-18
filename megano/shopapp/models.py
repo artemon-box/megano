@@ -1,12 +1,13 @@
 from decimal import Decimal
+
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.template.defaultfilters import slugify
 from django.urls import reverse
 from django.utils import timezone
 from taggit.managers import TaggableManager
-from django.template.defaultfilters import slugify
 
 
 def category_images_directory_path(instance, filename):
@@ -30,11 +31,40 @@ def seller_images_directory_path(instance, filename):
 
 
 def translit_to_eng(s: str) -> str:
-    d = {'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd',
-         'е': 'e', 'ё': 'yo', 'ж': 'zh', 'з': 'z', 'и': 'i', 'к': 'k',
-         'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r',
-         'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'h', 'ц': 'c', 'ч': 'ch',
-         'ш': 'sh', 'щ': 'shch', 'ь': '', 'ы': 'y', 'ъ': '', 'э': 'r', 'ю': 'yu', 'я': 'ya'}
+    d = {
+        "а": "a",
+        "б": "b",
+        "в": "v",
+        "г": "g",
+        "д": "d",
+        "е": "e",
+        "ё": "yo",
+        "ж": "zh",
+        "з": "z",
+        "и": "i",
+        "к": "k",
+        "л": "l",
+        "м": "m",
+        "н": "n",
+        "о": "o",
+        "п": "p",
+        "р": "r",
+        "с": "s",
+        "т": "t",
+        "у": "u",
+        "ф": "f",
+        "х": "h",
+        "ц": "c",
+        "ч": "ch",
+        "ш": "sh",
+        "щ": "shch",
+        "ь": "",
+        "ы": "y",
+        "ъ": "",
+        "э": "r",
+        "ю": "yu",
+        "я": "ya",
+    }
 
     return "".join(map(lambda x: d[x] if d.get(x, False) else x, s.lower()))
 
