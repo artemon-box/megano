@@ -1,8 +1,7 @@
 import os
 import re
 
-from cart_and_orders.models import Order, StatusOrder
-from cart_and_orders.services.cart import CartService
+from cart_and_orders.models import Order, StatusOrder, ProductSeller, OrderProduct
 from cart_and_orders.utils.get_total_price import get_total_price_delivery
 from django.conf import settings
 from django.contrib.auth import authenticate, login
@@ -46,14 +45,19 @@ class HistoryOrdersView(View):
             current_order_id = request.session.get("current_order_id")
             order = Order.objects.get(id=current_order_id)
             total_price = get_total_price_delivery(current_order_id)
-            cart = CartService()
-            product_seller = cart.get_cart(request)
+            product_seller = []
+            order_products = OrderProduct.objects.filter(order_id=order.id)
+            for order_product in order_products:
+                product_seller.append({"product_seller": ProductSeller.objects.get(product_id=order_product.product_id,
+                                                                                   seller_id=order_product.seller_id),
+                                       "quantity": order_product.quantity, })
 
             context = {
-                "order": order,
-                "order_price": total_price,
-                "cart": product_seller,
-                "STATUS_ORDER": StatusOrder,
+                'order': order,
+                'order_price': total_price,
+                'cart': product_seller,
+                'STATUS_ORDER': StatusOrder,
+                "PAYMENT_CHOICES": settings.PAYMENT_CHOICES,
             }
             return render(request, self.template_name_id, context)
         else:
