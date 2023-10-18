@@ -1,10 +1,28 @@
 version: "3.9"
 
 services:
+  app:
+    container_name: megano
+    build:
+      dockerfile: ./Dockerfile
+    depends_on:
+      - db
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: $DB_NAME
+      POSTGRES_USER: $DB_USER
+      POSTGRES_PASSWORD: $DB_PASS
+      CELERY_BROKER_URL: "redis://web_redis:6379/0"
+    restart: always
+    ports:
+      - "8000:8000"
+    entrypoint: ["/bin/sh", "/entrypoint.sh"]
+
   web_redis:
     restart: always
     container_name: main_redis
-    image: redis:latest
+    image: redis:7.2.1
     entrypoint:
       sh -c "redis-server"
     ports:
@@ -12,7 +30,7 @@ services:
 
   flower:
     restart: always
-    image: mher/flower:latest
+    image: mher/flower:2.0.1
     container_name: flower
     environment:
       CELERY_BROKER_URL: "redis://web_redis:6379"
@@ -20,3 +38,18 @@ services:
       FLOWER_BASIC_AUTH: "flower:flower"
     ports:
       - "5555:5555"
+
+  db:
+    image: postgres:16.0
+    container_name: postgres_db
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+    restart: always
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - $POSTGRES_PORT:5432
