@@ -11,7 +11,6 @@ def pay_order():
         data = request.get_json()
         order_number = data.get("order_number")
         card_number = data.get("card_number")
-        price = data.get("price")
 
         if order_number % 2 == 0 and str(card_number)[-1] != "0":
             response = {"status": "success", "message": "Оплата подтверждена"}

@@ -17,5 +17,3 @@ def quantity_correction(order_id, increase=True):
             else:
                 product_seller.quantity -= product_order.quantity
             product_seller.save()
-
-

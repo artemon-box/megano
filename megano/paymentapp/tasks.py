@@ -1,7 +1,6 @@
 import json
 
 import requests
-
 from cart_and_orders.models import Order
 from config.celery import app
 
@@ -18,26 +17,21 @@ def process_payment(order_id, card_number, price):
     """
 
     try:
+        url = "http://localhost:5000/pay"
 
-        url = 'http://localhost:5000/pay'
-
-        data = {
-            'order_number': order_id,
-            'card_number': card_number,
-            'price': str(price)
-        }
+        data = {"order_number": order_id, "card_number": card_number, "price": str(price)}
 
         response = requests.post(url, json=data)
         result = response.json()
 
         order = Order.objects.get(id=order_id)
-        if result['status'] == 'success':
+        if result["status"] == "success":
             order.status = "paid"
         else:
             order.status = "failed"
         order.save()
 
-        return order_id, result['status'], price
+        return order_id, result["status"], price
 
     except Exception as e:
         raise Exception(str(e))

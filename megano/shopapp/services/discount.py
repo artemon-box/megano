@@ -76,7 +76,8 @@ class DiscountService:
         ) | all_product_discounts.filter(categories__name__in=categories_in_cart)
         result["product_discounts"] = all_product_discounts.distinct()  # только уникальные модели
 
-        # выбираем скидки на наборы, если в корзине присутствуют товары, которые указаны в поле products и/или categories
+        # выбираем скидки на наборы, если в корзине присутствуют товары,
+        # которые указаны в поле products и/или categories
         index = []
         for set_discount in all_set_discounts:
             if set_discount.products.all() and not set_discount.categories.all():
