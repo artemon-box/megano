@@ -20,6 +20,7 @@ django-redis==5.3.0
 django-singleton-model==0.2.3
 django-taggit==4.0.0
 djangorestframework==3.14.0
+environs==9.5.0
 filelock==3.12.4
 flake8==6.1.0
 identify==2.5.29
@@ -29,6 +30,7 @@ Jinja2==3.1.2
 kombu==5.3.2
 Markdown==3.4.4
 MarkupSafe==2.1.3
+marshmallow==3.20.1
 mccabe==0.7.0
 mypy-extensions==1.0.0
 nodeenv==1.8.0
@@ -38,9 +40,11 @@ Pillow==10.0.0
 platformdirs==3.10.0
 pre-commit==3.4.0
 prompt-toolkit==3.0.39
+psycopg2-binary==2.9.9
 pycodestyle==2.11.0
 pyflakes==3.1.0
 python-dateutil==2.8.2
+python-dotenv==1.0.0
 pytz==2023.3.post1
 PyYAML==6.0.1
 redis==5.0.0
