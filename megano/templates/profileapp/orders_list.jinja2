@@ -4,7 +4,7 @@
             <div class="Order-personal">
                 <div class="row">
                     <div class="row-block">
-                        <a class="Order-title" href="#">Заказ <span class="Order-numberOrder">№{{ order.id }}</span> от <span class="Order-dateOrder">21.07.2020</span></a>
+                        <a class="Order-title" href="{{ url( 'profileapp:historyorder_id', order.id) }}">Заказ <span class="Order-numberOrder">№{{ order.id }}</span> от <span class="Order-dateOrder">21.07.2020</span></a>
                         <div class="Account-editLink">
                             <a href="{{ url('profileapp:historyorder') }}">История заказов</a>
                         </div>

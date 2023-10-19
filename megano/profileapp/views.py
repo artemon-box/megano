@@ -9,7 +9,7 @@ from django.shortcuts import redirect, render
 from django.views import View
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from django.http import Http404
 from .forms import ProfileAvatarForm, ProfileForm
 
 
@@ -41,6 +41,9 @@ class HistoryOrdersView(View):
         if not request.user.is_authenticated:
             return redirect("/")
         if order_id:
+            user_order = Order.objects.filter(user=request.user, pk=order_id).exists()
+            if not user_order:
+                raise Http404("Запрошенный заказ не найден")
             request.session["current_order_id"] = order_id
             current_order_id = request.session.get("current_order_id")
             order = Order.objects.get(id=current_order_id)

@@ -4,15 +4,15 @@
     "pk": 1,
     "fields": {
       "password": "pbkdf2_sha256$600000$e0RLygRZKATXjuP0Alal3v$2IfvB9TGDC1N/5tEn2xQcO9L8eEv0QYMxkFLnafcnWI=",
-      "last_login": "2023-09-04T13:47:12.700Z",
+      "last_login": "2023-10-19T19:42:43.553Z",
       "is_superuser": true,
       "name": "Большая Команда Разработчиков",
-      "avatar": "users/team_skill_box_avatar.jpg",
       "email": "team@skill.box",
       "phone": "1234567890",
       "is_staff": true,
       "is_active": true,
       "date_joined": "2023-09-04T13:30:44.916Z",
+      "avatar": "users/team_skill_box_avatar.jpg",
       "groups": [],
       "user_permissions": []
     }
@@ -22,15 +22,15 @@
     "pk": 2,
     "fields": {
       "password": "pbkdf2_sha256$600000$vc6ezZIjPWhZmi3WZFlG1S$jtuz+6wC7/mIGeOEiES2Vu8mVWIs9ty489SujMlosXE=",
-      "last_login": "2023-09-05T08:51:20.912Z",
+      "last_login": "2023-10-19T19:44:30.345Z",
       "is_superuser": false,
-      "name": "Модератор Тут бывает",
-      "avatar": "users/moderator_skill_box_avatar.webp",
+      "name": "Модератор Тут Бывает",
       "email": "moderator@skill.box",
       "phone": "1234567882",
       "is_staff": true,
       "is_active": true,
       "date_joined": "2023-09-04T13:52:59.483Z",
+      "avatar": "users/moderator_skill_box_avatar.webp",
       "groups": [
         1
       ],
@@ -42,15 +42,15 @@
     "pk": 3,
     "fields": {
       "password": "pbkdf2_sha256$600000$9UZ0HbWdmh2UKjmXxn1aW7$RRZ5vjW/gmeJgy2gadH6uDTX3aQDbyuvPAJweAktPN0=",
-      "last_login": "2023-09-04T13:54:37.524Z",
+      "last_login": "2023-10-19T19:43:53.414Z",
       "is_superuser": false,
-      "name": "Лучший Покупатель Года",
-      "avatar": "users/seller_skill_box_avatar.jpg",
+      "name": "Лучший Продовец Года",
       "email": "seller@skill.box",
       "phone": "1234567873",
       "is_staff": true,
       "is_active": true,
       "date_joined": "2023-09-04T13:54:37.524Z",
+      "avatar": "users/seller_skill_box_avatar.jpg",
       "groups": [
         2
       ],
@@ -58,66 +58,35 @@
     }
   },
   {
-    "model": "auth.group_permissions",
-    "pk": 1,
-    "fields": {
-      "group": 1,
-      "permission": 42
-    }
-  },
-  {
-    "model": "auth.group_permissions",
-    "pk": 2,
-    "fields": {
-      "group": 1,
-      "permission": 10
-    }
-  },
-  {
-    "model": "auth.group_permissions",
-    "pk": 3,
-    "fields": {
-      "group": 1,
-      "permission": 44
-    }
-  },
-  {
-    "model": "auth.group_permissions",
+    "model": "accountapp.user",
     "pk": 4,
     "fields": {
-      "group": 2,
-      "permission": 44
-    }
-  },
-  {
-    "model": "auth.group_permissions",
-    "pk": 5,
-    "fields": {
-      "group": 1,
-      "permission": 48
+      "password": "pbkdf2_sha256$600000$mj9vVKqntfHLCEqvaKMHE4$zHYDx+DfML7HFV+0J0lXLlSabInJvURaPSAkyuqdRC8=",
+      "last_login": "2023-10-19T19:52:25.097Z",
+      "is_superuser": false,
+      "name": "Скромный Покупатель Месяца",
+      "email": "people@skill.box",
+      "phone": "1231231231",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-10-19T19:52:24.485Z",
+      "avatar": "users/people_skill_box_avatar.jpeg",
+      "groups": [],
+      "user_permissions": []
     }
   },
   {
     "model": "auth.group",
     "pk": 1,
     "fields": {
-      "name": "MODERATOR",
-      "permissions": [
-        48,
-        42,
-        44,
-        10
-      ]
+      "name": "MODERATOR"
     }
   },
   {
     "model": "auth.group",
     "pk": 2,
     "fields": {
-      "name": "SELLER",
-      "permissions": [
-        44
-      ]
+      "name": "SELLER"
     }
   },
   {
@@ -135,5 +104,206 @@
       "user": 3,
       "group": 2
     }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 2,
+    "fields": {
+      "group": 1,
+      "permission": 10
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 6,
+    "fields": {
+      "group": 1,
+      "permission": 120
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 7,
+    "fields": {
+      "group": 1,
+      "permission": 123
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 8,
+    "fields": {
+      "group": 1,
+      "permission": 124
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 9,
+    "fields": {
+      "group": 2,
+      "permission": 89
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 10,
+    "fields": {
+      "group": 2,
+      "permission": 90
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 11,
+    "fields": {
+      "group": 2,
+      "permission": 91
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 12,
+    "fields": {
+      "group": 2,
+      "permission": 92
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 13,
+    "fields": {
+      "group": 2,
+      "permission": 80
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 14,
+    "fields": {
+      "group": 2,
+      "permission": 60
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 15,
+    "fields": {
+      "group": 2,
+      "permission": 77
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 16,
+    "fields": {
+      "group": 1,
+      "permission": 64
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 17,
+    "fields": {
+      "group": 1,
+      "permission": 65
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 18,
+    "fields": {
+      "group": 1,
+      "permission": 66
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 19,
+    "fields": {
+      "group": 1,
+      "permission": 68
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 20,
+    "fields": {
+      "group": 1,
+      "permission": 90
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 21,
+    "fields": {
+      "group": 1,
+      "permission": 77
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 22,
+    "fields": {
+      "group": 1,
+      "permission": 78
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 23,
+    "fields": {
+      "group": 1,
+      "permission": 92
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 24,
+    "fields": {
+      "group": 1,
+      "permission": 80
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 25,
+    "fields": {
+      "group": 1,
+      "permission": 89
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 26,
+    "fields": {
+      "group": 1,
+      "permission": 58
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 27,
+    "fields": {
+      "group": 1,
+      "permission": 60
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 28,
+    "fields": {
+      "group": 1,
+      "permission": 62
+    }
+  },
+  {
+    "model": "auth.group_permissions",
+    "pk": 29,
+    "fields": {
+      "group": 2,
+      "permission": 64
+    }
   }
 ]
+
