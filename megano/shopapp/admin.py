@@ -97,6 +97,12 @@ class ProductSellerAdmin(admin.ModelAdmin):
         "is_limited_edition",
     )
 
+    def get_readonly_fields(self, request, obj=None):
+        if request.user.is_superuser:
+            return []  # Суперпользователи могут редактировать все поля
+        else:
+            return ['seller']  # Обычные пользователи не могут редактировать эти поля
+
     def get_urls(self):
         urls = super().get_urls()
         new_urls = [
@@ -107,6 +113,12 @@ class ProductSellerAdmin(admin.ModelAdmin):
             ),
         ]
         return new_urls + urls
+
+    def get_queryset(self, request):
+        if request.user.is_superuser:
+            return super(ProductSellerAdmin, self).get_queryset(request)
+        seller = Seller.objects.filter(user=request.user).first()
+        return ProductSeller.objects.filter(seller=seller)
 
 
 admin.site.register(ExtraImage)
