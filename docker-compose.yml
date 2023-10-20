@@ -53,3 +53,13 @@ services:
       - ./pgdata:/var/lib/postgresql/data
     ports:
       - $POSTGRES_PORT:5432
+
+  payment_service:
+    container_name: payment_app
+    build:
+      dockerfile: payment_service/Dockerfile
+    command:
+      - python
+      - fake_payment.py
+    ports:
+      - "5000:5000"
