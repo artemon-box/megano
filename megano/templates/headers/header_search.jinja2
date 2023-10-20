@@ -49,8 +49,8 @@
               document.getElementById('catalog_form').submit();  // отправляем форму по нажатию на ссылку
                 localStorage.setItem('price', '1;10000'); // установить макс. ценовой диапазон
                 localStorage.setItem('product_title', ''); // сделать инпут пустым
-                localStorage.setItem('fd', '0');
-                localStorage.setItem('av', '0');
+                localStorage.setItem('fd', '0'); // обнуляем чек-бокс бесплатной доставки
+                localStorage.setItem('av', '0'); // обнуляем чек-бокс "товар в наличии"
               }));
         </script>
         <script> //
@@ -58,8 +58,8 @@
             document.querySelectorAll('.search-button').forEach((button) => button.addEventListener('click', (event)=> {
                 localStorage.setItem('price', '1;10000'); // установить макс. ценовой диапазон
                 localStorage.setItem('product_title', title2.value); //
-                localStorage.setItem('fd', '0');
-                localStorage.setItem('av', '0');
+                localStorage.setItem('fd', '0'); // обнуляем чек-бокс бесплатной доставки
+                localStorage.setItem('av', '0'); // обнуляем чек-бокс "товар в наличии"
             }));
         </script>
     </div>
