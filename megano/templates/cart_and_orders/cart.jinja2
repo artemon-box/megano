@@ -62,8 +62,8 @@
                         {% endfor %}
                     {% else %}
                         <h2> Товары еще не добавлены в корзину</h2>
-                        <p class="Card-title">Посмотрите предложения на <a href="/">главной странице</a>,
-                            воспользуйтесь <a href="/catalog">каталогом</a> или поиском</p>
+                        <p class="Card-title">Посмотрите предложения на <a style="color:#1e7cc4" href="/">главной странице</a>,
+                            воспользуйтесь <a style="color:#1e7cc4" href="/catalog">каталогом</a> или поиском</p>
                     {% endif %}
                 </div>
                 <div class="Cart-total">
@@ -175,3 +175,9 @@
         </div>
     </div>
 {% endblock %}
+<script>
+    document.querySelector('input[type=checkbox]').addEventListener('change', function () {
+    // Симулируем клик на кнопке "найти"
+    document.querySelector('#findButton').click();
+});
+</script>
