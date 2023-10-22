@@ -70,12 +70,12 @@ class SellerAdmin(admin.ModelAdmin):
     ordering = ["name", "delivery_method", "payment_method"]
 
 
-@admin.action(description="Add limited edition product")
+@admin.action(description="Добавить товар в ограниченный тираж")
 def mark_limited_edition(modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet):
     queryset.update(is_limited_edition=True)
 
 
-@admin.action(description="Exclude a product from a limited edition")
+@admin.action(description="Убрать товар из ограниченного тиража")
 def unmark_limited_edition(modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet):
     queryset.update(is_limited_edition=False)
 
@@ -101,7 +101,7 @@ class ProductSellerAdmin(admin.ModelAdmin):
         if request.user.is_superuser:
             return []  # Суперпользователи могут редактировать все поля
         else:
-            return ['seller']  # Обычные пользователи не могут редактировать эти поля
+            return ["seller"]  # Обычные пользователи не могут редактировать эти поля
 
     def get_urls(self):
         urls = super().get_urls()

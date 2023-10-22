@@ -17,7 +17,7 @@ def process_payment(order_id, card_number, price):
     """
 
     try:
-        url = "http://localhost:5000/pay"
+        url = "http://payment_app:5000/pay"
 
         data = {"order_number": order_id, "card_number": card_number, "price": str(price)}
 
