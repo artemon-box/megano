@@ -9,7 +9,7 @@ from shopapp.forms import AddToCartForm
 from .forms import OrderForm
 from .models import DeliveryMethod, Order, OrderProduct
 from .services.cart import CartService
-from .utils.get_total_price import get_total_price_delivery
+from .utils.get_total_price import get_total_price_delivery, get_total_price
 
 
 class CartView(View):
@@ -172,11 +172,13 @@ class OrderConfirmView(View):
         current_order_id = request.session.get("current_order_id")
         order = Order.objects.get(id=current_order_id)
         total_price = get_total_price_delivery(current_order_id)
+        full_price = get_total_price(current_order_id)
         product_seller = self.cart.get_cart(request)
 
         context = {
             "order": order,
             "order_price": total_price,
+            'full_price': full_price,
             "cart": product_seller,
         }
 
