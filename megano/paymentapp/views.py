@@ -22,8 +22,8 @@ class PaymentView(View):
         if request.session.get("current_order_id"):
             current_order_id = request.session.get("current_order_id")
             order = Order.objects.get(id=current_order_id)
-            if order.status != "created":
-                raise Http404("Запрошенный заказ в обработке")
+            if order.status not in ("created", "failed"):
+                raise Http404("Запрошенный заказ в обработке", order.status)
         else:
             raise Http404("Запрошенный заказ не найден")
 
@@ -53,9 +53,10 @@ class PaymentView(View):
 
         card_number = request.POST["number"].replace(" ", "")
 
-        payment_service.initiate_payment(order.id, card_number, total_price)
-
         del request.session["current_order_id"]
+
+        response = payment_service.initiate_payment(order.id, card_number, total_price)
+        request.session["task_id"] = response.get('task_id')
 
         return redirect("paymentapp:progress_payment")
 
@@ -106,10 +107,10 @@ class PaymentSomeoneView(View):
 
         card_number = request.POST["number"].replace(" ", "")
 
-        response = payment_service.initiate_payment(order.id, card_number, total_price)
-        request.session["task_id"] = response["task_id"]
-
         del request.session["current_order_id"]
+
+        response = payment_service.initiate_payment(order.id, card_number, total_price)
+        request.session["task_id"] = response.get('task_id')
 
         return redirect("paymentapp:progress_payment")
 
@@ -127,7 +128,13 @@ class ProgressPaymentView(View):
         :return: HTTP-ответ со страницей ожидания подтверждения оплаты.
         """
 
-        return render(request, "paymentapp/progress_payment.jinja2")
+        task_id = request.session.get("task_id")
+
+        context = {
+            "task_id": task_id
+        }
+
+        return render(request, "paymentapp/progress_payment.jinja2", context=context)
 
 
 class CheckPaymentStatusView(View):
@@ -144,7 +151,8 @@ class CheckPaymentStatusView(View):
         """
 
         payment_service = PaymentService()
-        task_id = request.session.get("task_id")
+
+        task_id = request.GET.get('task_id')
 
         status = payment_service.get_payment_status(task_id)["status"]
 

@@ -124,7 +124,7 @@
                                     <strong class="Cart-title">Итого:<span class="Cart-price">{{ order_price }}$</span>
                                     </strong>
                                 </div>
-                                {% if order.status == STATUS_ORDER.PENDING %}
+                                {% if order.status == STATUS_ORDER.FAILED %}
                                 <div class="Cart-block">
                                     {% if order.payment_method == 'online' %}
                                     <a class="btn btn_primary" href="{{ url('paymentapp:payment') }}">Оплатить</a>

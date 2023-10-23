@@ -21,8 +21,11 @@ def process_payment(order_id, card_number, price):
 
         data = {"order_number": order_id, "card_number": card_number, "price": str(price)}
 
-        response = requests.post(url, json=data)
-        result = response.json()
+        try:
+            response = requests.post(url, json=data)
+            result = response.json()
+        except ConnectionError:
+            result["status"] = "failed"
 
         order = Order.objects.get(id=order_id)
         if result["status"] == "success":
