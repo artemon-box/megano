@@ -11,7 +11,7 @@ from django.test.client import RequestFactory
 from django.urls import resolve
 from django.utils.text import slugify
 
-from cart_and_orders.models import Order, OrderProduct, DeliveryMethod
+from cart_and_orders.models import Order, OrderProduct, DeliveryMethod, StatusOrder
 from config import settings
 from shopapp.models import Category, Discount, Product, ProductSeller, Seller, ProductReview
 from shopapp.services.compared_products import ComparedProductsService
@@ -30,9 +30,18 @@ class SetUpClass(TestCase):
     """
 
     def setUp(self):
+        # тестовый пользователь
+        self.user = get_user_model().objects.create_user(
+            name='testuser',
+            password='testpassword',
+            email='321@skill.box'
+        )
         # продавцы
         self.seller1 = Seller.objects.create(
-            name="Cитилинк", slug="citylink", delivery_method="by_bus", payment_method="cash"
+            name="Cитилинк",
+            slug="citylink",
+            delivery_method="by_bus",
+            payment_method="cash",
         )
         self.seller2 = Seller.objects.create(
             name="МВидео", slug="mvideo", delivery_method="by_bus", payment_method="cash"
@@ -43,11 +52,64 @@ class SetUpClass(TestCase):
         self.category3 = Category.objects.create(name="Микроволновые печи")
         self.category4 = Category.objects.create(name="Телевизоры")
         self.category5 = Category.objects.create(name="Мобильные телефоны")
+        # активные категории
+        self.active_categories = [
+            self.category1,
+            self.category2,
+            self.category3,
+            self.category4,
+            self.category5,
+        ]
         # товары
-        self.product1 = Product.objects.create(category=self.category1, name="kuhonnyj-tehnik", available=True)
-        self.product2 = Product.objects.create(category=self.category2, name="naushnik", available=True)
-        self.product3 = Product.objects.create(category=self.category3, name="mikrovolnovaya-pech", available=True)
-        self.product4 = Product.objects.create(category=self.category5, name="mobilnyj-telefon", available=True)
+        self.product1 = Product.objects.create(
+            category=self.category1,
+            name="kuhonnyj-tehnik",
+            slug="kuhonnyj-tehnik",
+            available=True
+        )
+        self.product2 = Product.objects.create(
+            category=self.category2,
+            name="naushnik",
+            available=True,
+            slug="naushnik",
+        )
+        self.product3 = Product.objects.create(
+            category=self.category3,
+            name="mikrovolnovaya-pech",
+            slug="mikrovolnovaya-pech",
+            available=True
+        )
+        self.product4 = Product.objects.create(
+            category=self.category4,
+            name="mobilnyj-telefon",
+            slug="mobilnyj-telefon",
+            available=True
+        )
+        self.product5 = Product.objects.create(
+            category=self.category5,
+            name="televizor",
+            slug="televizor",
+            available=True
+        )
+        # активные продукты
+        self.active_products = [
+            self.product1,
+            self.product2,
+            self.product3,
+            self.product4,
+            self.product5,
+        ]
+        # тестовые отзывы
+        self.review1 = ProductReview.objects.create(
+            product=self.product1,
+            user=self.user,
+            text='Review 1'
+        )
+        self.review2 = ProductReview.objects.create(
+            product=self.product1,
+            user=self.user,
+            text='Review 2'
+        )
         # товары в корзине
         self.product_seller1 = ProductSeller.objects.create(product=self.product1, seller=self.seller2, price=300.0)
         self.product_seller2 = ProductSeller.objects.create(product=self.product2, seller=self.seller1, price=444.0)
@@ -59,6 +121,29 @@ class SetUpClass(TestCase):
             {"product_seller": self.product_seller2, "quantity": 1},
             {"product_seller": self.product_seller3, "quantity": 2},
         ]
+        # способ доставки для заказа
+        self.delivery_method = DeliveryMethod.objects.create(
+            name="Обычная",
+            price=Decimal('200'),
+            order_minimal_price=Decimal('2000')
+        )
+        # заказ со статусом delivered
+        self.order = Order.objects.create(
+            city="City",
+            address="Address",
+            delivery_method=self.delivery_method,
+            payment_method="Online",
+            total_price=Decimal('2500'),
+            status=StatusOrder.DELIVERED
+        )
+        # товар в заказе
+        self.order_product = OrderProduct.objects.create(
+            order=self.order,
+            product=self.product_seller1.product,
+            seller=self.product_seller1.seller,
+            quantity=5,
+            price=self.product_seller1.price
+        )
         # стоимость всей корзины без скидок
         self.total_price = Decimal(2700.0)
 
@@ -133,7 +218,7 @@ class SetUpClass(TestCase):
 
 
 class DiscountsTest(SetUpClass):
-    "Тесты скидок"
+    """Тесты скидок"""
 
     def setUp(self):
         super().setUp()
@@ -310,22 +395,12 @@ class TestComparedProductsView(SetUpClass):
         self.assertEqual(response.status_code, 200)
 
 
-class RandomActiveProductBannersTest(TestCase):
+class RandomActiveProductBannersTest(SetUpClass):
+    """
+    Тест для проверки формирования баннеров
+    """
     def setUp(self):
-        # Создаем несколько активных продуктов для теста
-
-        self.category = Category.objects.create(
-            name="CName",
-        )
-
-        self.active_products = [
-            Product.objects.create(
-                name=f'Product{i}',
-                category=self.category,
-                available=True,
-            )
-            for i in range(5)
-        ]
+        super().setUp()
 
     def tearDown(self):
         # Очищаем кэш после теста
@@ -346,22 +421,12 @@ class RandomActiveProductBannersTest(TestCase):
         self.assertIsNotNone(cached_banners)
 
 
-class CachedActiveCategoriesTest(TestCase):
+class CachedActiveCategoriesTest(SetUpClass):
+    """
+    Тест для проверки кэширования категорий
+    """
     def setUp(self):
-        # Создаем несколько активных категорий для теста
-        self.active_categories = [
-            Category.objects.create(name=f'Category{i}')
-            for i in range(5)
-        ]
-
-        self.active_products = [
-            Product.objects.create(
-                name=f'Product{i}',
-                category=self.active_categories[i],
-                available=True,
-            )
-            for i in range(5)
-        ]
+        super().setUp()
 
         # Устанавливаем настройку CATEGORY_MENU_CACHE_TIMEOUT для кэша
         self.cache_timeout = 600  # 10 минут (в секундах)
@@ -402,18 +467,12 @@ class CachedActiveCategoriesTest(TestCase):
         self.assertEqual(list(cached_categories), list(retrieved_categories))
 
 
-class CachedProductBySlugTest(TestCase):
+class CachedProductBySlugTest(SetUpClass):
+    """
+    Проверка кэширования продукта по слагу
+    """
     def setUp(self):
-        self.category = Category.objects.create(
-            name="CName",
-        )
-        # Создаем тестовый продукт для теста
-        self.test_product = Product.objects.create(
-            name='Test Product',
-            slug='test-product',
-            available=True,
-            category=self.category,
-        )
+        super().setUp()
 
         # Устанавливаем настройку PRODUCT_CACHE_TIMEOUT для кэша
         self.cache_timeout = 600  # 10 минут (в секундах)
@@ -424,136 +483,62 @@ class CachedProductBySlugTest(TestCase):
 
     def test_get_cached_product_by_slug(self):
         # Получаем кэшированный продукт по слагу
-        cached_product = get_cached_product_by_slug('test-product')
+        cached_product = get_cached_product_by_slug('kuhonnyj-tehnik')
 
         # Проверяем, что полученный продукт является экземпляром Product
         self.assertIsInstance(cached_product, Product)
 
         # Проверяем, что полученный продукт соответствует ожиданиям
-        self.assertEqual(cached_product, self.test_product)
+        self.assertEqual(cached_product, self.product1)
 
         # Проверяем, что данные были сохранены в кэше
-        cache_key = "product_test-product"
+        cache_key = "product_kuhonnyj-tehnik"
         cached_data = cache.get(cache_key)
         self.assertIsNotNone(cached_data)
 
     def test_cache_timeout(self):
         # Устанавливаем кэшированный продукт с кастомным таймаутом
-        cached_product = get_cached_product_by_slug('test-product')
+        cached_product = get_cached_product_by_slug('naushnik')
         cache_timeout = 3600  # 1 час (в секундах)
-        cache.set("product_test-product", cached_product, cache_timeout)
+        cache.set("product_naushnik", cached_product, cache_timeout)
 
         # Получаем продукт из кэша
-        retrieved_product = get_cached_product_by_slug('test-product')
+        retrieved_product = get_cached_product_by_slug('naushnik')
 
         # Проверяем, что продукт из кэша соответствует ожиданиям
-        self.assertEqual(retrieved_product, self.test_product)
+        self.assertEqual(retrieved_product, self.product2)
 
 
-class SellerTopSalesTest(TestCase):
+class SellerTopSalesTest(SetUpClass):
+    """
+    Тест рейтинга топ товаров по продажам для продавца
+    """
     def setUp(self):
-        # Создаем тестового продавца для теста
-        self.test_seller = Seller.objects.create(
-            name='Test Seller',
-            slug='slug',
-            user=None,
-            delivery_method='Ordinary',
-            payment_method='Online',
-            email='test@example.com',
-        )
-
-        self.category = Category.objects.create(
-            name="CName",
-        )
-
-        # Создаем тестовый продукт для теста
-        self.test_product = Product.objects.create(
-            category=self.category,
-            name='Test Product',
-            available=True
-        )
-
-        self.test_product_seller = ProductSeller.objects.create(
-            product=self.test_product,
-            seller=self.test_seller,
-            price=10.0,
-            quantity=5
-        )
-
-        self.delivery_method = DeliveryMethod.objects.create(
-            name="Обычная",
-            price=Decimal('200'),
-            order_minimal_price=Decimal('2000')
-        )
-
-        # Создаем тестовый заказ с продуктом продавца
-        self.test_order = Order.objects.create(
-            user=None,
-            city='Test City',
-            address='Test Address',
-            delivery_method=self.delivery_method,
-            payment_method='Cash',
-            total_price=10.0,
-            status='delivered')
-
-        self.test_order_product = OrderProduct.objects.create(
-            order=self.test_order,
-            product=self.test_product,
-            seller=self.test_seller,
-            quantity=1,
-            price=10.0
-        )
+        super().setUp()
 
     def test_seller_top_sales(self):
         # Получаем топ продаж для тестового продавца
-        top_sales = seller_top_sales(self.test_seller)
+        top_sales = seller_top_sales(self.seller2)
 
         # Проверяем, что результат содержит ожидаемый продукт
         self.assertEqual(len(top_sales), 1)
         top_sale = top_sales[0]
-        self.assertEqual(top_sale["seller_product"], self.test_product_seller)
-        self.assertEqual(top_sale["total_quantity"], 1)
+        self.assertEqual(top_sale["seller_product"], self.product_seller1)
+        self.assertEqual(top_sale["total_quantity"], 5)
 
 
-class ProductReviewServiceTest(TestCase):
+class ProductReviewServiceTest(SetUpClass):
+    """
+    Тест сервиса отзывов
+    """
     def setUp(self):
-        self.category = Category.objects.create(
-            name="CName",
-        )
-
-        # Создаем тестовый продукт для теста
-        self.product = Product.objects.create(
-            category=self.category,
-            name="Name",
-            slug="slug",
-            description="Description",
-            available=True,
-        )
-
-        self.user = get_user_model().objects.create_user(
-            name='testuser',
-            password='testpassword',
-            email='321@skill.box'
-        )
-
+        super().setUp()
         # Создаем сервис отзывов
         self.review_service = ProductReviewService()
 
-        # Создаем тестовые отзывы
-        self.review1 = ProductReview.objects.create(
-            product=self.product,
-            user=self.user,
-            text='Review 1'
-        )
-        self.review2 = ProductReview.objects.create(
-            product=self.product,
-            user=self.user,
-            text='Review 2'
-        )
-
     def test_get_reviews_for_product(self):
         # Получаем отзывы для тестового продукта
-        reviews = self.review_service.get_reviews_for_product(self.product)
+        reviews = self.review_service.get_reviews_for_product(self.product1)
 
         # Проверяем, что оба тестовых отзыва присутствуют
         self.assertEqual(len(reviews), 2)
@@ -562,10 +547,10 @@ class ProductReviewServiceTest(TestCase):
 
     def test_add_review_for_product(self):
         # Добавляем новый отзыв к тестовому продукту
-        self.review_service.add_review_for_product(self.product, user_id=self.user.id, review_text='Review 3')
+        self.review_service.add_review_for_product(self.product1, user_id=self.user.id, review_text='Review 3')
 
         # Получаем отзывы для тестового продукта
-        reviews = self.review_service.get_reviews_for_product(self.product)
+        reviews = self.review_service.get_reviews_for_product(self.product1)
 
         # Проверяем, что новый отзыв добавлен
         self.assertEqual(len(reviews), 3)
@@ -574,8 +559,7 @@ class ProductReviewServiceTest(TestCase):
 
     def test_get_reviews_count(self):
         # Получаем количество отзывов для тестового продукта
-        reviews_count = self.review_service.get_reviews_count(self.product)
+        reviews_count = self.review_service.get_reviews_count(self.product1)
 
         # Проверяем, что количество отзывов соответствует ожиданиям
         self.assertEqual(reviews_count, 2)  # Уже существующие отзывы
-
