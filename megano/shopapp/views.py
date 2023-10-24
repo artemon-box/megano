@@ -269,7 +269,7 @@ class AddToComparison(View):
     def get(self, request, **kwargs):
         compare_list = ComparedProductsService(request)
         compare_list.add_to_compared_products(kwargs["product_id"])
-        return redirect(request.META.get("HTTP_REFERER"))
+        return redirect("/")
 
 
 class RemoveFromComparison(View):
