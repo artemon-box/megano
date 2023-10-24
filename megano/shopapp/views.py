@@ -118,7 +118,7 @@ class ProductDetailView(View):
         reviews_count = self.review_service.get_reviews_count(product=product)
 
         product_sellers = product.productseller_set.all()
-        minimum_price = round(ProductSeller.objects.aggregate(Min("price"))["price__min"], 2)
+        minimum_price = round(ProductSeller.objects.filter(product=product).aggregate(Min("price"))["price__min"], 2)
 
         if user.is_authenticated:
             self.recently_viewed_service.add_to_recently_viewed(user_id=user.id, product_slug=product_slug)

@@ -22,23 +22,29 @@
                     <div class="ProductCard">
                         <div class="ProductCard-look">
                             <div class="ProductCard-photo">
-                                <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+                                {% if product.image %}
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+                                {% endif %}
                             </div>
                             <div class="ProductCard-picts">
-                                <a class="ProductCard-pict ProductCard-pict_ACTIVE" href="{{ product.image.url }}" >
-                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" />
-                                </a>
-                                {% set first_image = true %}
-                                {% for extra_image in extra_images %}
-                                    <a class="ProductCard-pict
-                                        {% if first_image %}
-                                            ProductCard-pict
-                                                {% set first_image = false %}
-                                        {% endif %}
-                                        " href="{{ extra_image.image.url }}">
-                                        <img src="{{ extra_image.image.url }}" alt="{{ product.name }}" />
+                                {% if product.image %}
+                                    <a class="ProductCard-pict ProductCard-pict_ACTIVE" href="{{ product.image.url }}" >
+                                        <img src="{{ product.image.url }}" alt="{{ product.name }}" />
                                     </a>
-                                {% endfor %}
+                                {% endif %}
+                                {% if extra_images %}
+                                    {% set first_image = true %}
+                                    {% for extra_image in extra_images %}
+                                        <a class="ProductCard-pict
+                                            {% if first_image %}
+                                                ProductCard-pict
+                                                    {% set first_image = false %}
+                                            {% endif %}
+                                            " href="{{ extra_image.image.url }}">
+                                            <img src="{{ extra_image.image.url }}" alt="{{ product.name }}" />
+                                        </a>
+                                    {% endfor %}
+                                {% endif %}
                             </div>
                         </div>
                         <div class="ProductCard-desc">
