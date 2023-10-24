@@ -17,10 +17,15 @@ class PaymentService:
         """
 
         quantity_correction(order_id, increase=False)
-        payment_task = process_payment.apply_async(args=(order_id, card_number, price))
+
+        try:
+            payment_task = process_payment.apply_async(args=(order_id, card_number, price))
+            success = True
+        except ConnectionRefusedError:
+            success = False
 
         return {
-            "success": True,
+            "success": success,
             "message": "Запрос на оплату успешно отправлен.",
             "task_id": payment_task.id,
         }

@@ -3,12 +3,15 @@ from config.settings import DEBUG
 from shopapp.models import ProductSeller
 
 
-def quantity_correction(order_id, increase=True):
+def quantity_correction(order_id, increase=True, debug=None):
     """
     Функция для изменения количества товара у продавца при оформлении заказа.
     """
 
-    if not DEBUG:
+    if type(debug) != bool:
+        debug = DEBUG
+
+    if not debug:
         product_orders = OrderProduct.objects.filter(order_id=order_id)
         for product_order in product_orders:
             product_seller = ProductSeller.objects.get(product=product_order.product, seller=product_order.seller)

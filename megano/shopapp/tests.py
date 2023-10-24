@@ -1,7 +1,9 @@
 import unittest
 from decimal import Decimal
 
+from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
+from django.core.cache import cache
 from django.http import HttpRequest
 from django.shortcuts import reverse
 from django.test import TestCase
@@ -9,10 +11,16 @@ from django.test.client import RequestFactory
 from django.urls import resolve
 from django.utils.text import slugify
 
+from cart_and_orders.models import Order, OrderProduct, DeliveryMethod
 from config import settings
-from shopapp.models import Category, Discount, Product, ProductSeller, Seller
+from shopapp.models import Category, Discount, Product, ProductSeller, Seller, ProductReview
 from shopapp.services.compared_products import ComparedProductsService
 from shopapp.services.discount import DiscountService
+from shopapp.services.product_review import ProductReviewService
+from shopapp.utils.banners_cache import get_random_active_product_banners
+from shopapp.utils.categories_cache import get_cached_active_categories
+from shopapp.utils.details_cache import get_cached_product_by_slug
+from shopapp.utils.seller_top_sales import seller_top_sales
 from shopapp.views import catalog_list
 
 
@@ -300,3 +308,274 @@ class TestComparedProductsView(SetUpClass):
         response = self.client.get(reverse("shopapp:compare_list"))
         # self.assertTemplateUsed(response, "shopapp/comparison.jinja2")
         self.assertEqual(response.status_code, 200)
+
+
+class RandomActiveProductBannersTest(TestCase):
+    def setUp(self):
+        # Создаем несколько активных продуктов для теста
+
+        self.category = Category.objects.create(
+            name="CName",
+        )
+
+        self.active_products = [
+            Product.objects.create(
+                name=f'Product{i}',
+                category=self.category,
+                available=True,
+            )
+            for i in range(5)
+        ]
+
+    def tearDown(self):
+        # Очищаем кэш после теста
+        cache.clear()
+
+    def test_get_random_active_product_banners(self):
+        banners = get_random_active_product_banners()
+
+        self.assertIsInstance(banners, list)
+
+        self.assertTrue(len(banners) <= 3)
+
+        for banner in banners:
+            self.assertIn(banner, self.active_products)
+
+        cache_key = "random_product_banners"
+        cached_banners = cache.get(cache_key)
+        self.assertIsNotNone(cached_banners)
+
+
+class CachedActiveCategoriesTest(TestCase):
+    def setUp(self):
+        # Создаем несколько активных категорий для теста
+        self.active_categories = [
+            Category.objects.create(name=f'Category{i}')
+            for i in range(5)
+        ]
+
+        self.active_products = [
+            Product.objects.create(
+                name=f'Product{i}',
+                category=self.active_categories[i],
+                available=True,
+            )
+            for i in range(5)
+        ]
+
+        # Устанавливаем настройку CATEGORY_MENU_CACHE_TIMEOUT для кэша
+        self.cache_timeout = 600  # 10 минут (в секундах)
+
+    def tearDown(self):
+        # Очищаем кэш после теста
+        cache.clear()
+
+    def test_get_cached_active_categories(self):
+        # Получаем кэшированные активные категории
+        cached_categories = get_cached_active_categories()
+
+        # Проверяем, что полученные категории являются QuerySet
+        self.assertIsInstance(cached_categories, Category.objects.filter().distinct().__class__)
+
+        # Проверяем, что количество полученных категорий соответствует ожиданиям
+        self.assertEqual(len(cached_categories), len(self.active_categories))
+
+        # Проверяем, что полученные категории содержатся в списке активных категорий
+        for category in cached_categories:
+            self.assertIn(category, self.active_categories)
+
+        # Проверяем, что данные были сохранены в кэше
+        cache_key = "active_categories"
+        cached_data = cache.get(cache_key)
+        self.assertIsNotNone(cached_data)
+
+    def test_cache_timeout(self):
+        # Устанавливаем кэшированные категории с кастомным таймаутом
+        cached_categories = get_cached_active_categories()
+        cache_timeout = 3600  # 1 час (в секундах)
+        cache.set("active_categories", cached_categories, cache_timeout)
+
+        # Получаем категории из кэша
+        retrieved_categories = get_cached_active_categories()
+
+        # Проверяем, что категории из кэша соответствуют ожиданиям
+        self.assertEqual(list(cached_categories), list(retrieved_categories))
+
+
+class CachedProductBySlugTest(TestCase):
+    def setUp(self):
+        self.category = Category.objects.create(
+            name="CName",
+        )
+        # Создаем тестовый продукт для теста
+        self.test_product = Product.objects.create(
+            name='Test Product',
+            slug='test-product',
+            available=True,
+            category=self.category,
+        )
+
+        # Устанавливаем настройку PRODUCT_CACHE_TIMEOUT для кэша
+        self.cache_timeout = 600  # 10 минут (в секундах)
+
+    def tearDown(self):
+        # Очищаем кэш после теста
+        cache.clear()
+
+    def test_get_cached_product_by_slug(self):
+        # Получаем кэшированный продукт по слагу
+        cached_product = get_cached_product_by_slug('test-product')
+
+        # Проверяем, что полученный продукт является экземпляром Product
+        self.assertIsInstance(cached_product, Product)
+
+        # Проверяем, что полученный продукт соответствует ожиданиям
+        self.assertEqual(cached_product, self.test_product)
+
+        # Проверяем, что данные были сохранены в кэше
+        cache_key = "product_test-product"
+        cached_data = cache.get(cache_key)
+        self.assertIsNotNone(cached_data)
+
+    def test_cache_timeout(self):
+        # Устанавливаем кэшированный продукт с кастомным таймаутом
+        cached_product = get_cached_product_by_slug('test-product')
+        cache_timeout = 3600  # 1 час (в секундах)
+        cache.set("product_test-product", cached_product, cache_timeout)
+
+        # Получаем продукт из кэша
+        retrieved_product = get_cached_product_by_slug('test-product')
+
+        # Проверяем, что продукт из кэша соответствует ожиданиям
+        self.assertEqual(retrieved_product, self.test_product)
+
+
+class SellerTopSalesTest(TestCase):
+    def setUp(self):
+        # Создаем тестового продавца для теста
+        self.test_seller = Seller.objects.create(
+            name='Test Seller',
+            slug='slug',
+            user=None,
+            delivery_method='Ordinary',
+            payment_method='Online',
+            email='test@example.com',
+        )
+
+        self.category = Category.objects.create(
+            name="CName",
+        )
+
+        # Создаем тестовый продукт для теста
+        self.test_product = Product.objects.create(
+            category=self.category,
+            name='Test Product',
+            available=True
+        )
+
+        self.test_product_seller = ProductSeller.objects.create(
+            product=self.test_product,
+            seller=self.test_seller,
+            price=10.0,
+            quantity=5
+        )
+
+        self.delivery_method = DeliveryMethod.objects.create(
+            name="Обычная",
+            price=Decimal('200'),
+            order_minimal_price=Decimal('2000')
+        )
+
+        # Создаем тестовый заказ с продуктом продавца
+        self.test_order = Order.objects.create(
+            user=None,
+            city='Test City',
+            address='Test Address',
+            delivery_method=self.delivery_method,
+            payment_method='Cash',
+            total_price=10.0,
+            status='delivered')
+
+        self.test_order_product = OrderProduct.objects.create(
+            order=self.test_order,
+            product=self.test_product,
+            seller=self.test_seller,
+            quantity=1,
+            price=10.0
+        )
+
+    def test_seller_top_sales(self):
+        # Получаем топ продаж для тестового продавца
+        top_sales = seller_top_sales(self.test_seller)
+
+        # Проверяем, что результат содержит ожидаемый продукт
+        self.assertEqual(len(top_sales), 1)
+        top_sale = top_sales[0]
+        self.assertEqual(top_sale["seller_product"], self.test_product_seller)
+        self.assertEqual(top_sale["total_quantity"], 1)
+
+
+class ProductReviewServiceTest(TestCase):
+    def setUp(self):
+        self.category = Category.objects.create(
+            name="CName",
+        )
+
+        # Создаем тестовый продукт для теста
+        self.product = Product.objects.create(
+            category=self.category,
+            name="Name",
+            slug="slug",
+            description="Description",
+            available=True,
+        )
+
+        self.user = get_user_model().objects.create_user(
+            name='testuser',
+            password='testpassword',
+            email='321@skill.box'
+        )
+
+        # Создаем сервис отзывов
+        self.review_service = ProductReviewService()
+
+        # Создаем тестовые отзывы
+        self.review1 = ProductReview.objects.create(
+            product=self.product,
+            user=self.user,
+            text='Review 1'
+        )
+        self.review2 = ProductReview.objects.create(
+            product=self.product,
+            user=self.user,
+            text='Review 2'
+        )
+
+    def test_get_reviews_for_product(self):
+        # Получаем отзывы для тестового продукта
+        reviews = self.review_service.get_reviews_for_product(self.product)
+
+        # Проверяем, что оба тестовых отзыва присутствуют
+        self.assertEqual(len(reviews), 2)
+        self.assertIn(self.review1, reviews)
+        self.assertIn(self.review2, reviews)
+
+    def test_add_review_for_product(self):
+        # Добавляем новый отзыв к тестовому продукту
+        self.review_service.add_review_for_product(self.product, user_id=self.user.id, review_text='Review 3')
+
+        # Получаем отзывы для тестового продукта
+        reviews = self.review_service.get_reviews_for_product(self.product)
+
+        # Проверяем, что новый отзыв добавлен
+        self.assertEqual(len(reviews), 3)
+        new_review = ProductReview.objects.get(text='Review 3')
+        self.assertIn(new_review, reviews)
+
+    def test_get_reviews_count(self):
+        # Получаем количество отзывов для тестового продукта
+        reviews_count = self.review_service.get_reviews_count(self.product)
+
+        # Проверяем, что количество отзывов соответствует ожиданиям
+        self.assertEqual(reviews_count, 2)  # Уже существующие отзывы
+
