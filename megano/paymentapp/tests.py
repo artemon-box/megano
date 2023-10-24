@@ -73,13 +73,13 @@ class QuantityCorrectionTest(TestCase):
         )
 
     def test_quantity_correction_increases_quantity(self):
-        quantity_correction(self.order.id, increase=True, debug=False)
+        quantity_correction(self.order.id, increase=True)
 
         self.product_seller.refresh_from_db()
         self.assertEqual(self.product_seller.quantity, 15)  # Проверяем, что количество товара увеличилось на 5
 
     def test_quantity_correction_decreases_quantity(self):
-        quantity_correction(self.order.id, increase=False, debug=False)
+        quantity_correction(self.order.id, increase=False)
 
         self.product_seller.refresh_from_db()
         self.assertEqual(self.product_seller.quantity, 5)  # Проверяем, что количество товара уменьшилось на 5
