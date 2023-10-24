@@ -78,12 +78,14 @@
                     </div>
                     {% endif %}
                     <div class="Cart-block">
+                    {% if request.user.is_authenticated %}
                         {% if cart_items %}
                             <a class="btn btn_success btn_lg" style="margin-right: 20px; margin-bottom: 20px" href="{{ url('cart_and_orders:order') }}">Оформить
                                 заказ</a>
                             <a class="btn btn_success btn_lg" style="margin-right: 20px; margin-bottom: 20px"  href="{{ url('cart_and_orders:clear_cart') }}">Очистить
                                 корзину</a>
                         {% endif %}
+                    {% endif %}
                     </div>
                 </div>
 {#====================================================================================================================#}
