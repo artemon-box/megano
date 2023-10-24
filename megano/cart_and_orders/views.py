@@ -1,14 +1,15 @@
 import re
 
 from accountapp.accounts import cmd_create_buyer
-from shopapp.forms import AddToCartForm
-from django.http import HttpRequest, HttpResponse, Http404
-from django.shortcuts import render, redirect
+from django.http import Http404, HttpRequest, HttpResponse
+from django.shortcuts import redirect, render
 from django.views import View
+from shopapp.forms import AddToCartForm
+
 from .forms import OrderForm
-from .models import Order, OrderProduct, DeliveryMethod
+from .models import DeliveryMethod, Order, OrderProduct
 from .services.cart import CartService
-from .utils.get_total_price import get_total_price_delivery
+from .utils.get_total_price import get_total_price_delivery, get_total_price
 
 
 class CartView(View):
@@ -78,7 +79,7 @@ class OrderView(View):
 
         product_seller = self.cart.get_cart(request)
 
-        user_orders = Order.objects.filter(user_id=request.user, status='created')
+        user_orders = Order.objects.filter(user_id=request.user, status="created")
         if user_orders:
             user_orders.delete()
 
@@ -86,11 +87,11 @@ class OrderView(View):
             raise Http404("Корзина пуста")
 
         first_delivery_method = DeliveryMethod.objects.first()
-        order_form = OrderForm(initial={'delivery': first_delivery_method, 'payment': 'online'})
+        order_form = OrderForm(initial={"delivery": first_delivery_method, "payment": "online"})
         context = {
-            'form': order_form,
+            "form": order_form,
         }
-        return render(request, 'cart_and_orders/order.jinja2', context)
+        return render(request, "cart_and_orders/order.jinja2", context)
 
     def post(self, request: HttpRequest) -> HttpResponse:
         """
@@ -104,40 +105,38 @@ class OrderView(View):
         user = request.user
 
         if order_form.is_valid():
-
             if not request.user.is_authenticated:
-
                 user = cmd_create_buyer(
-                    name=order_form.cleaned_data['name'],
-                    email=order_form.cleaned_data['mail'],
-                    password=order_form.cleaned_data['password'],
+                    name=order_form.cleaned_data["name"],
+                    email=order_form.cleaned_data["mail"],
+                    password=order_form.cleaned_data["password"],
                 )
-                user.phone = self.get_phone(order_form.cleaned_data['phone'])
+                user.phone = self.get_phone(order_form.cleaned_data["phone"])
                 user.save()
 
-            request.user.phone = self.get_phone(order_form.cleaned_data['phone'])
+            request.user.phone = self.get_phone(order_form.cleaned_data["phone"])
             request.user.save()
 
             order = Order.objects.create(
                 user=user,
-                city=order_form.cleaned_data['city'],
-                address=order_form.cleaned_data['address'],
-                delivery_method=order_form.cleaned_data['delivery'],
-                payment_method=order_form.cleaned_data['payment'],
+                city=order_form.cleaned_data["city"],
+                address=order_form.cleaned_data["address"],
+                delivery_method=order_form.cleaned_data["delivery"],
+                payment_method=order_form.cleaned_data["payment"],
             )
 
             order.save()
 
             for item in cart:
-                product_seller = item['product_seller']
-                quantity = item['quantity']
+                product_seller = item["product_seller"]
+                quantity = item["quantity"]
 
                 order_item = OrderProduct.objects.create(
                     order=order,
                     product=product_seller.product,
                     seller=product_seller.seller,
                     quantity=quantity,
-                    price=product_seller.price
+                    price=product_seller.price,
                 )
 
                 order_item.save()
@@ -145,16 +144,15 @@ class OrderView(View):
             order.total_price = get_total_price_delivery(order.id)
             order.save()
 
-            request.session['current_order_id'] = order.id
+            request.session["current_order_id"] = order.id
 
-            return redirect('cart_and_orders:order_confirm')
+            return redirect("cart_and_orders:order_confirm")
 
         else:
-
             context = {
-                'form': order_form,
+                "form": order_form,
             }
-            return render(request, 'cart_and_orders/order.jinja2', context)
+            return render(request, "cart_and_orders/order.jinja2", context)
 
 
 class OrderConfirmView(View):
@@ -171,18 +169,20 @@ class OrderConfirmView(View):
         :param request: Запрос пользователя.
         :return: HTTP-ответ с детальной информацией о заказе.
         """
-        current_order_id = request.session.get('current_order_id')
+        current_order_id = request.session.get("current_order_id")
         order = Order.objects.get(id=current_order_id)
         total_price = get_total_price_delivery(current_order_id)
+        full_price = get_total_price(current_order_id)
         product_seller = self.cart.get_cart(request)
 
         context = {
-            'order': order,
-            'order_price': total_price,
-            'cart': product_seller,
+            "order": order,
+            "order_price": total_price,
+            'full_price': full_price,
+            "cart": product_seller,
         }
 
-        return render(request, 'cart_and_orders/order_confirm.jinja2', context)
+        return render(request, "cart_and_orders/order_confirm.jinja2", context)
 
 
 class ClearCartView(View):

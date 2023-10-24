@@ -30,10 +30,14 @@
             </div>
             <div class="Header-search">
                 <div class="search">
-                    <form class="form form_search" action="#" method="post">
-                        <input class="search-input" id="query" name="query" type="text" placeholder="NVIDIA GeForce RTX 3060" />
+                    <form class="form form_search" action="{{ url('shopapp:catalog_list') }}" method="post">
+                        {% csrf_token %}
+{#                        <input class="search-input" id="query" name="query" type="text" placeholder="NVIDIA GeForce RTX 3060" />#}
+                        <input class="search-input" id="product_title_2" name="title" type="text" value="" placeholder="NVIDIA GeForce RTX 3060" />
+                        <input type="hidden" id="price" name="price" value="1;100000">
                         <button class="search-button" type="submit" name="search" id="search"><img src="{{ static('assets/img/icons/search.svg') }}" alt="search.svg" />Поиск
                         </button>
+{#                            <input type="hidden" id="product_title" name="title" value="">#}
                     </form>
                 </div>
             </div>
@@ -43,6 +47,19 @@
               event.preventDefault();  // отменяем дефолтное событие на клик ссылки
               document.getElementById('category_value').value = link.querySelector('.CategoriesButton-text').textContent;
               document.getElementById('catalog_form').submit();  // отправляем форму по нажатию на ссылку
+                localStorage.setItem('price', '1;10000'); // установить макс. ценовой диапазон
+                localStorage.setItem('product_title', ''); // сделать инпут пустым
+                localStorage.setItem('fd', '0'); // обнуляем чек-бокс бесплатной доставки
+                localStorage.setItem('av', '0'); // обнуляем чек-бокс "товар в наличии"
               }));
+        </script>
+        <script> //
+            let title2 = document.getElementById('product_title_2');
+            document.querySelectorAll('.search-button').forEach((button) => button.addEventListener('click', (event)=> {
+                localStorage.setItem('price', '1;10000'); // установить макс. ценовой диапазон
+                localStorage.setItem('product_title', title2.value); //
+                localStorage.setItem('fd', '0'); // обнуляем чек-бокс бесплатной доставки
+                localStorage.setItem('av', '0'); // обнуляем чек-бокс "товар в наличии"
+            }));
         </script>
     </div>

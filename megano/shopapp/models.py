@@ -1,11 +1,13 @@
 from decimal import Decimal
+
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.urls import reverse
-from taggit.managers import TaggableManager
 from django.template.defaultfilters import slugify
+from django.urls import reverse
+from django.utils import timezone
+from taggit.managers import TaggableManager
 
 
 def category_images_directory_path(instance, filename):
@@ -29,11 +31,40 @@ def seller_images_directory_path(instance, filename):
 
 
 def translit_to_eng(s: str) -> str:
-    d = {'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd',
-         'е': 'e', 'ё': 'yo', 'ж': 'zh', 'з': 'z', 'и': 'i', 'к': 'k',
-         'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r',
-         'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'h', 'ц': 'c', 'ч': 'ch',
-         'ш': 'sh', 'щ': 'shch', 'ь': '', 'ы': 'y', 'ъ': '', 'э': 'r', 'ю': 'yu', 'я': 'ya'}
+    d = {
+        "а": "a",
+        "б": "b",
+        "в": "v",
+        "г": "g",
+        "д": "d",
+        "е": "e",
+        "ё": "yo",
+        "ж": "zh",
+        "з": "z",
+        "и": "i",
+        "к": "k",
+        "л": "l",
+        "м": "m",
+        "н": "n",
+        "о": "o",
+        "п": "p",
+        "р": "r",
+        "с": "s",
+        "т": "t",
+        "у": "u",
+        "ф": "f",
+        "х": "h",
+        "ц": "c",
+        "ч": "ch",
+        "ш": "sh",
+        "щ": "shch",
+        "ь": "",
+        "ы": "y",
+        "ъ": "",
+        "э": "r",
+        "ю": "yu",
+        "я": "ya",
+    }
 
     return "".join(map(lambda x: d[x] if d.get(x, False) else x, s.lower()))
 
@@ -49,16 +80,20 @@ class Product(models.Model):
     """Модель товаров"""
 
     category = models.ForeignKey("Category", related_name="products", on_delete=models.DO_NOTHING)
-    name = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200)
-    image = models.ImageField(upload_to=product_images_directory_path, blank=True)
-    description = models.TextField(blank=True)
-    available = models.BooleanField(default=True)
+    name = models.CharField(max_length=200, verbose_name="название")
+    slug = models.SlugField(
+        max_length=200,
+    )
+    image = models.ImageField(upload_to=product_images_directory_path, blank=True, verbose_name="изображение товара")
+    description = models.TextField(blank=True, verbose_name="описание")
+    available = models.BooleanField(default=True, verbose_name="имеющийся в наличии")
     sellers = models.ManyToManyField("Seller", through="ProductSeller")
     tags = TaggableManager(blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)  # дата добавления товара для сортировки по новизне
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="дата создания")
 
     class Meta:
+        verbose_name = "товар"
+        verbose_name_plural = "товары"
         ordering = ["name"]
         indexes = [
             models.Index(fields=["id", "slug"]),
@@ -74,7 +109,7 @@ class Product(models.Model):
 
     @property
     def popularity(self):
-        return len(str(self.description))  # здесь будет популярность = кол-во оплаченных заказов товара
+        return len(str(self.description))
 
     @property
     def reviews(self):
@@ -92,6 +127,10 @@ class ProductReview(models.Model):
 
     def __str__(self):
         return f"Review by {self.user} for {self.product}"
+
+    class Meta:
+        verbose_name = "отзывы о товаре"
+        verbose_name_plural = "отзывы о товарах"
 
 
 class ExtraImage(models.Model):
@@ -117,11 +156,11 @@ class ProductSeller(models.Model):
 
     """
 
-    product = models.ForeignKey(Product, on_delete=models.RESTRICT)
-    seller = models.ForeignKey("Seller", on_delete=models.RESTRICT)
+    product = models.ForeignKey(Product, on_delete=models.RESTRICT, verbose_name="Товар")
+    seller = models.ForeignKey("Seller", on_delete=models.RESTRICT, verbose_name="Продавец")
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="цена товара у продавца")
     quantity = models.IntegerField(verbose_name="количество", default=1)
-    free_delivery = models.BooleanField(default=False)  # бесплатная доставка (для фильтрации на странице каталога)
+    free_delivery = models.BooleanField(default=False, verbose_name="Бесплатная доставка")
     is_limited_edition = models.BooleanField(default=False, verbose_name="Ограниченный тираж")
 
     class Meta:
@@ -136,23 +175,30 @@ class ProductSeller(models.Model):
         return f"{self.product} by {self.seller} for ${self.price}"
 
 
+class DailyOfferProduct(models.Model):
+    product = models.ForeignKey(ProductSeller, on_delete=models.CASCADE)
+    selected_date = models.DateField(default=timezone.now)
+
+
 class Seller(models.Model):
     """
     Модель продавец
     """
 
     user = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, verbose_name="имя продавца")
     slug = models.SlugField(max_length=200, default=None)
     image = models.ImageField(upload_to=seller_images_directory_path)
-    delivery_method = models.CharField(max_length=100, default=None)
-    payment_method = models.CharField(max_length=100, default=None)
-    description = models.TextField(max_length=1000, blank=True)
+    delivery_method = models.CharField(max_length=100, default=None, verbose_name="способ доставки")
+    payment_method = models.CharField(max_length=100, default=None, verbose_name="способ оплаты")
+    description = models.TextField(max_length=1000, blank=True, verbose_name="описание")
     email = models.EmailField(max_length=254)
-    phone = models.CharField(max_length=12)
-    address = models.CharField(max_length=200)
+    phone = models.CharField(max_length=12, verbose_name="телефон")
+    address = models.CharField(max_length=200, verbose_name="адрес")
 
     class Meta:
+        verbose_name = "продавец"
+        verbose_name_plural = "продавцы"
         ordering = ["name"]
         indexes = [
             models.Index(fields=["id", "slug"]),
@@ -203,6 +249,7 @@ class Feature(models.Model):
     name = models.CharField(max_length=100, verbose_name="Характеристика")
 
     class Meta:
+        verbose_name = "характеристики"
         ordering = ["category", "name"]
         unique_together = ["category", "name"]
 
@@ -219,6 +266,8 @@ class FeatureValue(models.Model):
     value = models.CharField(max_length=100, verbose_name="Значение")
 
     class Meta:
+        verbose_name = "значение характеристики"
+        verbose_name_plural = "значение характеристики"
         ordering = ["feature", "value"]
 
     def __str__(self):
@@ -251,6 +300,8 @@ class ProductFeature(models.Model):
     )
 
     class Meta:
+        verbose_name = "характеристики товаров"
+        verbose_name_plural = "характеристика товара"
         ordering = ["feature"]
 
     def __str__(self):
@@ -296,7 +347,7 @@ class Discount(models.Model):
         max_length=2, choices=DISCOUNT_TYPE, default="p", verbose_name="Discount type", help_text="Тип скидки"
     )
     weight = models.CharField(
-        max_length=1, choices=DISCOUNT_WEIGHT, default="l", verbose_name='Discount "weight"', help_text="'Вес' скидки"
+        max_length=1, choices=DISCOUNT_WEIGHT, default="1", verbose_name='Discount "weight"', help_text="'Вес' скидки"
     )
     percent = models.IntegerField(
         verbose_name="Percent",
@@ -349,7 +400,7 @@ class Discount(models.Model):
         Если тип скидки "на набор" и указан процент скидки, то получаем сумму скидки на указанные товары
         """
         total = 0
-        if self.type == "s" and self.percent and self.products.all():
+        if self.type == "s" and self.percent and self.products.all() and not self.categories.all():
             for item in self.products.all():
                 total += item.price
             return round((Decimal(int(self.percent) / 100) * total), 2)
@@ -358,3 +409,7 @@ class Discount(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = "Скидки"
+        verbose_name_plural = "Скидка"

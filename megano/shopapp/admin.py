@@ -3,10 +3,12 @@ import json
 from django.contrib import admin
 from django.contrib.admin import forms
 from django.db.models import QuerySet
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import redirect, render
+from django.urls import path
 from taggit.models import Tag
 
-from .forms import ProductFeatureForm
+from .forms import FileImportForm, ProductFeatureForm
 from .models import (
     AllowedRelation,
     Category,
@@ -20,14 +22,6 @@ from .models import (
     ProductSeller,
     Seller,
 )
-from django.db.models import QuerySet
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render, redirect
-from taggit.models import Tag
-from django.urls import path
-from .forms import ProductFeatureForm, FileImportForm
-
-
 from .views import ImportProducts
 
 
@@ -76,19 +70,19 @@ class SellerAdmin(admin.ModelAdmin):
     ordering = ["name", "delivery_method", "payment_method"]
 
 
-@admin.action(description="Add limited edition product")
+@admin.action(description="Добавить товар в ограниченный тираж")
 def mark_limited_edition(modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet):
     queryset.update(is_limited_edition=True)
 
 
-@admin.action(description="Exclude a product from a limited edition")
+@admin.action(description="Убрать товар из ограниченного тиража")
 def unmark_limited_edition(modeladmin: admin.ModelAdmin, request: HttpRequest, queryset: QuerySet):
     queryset.update(is_limited_edition=False)
 
 
 @admin.register(ProductSeller)
 class ProductSellerAdmin(admin.ModelAdmin):
-    change_list_template = 'shopapp/productsellers_changelist.html'
+    change_list_template = "shopapp/productsellers_changelist.html"
     actions = [
         mark_limited_edition,
         unmark_limited_edition,
@@ -103,12 +97,28 @@ class ProductSellerAdmin(admin.ModelAdmin):
         "is_limited_edition",
     )
 
+    def get_readonly_fields(self, request, obj=None):
+        if request.user.is_superuser:
+            return []  # Суперпользователи могут редактировать все поля
+        else:
+            return ["seller"]  # Обычные пользователи не могут редактировать эти поля
+
     def get_urls(self):
         urls = super().get_urls()
         new_urls = [
-            path('import-products-json', ImportProducts.as_view(), name='import_products_json',),
+            path(
+                "import-products-json",
+                ImportProducts.as_view(),
+                name="import_products_json",
+            ),
         ]
         return new_urls + urls
+
+    def get_queryset(self, request):
+        if request.user.is_superuser:
+            return super(ProductSellerAdmin, self).get_queryset(request)
+        seller = Seller.objects.filter(user=request.user).first()
+        return ProductSeller.objects.filter(seller=seller)
 
 
 admin.site.register(ExtraImage)

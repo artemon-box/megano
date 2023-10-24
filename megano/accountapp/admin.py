@@ -76,8 +76,6 @@ class GroupAdminForm(forms.ModelForm):
         if self.instance.pk:
             initial_users = self.instance.user_set.values_list("pk", flat=True)
             self.initial["users"] = initial_users
-            if not kwargs["user"].is_superuser:
-                self.fields["permissions"].widget = forms.HiddenInput()
 
     def save(self, *args, **kwargs):
         kwargs["commit"] = True

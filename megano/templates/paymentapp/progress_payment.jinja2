@@ -52,7 +52,8 @@
     <script>
         function checkStatus() {
             $.ajax({
-                url: 'http://127.0.0.1:8000/payment/check_status/',
+                url: 'http://127.0.0.1:8000/payment/check_status/?task_id={{ task_id }}',
+
                 type: 'GET',
                 success: function(data) {
                    if (data.status === 'success' || data.status === 'failed') {
@@ -61,7 +62,7 @@
                         window.location.href = 'http://127.0.0.1:8000/accounts/';
                     }
                     else {
-                        // Если статус не 'success', повторяем запрос через 2 секунды.
+                        // Если статус не 'success', повторяем запрос через 5 секунд.
                         console.log('Статус не успешен. Повторяем через 5 секунд.');
                         setTimeout(checkStatus, 5000);
                     }
