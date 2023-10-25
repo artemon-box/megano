@@ -2,7 +2,13 @@ from decimal import Decimal
 
 from django.shortcuts import reverse
 from django.test import TestCase
+from django.test.client import RequestFactory
+from django.urls import resolve
+from django.utils.text import slugify
+
+from config import settings
 from shopapp.models import Category, Discount, Product, ProductSeller, Seller
+from shopapp.services.compared_products import ComparedProductsService
 from shopapp.services.discount import DiscountService
 
 
@@ -251,3 +257,75 @@ class CatalogTest(SetUpClass):
         # response = self.client.get("/catalog/?sort=-price/", data=data)
         # for item in sorted_products:  не работает!!!
         #     self.assertIn(item.product.name, response)
+
+
+class TestComparedProductsService(SetUpClass):
+    def setUp(self) -> None:
+        super().setUp()
+        response = self.client.get(reverse("shopapp:compare_list"))
+        request = response.wsgi_request
+        self.compare_list = ComparedProductsService(request)
+
+    def test_add_to_compare_list(self):
+        self.assertEqual(self.compare_list.get_compared_products(), [])
+        self.compare_list.add_to_compared_products(self.product_seller1.id)
+        self.compare_list.add_to_compared_products(self.product_seller2.id)
+        self.assertEqual(self.compare_list.get_compared_products(), [1, 2])
+
+    def test_remove_from_compare_list(self):
+        self.compare_list.add_to_compared_products(self.product_seller1.id)
+        self.compare_list.add_to_compared_products(self.product_seller2.id)
+        self.assertEqual(self.compare_list.get_compared_products(), [1, 2])
+        self.compare_list.remove_from_compared_products(self.product_seller1.id)
+        self.assertEqual(self.compare_list.get_compared_products(), [2, ])
+        self.compare_list.remove_from_compared_products(self.product_seller2.id)
+        self.assertEqual(self.compare_list.get_compared_products(), [])
+
+    def test_clear_compare_list(self):
+        self.compare_list.add_to_compared_products(self.product_seller1.id)
+        self.compare_list.add_to_compared_products(self.product_seller2.id)
+        self.assertEqual(self.compare_list.get_compared_products(), [1, 2])
+        self.compare_list.clear()
+        self.assertEqual(self.compare_list.get_compared_products(), [])
+
+
+class TestComparedProductsView(SetUpClass):
+
+    def test_add_to_comparison_view(self):
+        response = self.client.get(reverse("shopapp:compare_add", kwargs={"product_id": self.product_seller1.id}))
+        request = response.wsgi_request
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/")
+        self.assertEqual(request.session.get(settings.COMPARE_LIST_SESSION_ID), [1])
+        response = self.client.get(reverse("shopapp:compare_add", kwargs={"product_id": self.product_seller2.id}))
+        request = response.wsgi_request
+        self.assertEqual(request.session.get(settings.COMPARE_LIST_SESSION_ID), [1, 2])
+
+    def test_remove_from_comparison_view(self):
+        response = self.client.get(reverse("shopapp:compare_add", kwargs={"product_id": self.product_seller3.id}))
+        request = response.wsgi_request
+        self.assertEqual(request.session.get(settings.COMPARE_LIST_SESSION_ID), [3])
+        response = self.client.get(reverse("shopapp:compare_add", kwargs={"product_id": self.product_seller4.id}))
+        request = response.wsgi_request
+        self.assertEqual(request.session.get(settings.COMPARE_LIST_SESSION_ID), [3, 4])
+        response = self.client.get(reverse("shopapp:compare_remove", kwargs={"product_id": self.product_seller3.id}))
+        request = response.wsgi_request
+        self.assertEqual(request.session.get(settings.COMPARE_LIST_SESSION_ID), [4])
+        self.assertRedirects(response, expected_url="/compare/", status_code=302)
+
+    def test_clear_comparison_view(self):
+        response = self.client.get(reverse("shopapp:compare_add", kwargs={"product_id": self.product_seller1.id}))
+        request = response.wsgi_request
+        self.assertEqual(request.session.get(settings.COMPARE_LIST_SESSION_ID), [1])
+        response = self.client.get(reverse("shopapp:compare_add", kwargs={"product_id": self.product_seller2.id}))
+        request = response.wsgi_request
+        self.assertEqual(request.session.get(settings.COMPARE_LIST_SESSION_ID), [1, 2])
+        response = self.client.get(reverse("shopapp:compare_clear"))
+        request = response.wsgi_request
+        self.assertEqual(request.session.get(settings.COMPARE_LIST_SESSION_ID), [])
+        self.assertRedirects(response, expected_url="/compare/", status_code=302)
+
+    def test_comparison_of_products_view(self):
+        response = self.client.get(reverse("shopapp:compare_list"))
+        # self.assertTemplateUsed(response, "shopapp/comparison.jinja2")
+        self.assertEqual(response.status_code, 200)
