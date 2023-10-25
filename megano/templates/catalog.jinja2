@@ -56,7 +56,7 @@
 
                                         <div class="buttons">
                                             {% for tag in top_tags %}
-                                                <button class="btn btn_default btn_sm" name="tag" type="submit" value="{{ tag.name }}" onclick="saveData()">{{ tag.name }}</button>
+                                                <button class="btn btn_default btn_sm" name="tag" type="submit" value="{{ tag.name }}" onclick="tagSubmit()">{{ tag.name }}</button>
                                             {%  else %}
                                                Пока отсутствуют...
                                             {% endfor %}
@@ -83,17 +83,17 @@
                     {% for dealer in dealers %}
                       <div class="Card">
                         {% if dealer.product.image %}
-                          <a class="Card-picture" href="{{ url('shopapp:product_detail', product_slug=dealer.product.slug) }}"> {# ссылка на product_detail #}
+                          <a class="Card-picture" href="{{ url('shopapp:product_detail', product_slug=dealer.product.slug) }}" onclick="tagSubmit()"> {# ссылка на product_detail #}
                               <img src="{{ dealer.product.image.url }}" alt="{{ dealer.product }}">
                           </a>
                         {% else %}
-                          <a class="Card-picture" href="{{ url('shopapp:product_detail', product_slug=dealer.product.slug) }}"> {# ссылка на product_detail #}
+                          <a class="Card-picture" href="{{ url('shopapp:product_detail', product_slug=dealer.product.slug) }}" onclick="tagSubmit()"> {# ссылка на product_detail #}
                               <h2>Изображение отсуствует</h2>
                           </a>
                         {% endif %}
                       <div class="Card-content">
                         <strong class="Card-title">
-                            <a href="{{ url('shopapp:product_detail', product_slug=dealer.product.slug) }}">{{ dealer.product }}</a> {# ссылка на product_detail #}
+                            <a href="{{ url('shopapp:product_detail', product_slug=dealer.product.slug) }}" onclick="tagSubmit()">{{ dealer.product }}</a> {# ссылка на product_detail #}
                         </strong>
                           <span style="color: dodgerblue;">
                               {% if dealer.product.description|length > 200 %}
@@ -188,6 +188,15 @@
         localStorage.setItem('price', price.value);
 
     }
+
+    function tagSubmit(){  // добавил для обнуления формы по нажатию по тэгу
+        localStorage.setItem('product_title', '');
+        localStorage.setItem('price', '1;10000');
+        title.value = '';
+        price = '1;10000';
+
+    }
+
     title.value = localStorage.getItem('product_title') || '';
     price.value = localStorage.getItem('price') || '1;10000';
 

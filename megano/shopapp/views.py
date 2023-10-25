@@ -211,7 +211,14 @@ def catalog_list(request: HttpRequest):
             if free_delivery:
                 qs = qs.filter(free_delivery=True)  # фильтр по бесплатной доставке
             if tag:
-                qs = qs.filter(product__tags__name=tag)  # фильтр по популярным тегам
+                qs_by_tags = qs.filter(product__tags__name=tag)  # фильтр по популярным тегам
+                #qs = qs.filter(product__tags__name=tag)
+                if not qs_by_tags:
+                    qs_by_category_tags = qs.filter(product__category__name=tag) # фильтр по тегам категорий
+                    if qs_by_category_tags:
+                        qs = qs_by_category_tags
+                else:
+                    qs = qs_by_tags
             if category:
                 qs = qs.filter(product__category__name=category)
             cache.set("qs", qs, 300)
@@ -221,7 +228,7 @@ def catalog_list(request: HttpRequest):
 
     qs = cache.get("qs")
 
-    if request.method == "GET":
+    if request.method == "GET" and not request.GET.get("page"):
         # Сортировка
         if request.GET.get("sort") and qs:
             sort_param = request.GET.get("sort")
