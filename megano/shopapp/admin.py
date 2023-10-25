@@ -7,6 +7,7 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import path
 from taggit.models import Tag
+from accountapp.permissions_and_groups import GROUP_MODERATOR
 
 from .forms import FileImportForm, ProductFeatureForm
 from .models import (
@@ -188,6 +189,13 @@ class ProductDiscountAdmin(admin.ModelAdmin):
     )
     list_filter = ("title", "percent", "discount_volume", "cart_numbers", "cart_price", "start", "end")
     search_fields = ("title", "percent", "discount_volume", "cart_numbers", "cart_price", "start", "end")
+
+    def get_queryset(self, request):
+        if request.user.is_superuser or request.user.groups.filter(name=GROUP_MODERATOR).exists():
+            return super(ProductDiscountAdmin, self).get_queryset(request)
+        seller = Seller.objects.filter(user=request.user).first()
+        products_seller = ProductSeller.objects.filter(seller=seller)
+        return Discount.objects.filter(products__in=products_seller)
 
     class Media:
         # css = {
