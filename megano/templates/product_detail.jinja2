@@ -29,7 +29,7 @@
                             <div class="ProductCard-picts">
                                 {% if product.image %}
                                     <a class="ProductCard-pict ProductCard-pict_ACTIVE" href="{{ product.image.url }}" >
-                                        <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+                                        <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-block-size: 450px"/>
                                     </a>
                                 {% endif %}
                                 {% if extra_images %}
@@ -41,7 +41,7 @@
                                                     {% set first_image = false %}
                                             {% endif %}
                                             " href="{{ extra_image.image.url }}">
-                                            <img src="{{ extra_image.image.url }}" alt="{{ product.name }}" />
+                                            <img src="{{ extra_image.image.url }}" alt="{{ product.name }}" style="max-block-size: 450px"/>
                                         </a>
                                     {% endfor %}
                                 {% endif %}
@@ -119,7 +119,7 @@
                                 </h2>
                                 <p>
                                     {{ product.description }}
-                                </p><img class="pict pict_right" src="{{ product.image.url }}" alt="{{ product.name }}">
+                                </p><img class="pict pict_right" src="{{ product.image.url }}" alt="{{ product.name }}" style="max-block-size: 450px">
                                 <div class="clearfix">
                                 </div>
                             </div>

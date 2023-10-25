@@ -28,7 +28,7 @@ from .views import ImportProducts
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ("name",)
+    list_display = ("name", "id")
     search_fields = ("name",)
     # filter_horizontal = ('sub_categories',)
 
