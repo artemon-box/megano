@@ -77,6 +77,7 @@ INSTALLED_APPS = [
     "accountapp.apps.AccountappConfig",
     "profileapp.apps.ProfileappConfig",
     "histviewapp.apps.HistviewappConfig",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -87,6 +88,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -128,6 +131,11 @@ TEMPLATES = [
 ]
 WSGI_APPLICATION = "config.wsgi.application"
 
+CORS_ALLOWED_ORIGINS = [
+    "http://0.0.0.0:8000",
+]
+
+CORS_ALLOW_ALL_ORIGINS = False
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
