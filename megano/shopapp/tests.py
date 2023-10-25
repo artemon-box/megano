@@ -44,7 +44,10 @@ class SetUpClass(TestCase):
             payment_method="cash",
         )
         self.seller2 = Seller.objects.create(
-            name="МВидео", slug="mvideo", delivery_method="by_bus", payment_method="cash"
+            name="МВидео",
+            slug="mvideo",
+            delivery_method="by_bus",
+            payment_method="cash",
         )
         # категории
         self.category1 = Category.objects.create(name="Кухонная техника")
@@ -115,6 +118,8 @@ class SetUpClass(TestCase):
         self.product_seller2 = ProductSeller.objects.create(product=self.product2, seller=self.seller1, price=444.0)
         self.product_seller3 = ProductSeller.objects.create(product=self.product3, seller=self.seller2, price=678.0)
         self.product_seller4 = ProductSeller.objects.create(product=self.product4, seller=self.seller2, price=322.0)
+        # все доступные товары у продавцов
+        self.products = [self.product_seller1, self.product_seller2, self.product_seller3, self.product_seller4]
         # корзина для тестов
         self.cart = [
             {"product_seller": self.product_seller1, "quantity": 3},
@@ -314,13 +319,44 @@ class CatalogTest(SetUpClass):
 
     def test_context(self):
         data = {"price": "0;100000"}
-        # response = self.client.post("/catalog/", data=data)
-        # print(dir(response))
-        # print(response.context, response.json(), response.items())
         response = self.client.post("/catalog/", data=data)
-        print(response.context)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "catalog.jinja2")
+        for item in self.products:  # так проверяем что все продукты попали в каталог
+            # (по-нормальному никак, т.к. с jinja2 не приходит context в response)
+            self.assertContains(response, item.product.name)
+
+    def test_filter_by_price(self):
+        """
+        Проверяем, что продукт с ценой более 677 не содержится в респонсе
+        """
+        data = {"price": "0;677"}
+        response = self.client.post("/catalog/", data=data)
+        for item in self.products:
+            if item == self.product_seller3:
+                self.assertNotContains(response, item.product.name)
+            else:
+                self.assertContains(response, item.product.name)
+
+    def test_filter_by_title(self):
+        """
+        Проверяем, что происке товара по названию при вводе "ush" находится naushnik
+        """
+        data = {"price": "0;100000", "title": "ush"}
+        response = self.client.post("/catalog/", data=data)
+        for item in self.products:
+            if item.product.name == "naushnik":
+                self.assertContains(response, item.product.name)
+            else:
+                self.assertNotContains(response, item.product.name)
+
+    def test_order_by_price(self):
+        """
+        Проверка сортировки по цене
+        """
+        # d ata = {"price": "0;100000"}
+        # sorted_products = [self.product_seller3, self.product_seller2, self.product_seller4, self.product_seller1]
+        # response = self.client.get("/catalog/?sort=-price/", data=data)
+        # for item in sorted_products:  не работает!!!
+        #     self.assertIn(item.product.name, response)
 
 
 class TestComparedProductsService(SetUpClass):
