@@ -53,7 +53,12 @@
                                 </h2>
                                 <div class="ProductCard-info">
                                     <div class="ProductCard-cost">
-                                        <div class="ProductCard-price">от {{ minimum_price }} $
+                                        <div class="ProductCard-price">
+                                            {% if minimum_price %}
+                                                от {{ minimum_price }} $
+                                            {% else %}
+                                                Нет в продаже
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
@@ -96,9 +101,11 @@
                             <a class="Tabs-link" href="#description">
                                 <span>Описание</span>
                             </a>
-                            <a class="Tabs-link" id="show_sellers" href="#sellers">
-                                <span>Продавцы</span>
-                            </a>
+                            {% if minimum_price %}
+                                <a class="Tabs-link" id="show_sellers" href="#sellers">
+                                    <span>Продавцы</span>
+                                </a>
+                            {% endif %}
                             <a class="Tabs-link" href="#addit">
                                 <span>Характеристики</span>
                             </a>
@@ -230,7 +237,7 @@
                                         <div class="Pagination-rev" style="margin-top: 10px">
                                             {% if product_reviews.number != 1 %}
                                                 <a href="?page=1" class="Pagination-item-rev">&laquo; первая</a>
-                                                <a href="?page={{ product_reviews.number - 1 }}" class="Pagination-item-rev">предыдущая</a>
+                                                <a href="?page={{ product_reviews.number - 1 }}" class="Pagination-item-rev" onclick="showReviews()">предыдущая</a>
                                             {% endif %}
 
                                             <span class="current-page">
@@ -238,8 +245,8 @@
                                             </span>
 
                                             {% if product_reviews.number != product_reviews.paginator.num_pages %}
-                                                <a href="?page={{ product_reviews.number + 1 }}" class="Pagination-item-rev">следующая</a>
-                                                <a href="?page={{ product_reviews.paginator.num_pages }}" class="Pagination-item-rev">последняя &raquo;</a>
+                                                <a href="?page={{ product_reviews.number + 1 }}" class="Pagination-item-rev" onclick="showReviews()">следующая</a>
+                                                <a href="?page={{ product_reviews.paginator.num_pages }}" class="Pagination-item-rev" onclick="showReviews()">последняя &raquo;</a>
                                             {% endif %}
                                         </div>
                                     {% endif %}
@@ -299,6 +306,13 @@
             const element = document.getElementById("show_sellers");
             element.click();
             element.scrollIntoView({behavior: "smooth"});
+        }
+    </script>
+    <script>
+        function showReviews() {
+            const element = document.getElementById("show_reviews");
+            element.click();
+            element.scrollIntoView({ behavior: "smooth" });
         }
     </script>
 

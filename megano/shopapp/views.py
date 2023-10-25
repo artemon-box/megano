@@ -113,12 +113,16 @@ class ProductDetailView(View):
         page_obj = paginator.get_page(page_number)
 
         extra_images = product.extra_images.all()
+
         user = request.user
         tags = product.category.tags.all().union(product.tags.all())
         reviews_count = self.review_service.get_reviews_count(product=product)
 
         product_sellers = product.productseller_set.all()
-        minimum_price = round(ProductSeller.objects.filter(product=product).aggregate(Min("price"))["price__min"], 2)
+        try:
+            minimum_price = round(ProductSeller.objects.filter(product=product).aggregate(Min("price"))["price__min"], 2)
+        except TypeError:
+            minimum_price = None
 
         if user.is_authenticated:
             self.recently_viewed_service.add_to_recently_viewed(user_id=user.id, product_slug=product_slug)
