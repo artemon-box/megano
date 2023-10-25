@@ -56,7 +56,7 @@ class PaymentView(View):
         del request.session["current_order_id"]
 
         response = payment_service.initiate_payment(order.id, card_number, total_price)
-        request.session["task_id"] = response.get('task_id')
+        request.session["task_id"] = response.get("task_id")
 
         return redirect("paymentapp:progress_payment")
 
@@ -110,7 +110,7 @@ class PaymentSomeoneView(View):
         del request.session["current_order_id"]
 
         response = payment_service.initiate_payment(order.id, card_number, total_price)
-        request.session["task_id"] = response.get('task_id')
+        request.session["task_id"] = response.get("task_id")
 
         return redirect("paymentapp:progress_payment")
 
@@ -152,7 +152,7 @@ class CheckPaymentStatusView(View):
 
         payment_service = PaymentService()
 
-        task_id = request.GET.get('task_id')
+        task_id = request.GET.get("task_id")
 
         status = payment_service.get_payment_status(task_id)["status"]
 
