@@ -82,6 +82,9 @@
                             {% if request.user.is_authenticated %}
                                 <a class="btn btn_success btn_lg" style="margin-right: 20px; margin-bottom: 20px" href="{{ url('cart_and_orders:order') }}">Оформить
                                     заказ</a>
+                            {% else %}
+                                <a class="btn btn_success btn_lg" style="margin-right: 20px; margin-bottom: 20px" href="{{ url('accountapp:login') }}">Войти</a>
+                                <a class="btn btn_success btn_lg" style="margin-right: 20px; margin-bottom: 20px" href="{{ url('accountapp:registration') }}">Зарегистрироваться</a>
                             {% endif %}
                             <a class="btn btn_success btn_lg" style="margin-right: 20px; margin-bottom: 20px"  href="{{ url('cart_and_orders:clear_cart') }}">Очистить
                                 корзину</a>
