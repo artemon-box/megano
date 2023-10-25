@@ -6,15 +6,20 @@ from paymentapp.utils.quantity_correction import quantity_correction
 from shopapp.models import ProductSeller, Seller, Product, Category
 
 
-class QuantityCorrectionTest(TestCase):
-    def setUp(self):
+class SetUpClass(TestCase):
+    """
+    Класс для формирования метода setUp, чтоб затем наследовать его в других тестах
+    """
 
+    def setUp(self):
+        # тестовый пользователь
         self.user = get_user_model().objects.create_user(
             name='testuser',
             password='testpassword',
             email='321@skill.box'
         )
 
+        # тестовый продавец
         self.seller = Seller.objects.create(
             user=None,
             name="Seller Name",
@@ -28,10 +33,12 @@ class QuantityCorrectionTest(TestCase):
             address="Seller Address"
         )
 
+        # тестовая категория
         self.category = Category.objects.create(
             name="CName",
         )
 
+        # тестовый продукт
         self.product = Product.objects.create(
             category=self.category,
             name="Name",
@@ -40,6 +47,7 @@ class QuantityCorrectionTest(TestCase):
             available=True,
         )
 
+        # тестовый продукт у продавца
         self.product_seller = ProductSeller.objects.create(
             product=self.product,
             seller=self.seller,
@@ -48,13 +56,14 @@ class QuantityCorrectionTest(TestCase):
             free_delivery=True,
             is_limited_edition=False
         )
-
+        # тестовый метод доставки
         self.delivery_method = DeliveryMethod.objects.create(
             name="Обычная",
             price=Decimal('200'),
             order_minimal_price=Decimal('2000')
         )
 
+        # тестовый заказ
         self.order = Order.objects.create(
             city="City",
             address="Address",
@@ -64,6 +73,7 @@ class QuantityCorrectionTest(TestCase):
             status=StatusOrder.CREATED
         )
 
+        # тестовый элемент заказа
         self.order_product = OrderProduct.objects.create(
             order=self.order,
             product=self.product_seller.product,
@@ -71,6 +81,14 @@ class QuantityCorrectionTest(TestCase):
             quantity=5,
             price=self.product_seller.price
         )
+
+
+class QuantityCorrectionTest(SetUpClass):
+    """
+    Тест для проверки бизнес-логики
+    """
+    def SetUp(self):
+        super().setUp()
 
     def test_quantity_correction_increases_quantity(self):
         quantity_correction(self.order.id, increase=True)

@@ -9,14 +9,30 @@ from cart_and_orders.utils.get_total_price import get_total_price, get_total_pri
 from shopapp.models import Seller, Product, ProductSeller, Category
 
 
-class YourTestCase(TestCase):
+class SetUpClass(TestCase):
+    """
+    Класс для формирования метода setUp, чтоб затем наследовать его в других тестах
+    """
     def setUp(self):
+        # тестовый пользователь
+        self.user = get_user_model().objects.create_user(
+            name='testuser',
+            password='testpassword',
+            email='123@skill.box',
+        )
+        # тестовый пользователь без заказов
+        self.user_with_no_orders = get_user_model().objects.create_user(
+            name='testuser2',
+            password='testpassword',
+            email='321@skill.box',
+        )
+        # способ доставки
         self.delivery_method = DeliveryMethod.objects.create(
             name="Обычная",
             price=Decimal('200'),
             order_minimal_price=Decimal('2000')
         )
-
+        # тестовые продавцы
         self.seller = Seller.objects.create(
             user=None,
             name="Seller Name",
@@ -42,11 +58,11 @@ class YourTestCase(TestCase):
             phone="1234567890",
             address="Seller Address"
         )
-
+        # тестовая категория
         self.category = Category.objects.create(
             name="CName",
         )
-
+        # тестовый продукт
         self.product = Product.objects.create(
             category=self.category,
             name="Name",
@@ -54,7 +70,7 @@ class YourTestCase(TestCase):
             description="Description",
             available=True,
         )
-
+        # тестовые товары у продавца
         self.product_seller = ProductSeller.objects.create(
             product=self.product,
             seller=self.seller,
@@ -72,7 +88,7 @@ class YourTestCase(TestCase):
             free_delivery=True,
             is_limited_edition=False
         )
-
+        # тестовые заказы
         self.order = Order.objects.create(
             city="City",
             address="Address",
@@ -81,46 +97,7 @@ class YourTestCase(TestCase):
             total_price=Decimal('50.00'),
             status=StatusOrder.CREATED
         )
-
-        self.order_product = OrderProduct.objects.create(
-            order=self.order,
-            product=self.product_seller.product,
-            seller=self.product_seller.seller,
-            quantity=5,
-            price=self.product_seller.price
-        )
-
-        self.another_order_product = OrderProduct.objects.create(
-            order=self.order,
-            product=self.another_product_seller.product,
-            seller=self.another_product_seller.seller,
-            quantity=1,
-            price=self.another_product_seller.price
-        )
-
-    def test_get_total_price(self):
-        total_price = get_total_price(self.order.id)
-        self.assertEqual(total_price, Decimal('3500'))
-
-    def test_get_total_price_delivery(self):
-        total_price_delivery = get_total_price_delivery(self.order.id)
-        self.assertEqual(total_price_delivery, Decimal('3700'))
-
-
-class CompletedOrdersServiceTest(TestCase):
-    def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            name='testuser',
-            password='testpassword',
-            email='123@skill.box',
-        )
-
-        self.user_with_no_orders = get_user_model().objects.create_user(
-            name='testuser2',
-            password='testpassword',
-            email='321@skill.box',
-        )
-
+        # тестовые выполненные заказы
         self.order1 = Order.objects.create(
             user=self.user,
             city='City1',
@@ -144,6 +121,47 @@ class CompletedOrdersServiceTest(TestCase):
             status='delivered',
             payment_method="Online",
         )
+        # тестовые элементы заказа
+        self.order_product = OrderProduct.objects.create(
+            order=self.order,
+            product=self.product_seller.product,
+            seller=self.product_seller.seller,
+            quantity=5,
+            price=self.product_seller.price
+        )
+
+        self.another_order_product = OrderProduct.objects.create(
+            order=self.order,
+            product=self.another_product_seller.product,
+            seller=self.another_product_seller.seller,
+            quantity=1,
+            price=self.another_product_seller.price
+        )
+
+
+class TotalPriceTestCase(SetUpClass):
+    """
+    Тест для проверки подсчета полной цены заказа
+    """
+
+    def SetUp(self):
+        super().setUp()
+
+    def test_get_total_price(self):
+        total_price = get_total_price(self.order.id)
+        self.assertEqual(total_price, Decimal('3500'))
+
+    def test_get_total_price_delivery(self):
+        total_price_delivery = get_total_price_delivery(self.order.id)
+        self.assertEqual(total_price_delivery, Decimal('3700'))
+
+
+class CompletedOrdersServiceTest(SetUpClass):
+    """
+    Тест для проверки выполненных заказов
+    """
+    def setUp(self):
+        super().setUp()
 
     def test_get_orders_returns_delivered_orders(self):
         completed_orders = CompletedOrdersService.get_orders(self.user)

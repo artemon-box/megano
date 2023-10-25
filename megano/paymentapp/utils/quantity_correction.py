@@ -5,7 +5,10 @@ from shopapp.models import ProductSeller
 
 def quantity_correction(order_id, increase=True):
     """
-    Функция для изменения количества товара у продавца при оформлении заказа.
+    Функция для изменения количества товара у продавца.
+
+    :param order_id: Id заказа.
+    :param increase: Флаг для определения операции списания.
     """
     product_orders = OrderProduct.objects.filter(order_id=order_id)
     for product_order in product_orders:
