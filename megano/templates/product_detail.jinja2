@@ -84,7 +84,7 @@
                                         <form action="{{ url('shopapp:catalog_list') }}" id="form_catalog" method="post">
                                             {% csrf_token %}
                                                 {% for tag in tags %}
-                                                    <a href="javascript:" id="tag_link"  class="Tags-link">{{ tag.name }}</a>
+                                                    <a href="javascript:" id="tag_link" class="Tags-link">{{ tag.name }}</a>
                                                 {% if not loop.last %}
                                                     ,
                                                 {% endif %}

@@ -1,0 +1,215 @@
+[
+{
+    "model": "shopapp.discount",
+    "pk": 1,
+    "fields": {
+        "title": "Скидка ко дню учителя",
+        "description": "Скидка 5% всем учителям на новый iPhone 15",
+        "type": "p",
+        "weight": "3",
+        "percent": 5,
+        "discount_volume": null,
+        "cart_numbers": null,
+        "cart_price": null,
+        "start": "2023-10-01",
+        "end": "2023-10-31",
+        "is_active": true,
+        "products": [
+            19,
+            20,
+            21
+        ],
+        "categories": []
+    }
+},
+{
+    "model": "shopapp.discount",
+    "pk": 2,
+    "fields": {
+        "title": "Просто скидка всем подряд 1%",
+        "description": "Скидка на всю корзину, независимо количества товаров в корзине и суммы",
+        "type": "c",
+        "weight": "2",
+        "percent": 1,
+        "discount_volume": null,
+        "cart_numbers": null,
+        "cart_price": null,
+        "start": "2023-10-01",
+        "end": "2023-10-31",
+        "is_active": true,
+        "products": [],
+        "categories": []
+    }
+},
+{
+    "model": "shopapp.discount",
+    "pk": 3,
+    "fields": {
+        "title": "Скидка на торшер и наушники",
+        "description": "Скидка на набор в корзине. Купи торшер и наушник и получи -40$",
+        "type": "s",
+        "weight": "2",
+        "percent": null,
+        "discount_volume": "40.00",
+        "cart_numbers": null,
+        "cart_price": null,
+        "start": "2023-10-25",
+        "end": "2023-11-30",
+        "is_active": true,
+        "products": [
+            40
+        ],
+        "categories": [
+            11
+        ]
+    }
+},
+{
+    "model": "shopapp.discount",
+    "pk": 4,
+    "fields": {
+        "title": "Скидка на 5 товаров",
+        "description": "Если твоей корзине 5 позиций товаров, получай 50$ скидку!",
+        "type": "c",
+        "weight": "2",
+        "percent": null,
+        "discount_volume": "50.00",
+        "cart_numbers": 5,
+        "cart_price": null,
+        "start": "2023-10-01",
+        "end": "2023-12-31",
+        "is_active": true,
+        "products": [],
+        "categories": []
+    }
+},
+{
+    "model": "shopapp.discount",
+    "pk": 5,
+    "fields": {
+        "title": "Photo&TV",
+        "description": "Если в корзине есть набор из телевизора и фотоаппарата, то получай 7% скидки!",
+        "type": "s",
+        "weight": "1",
+        "percent": 7,
+        "discount_volume": null,
+        "cart_numbers": null,
+        "cart_price": null,
+        "start": "2023-10-01",
+        "end": "2023-12-31",
+        "is_active": true,
+        "products": [],
+        "categories": [
+            1,
+            6
+        ]
+    }
+},
+{
+    "model": "shopapp.discount",
+    "pk": 6,
+    "fields": {
+        "title": "Новогодняя скидка",
+        "description": "Собери корзину на $2024 и получи скидку $24 чтоб заплатить без сдачи!",
+        "type": "c",
+        "weight": "3",
+        "percent": null,
+        "discount_volume": "24.00",
+        "cart_numbers": null,
+        "cart_price": "2024.00",
+        "start": "2023-12-25",
+        "end": "2023-12-31",
+        "is_active": true,
+        "products": [],
+        "categories": []
+    }
+},
+{
+    "model": "shopapp.discount",
+    "pk": 7,
+    "fields": {
+        "title": "Скидка на TV Xiaomi",
+        "description": "Скидка на Xiaomi 13TP Pro 12GB/512GB $100",
+        "type": "p",
+        "weight": "3",
+        "percent": null,
+        "discount_volume": "100.00",
+        "cart_numbers": null,
+        "cart_price": null,
+        "start": "2023-10-01",
+        "end": "2023-10-31",
+        "is_active": true,
+        "products": [
+            53
+        ],
+        "categories": []
+    }
+},
+{
+    "model": "shopapp.discount",
+    "pk": 8,
+    "fields": {
+        "title": "Скидка СВП и Торшер",
+        "description": "Если в корзине есть микроволновая печь и торшер, то лови 10% скидку!",
+        "type": "s",
+        "weight": "3",
+        "percent": 10,
+        "discount_volume": null,
+        "cart_numbers": null,
+        "cart_price": null,
+        "start": "2023-10-01",
+        "end": "2023-10-31",
+        "is_active": true,
+        "products": [
+            58
+        ],
+        "categories": [
+            9
+        ]
+    }
+},
+{
+    "model": "shopapp.discount",
+    "pk": 9,
+    "fields": {
+        "title": "Скидка для кофеманов",
+        "description": "Получи скидку на кофемашину DeLonghi Etam",
+        "type": "p",
+        "weight": "2",
+        "percent": 3,
+        "discount_volume": null,
+        "cart_numbers": null,
+        "cart_price": null,
+        "start": "2023-10-25",
+        "end": "2023-11-26",
+        "is_active": true,
+        "products": [
+            35
+        ],
+        "categories": []
+    }
+},
+{
+    "model": "shopapp.discount",
+    "pk": 10,
+    "fields": {
+        "title": "Скидка на GEFEST 6502-03 0242",
+        "description": "Забирай скидку $20 на плиту Gefest!",
+        "type": "p",
+        "weight": "1",
+        "percent": null,
+        "discount_volume": "20.00",
+        "cart_numbers": null,
+        "cart_price": null,
+        "start": "2023-10-01",
+        "end": "2023-10-31",
+        "is_active": true,
+        "products": [
+            37,
+            38,
+            39
+        ],
+        "categories": []
+    }
+}
+]
