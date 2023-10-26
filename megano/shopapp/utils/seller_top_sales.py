@@ -1,3 +1,5 @@
+import random
+
 from cart_and_orders.models import Order, OrderProduct
 from django.db.models import Case, F, IntegerField, Sum, Value, When
 from django.db.models.functions import Coalesce
@@ -32,5 +34,16 @@ def seller_top_sales(seller):
                 "total_quantity": total_quantity,
             }
         )
+
+    if not top_products:
+        product_sellers = ProductSeller.objects.filter(seller=seller)[:10]
+
+        for product_seller in product_sellers:
+            top_products.append(
+                {
+                    "seller_product": product_seller,
+                    "total_quantity": 0,
+                }
+            )
 
     return top_products
