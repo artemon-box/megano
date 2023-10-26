@@ -1,15 +1,16 @@
 import os
 import re
 
-from cart_and_orders.models import Order, StatusOrder, ProductSeller, OrderProduct
-from cart_and_orders.utils.get_total_price import get_total_price_delivery
+from cart_and_orders.models import Order, OrderProduct, ProductSeller, StatusOrder
+from cart_and_orders.utils.get_total_price import get_total_delivery_price
 from django.conf import settings
 from django.contrib.auth import authenticate, login
+from django.http import Http404
 from django.shortcuts import redirect, render
 from django.views import View
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.http import Http404
+
 from .forms import ProfileAvatarForm, ProfileForm
 
 
@@ -47,19 +48,12 @@ class HistoryOrdersView(View):
             request.session["current_order_id"] = order_id
             current_order_id = request.session.get("current_order_id")
             order = Order.objects.get(id=current_order_id)
-            total_price = get_total_price_delivery(current_order_id)
-            product_seller = []
             order_products = OrderProduct.objects.filter(order_id=order.id)
-            for order_product in order_products:
-                product_seller.append({"product_seller": ProductSeller.objects.get(product_id=order_product.product_id,
-                                                                                   seller_id=order_product.seller_id),
-                                       "quantity": order_product.quantity, })
 
             context = {
-                'order': order,
-                'order_price': total_price,
-                'cart': product_seller,
-                'STATUS_ORDER': StatusOrder,
+                "order": order,
+                "order_products": order_products,
+                "STATUS_ORDER": StatusOrder,
                 "PAYMENT_CHOICES": settings.PAYMENT_CHOICES,
             }
             return render(request, self.template_name_id, context)

@@ -13,6 +13,7 @@ click-plugins==1.1.1
 click-repl==0.3.0
 distlib==0.3.7
 Django==4.2.4
+django-cors-headers==4.3.0
 django-celery-results==2.5.1
 django-filter==23.2
 django-jinja==2.10.2

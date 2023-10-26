@@ -48,7 +48,7 @@
                                     <div class="Order-infoType">Стоимость доставки:
                                     </div>
                                     <div class="Order-infoContent" id="deliveryContent">
-                                        {{ order_price - full_price }}$
+                                        {{ delivery_price }}$
                                     </div>
                                 </div>
                                 <div class="Order-info">
@@ -75,25 +75,29 @@
                         </div>
                     </div>
                     <div class="Cart Cart_order">
-                        {% for item in cart %}
+                        {% for item in order_products %}
                             <div class="Cart-product">
                                 <div class="Cart-block Cart-block_row">
-                                    <div class="Cart-block Cart-block_pict"><a class="Cart-pict" href="{{ url( 'shopapp:product_detail', item.product_seller.product.slug) }}"><img
-                                            class="Cart-img" src="{{ item.product_seller.product.image.url }}"
+                                    <div class="Cart-block Cart-block_pict"><a class="Cart-pict" href="{{ url( 'shopapp:product_detail', item.product.slug) }}"><img
+                                            class="Cart-img" src="{{ item.product.image.url }}"
                                             alt="card.jpg"></a>
                                     </div>
-                                    <div class="Cart-block Cart-block_info"><a class="Cart-title"
-                                                                               href="{{ url( 'shopapp:product_detail', item.product_seller.product.slug) }}">{{ item.product_seller.product.name }}</a>
+                                    <div class="Cart-block Cart-block_info">
+                                        <a class="Cart-title" href="{{ url( 'shopapp:product_detail', item.product.slug) }}">
+                                            {{ item.product.name }}</a>
                                         <div class="Cart-desc">
-                                            {% if item.product_seller.product.description|length > 200 %}
-                                                {{ item.product_seller.product.description[:200] }}...
+                                            {% if item.product.description|length > 200 %}
+                                                {{ item.product.description[:200] }}...
                                             {% else %}
-                                                {{ item.product_seller.product.description }}
+                                                {{ item.product.description }}
                                             {% endif %}
+                                        </div>
+                                        <div class="Cart-desc" style="font-size: 15px; color: #191b1f">
+                                            Продавец: {{ item.seller.name }}
                                         </div>
                                     </div>
                                     <div class="Cart-block Cart-block_price">
-                                        <div class="Cart-price">{{ item.product_seller.price }}$
+                                        <div class="Cart-price">{{ item.price }}$
                                         </div>
                                     </div>
                                 </div>
@@ -105,8 +109,13 @@
                         {% endfor %}
                         <div class="Cart-total">
                             <div class="Cart-block Cart-block_total">
-                                <strong class="Cart-title">Итого:
-                                </strong><span class="Cart-price">{{ order_price }}$</span>
+                            {% if price_with_discount %}
+                                <strong class="Cart-title">Итого со скидкой:</strong>
+                                <span class="Cart-price" style="color: #3cb878">{{ order_price }}$</span>
+                            {% else %}
+                                <strong class="Cart-title">Итого :</strong>
+                                <span class="Cart-price">{{ order_price }}$</span>
+                            {% endif %}
                             </div>
                             <div class="Cart-block">
                                 {% if order.payment_method == 'online' %}

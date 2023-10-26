@@ -51,18 +51,16 @@
 
     <script>
         function checkStatus() {
-            $.ajax({
-                url: 'http://127.0.0.1:8000/payment/check_status/?task_id={{ task_id }}',
+            jQuery.ajax({
+                url: 'http://0.0.0.0:8000/payment/check_status/?task_id={{ task_id }}',
 
                 type: 'GET',
                 success: function(data) {
                    if (data.status === 'success' || data.status === 'failed') {
-                        // Если статус 'success', перенаправляем на accounts.
                         console.log('Статус успешен. Перенаправление на другой URL.');
-                        window.location.href = 'http://127.0.0.1:8000/accounts/';
+                        window.location.href = 'http://0.0.0.0:8000/orders/history-order/{{ order_id }}';
                     }
                     else {
-                        // Если статус не 'success', повторяем запрос через 5 секунд.
                         console.log('Статус не успешен. Повторяем через 5 секунд.');
                         setTimeout(checkStatus, 5000);
                     }

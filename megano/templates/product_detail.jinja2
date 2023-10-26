@@ -21,9 +21,13 @@
                 <div class="Product">
                     <div class="ProductCard">
                         <div class="ProductCard-look">
-                            <div class="ProductCard-photo">
+                            <div class="ProductCard-photo"
+                                 style="max-width: 400px;
+                                  max-height: 400px;
+                                  min-height: 400px;
+                                  min-width: 400px">
                                 {% if product.image %}
-                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-block-size: 400px" />
                                 {% endif %}
                             </div>
                             <div class="ProductCard-picts">
@@ -41,7 +45,7 @@
                                                     {% set first_image = false %}
                                             {% endif %}
                                             " href="{{ extra_image.image.url }}">
-                                            <img src="{{ extra_image.image.url }}" alt="{{ product.name }}" style="max-block-size: 450px"/>
+                                            <img src="{{ extra_image.image.url }}" alt="{{ product.name }}" style="max-block-size: 73px"/>
                                         </a>
                                     {% endfor %}
                                 {% endif %}
@@ -84,7 +88,7 @@
                                         <form action="{{ url('shopapp:catalog_list') }}" id="form_catalog" method="post">
                                             {% csrf_token %}
                                                 {% for tag in tags %}
-                                                    <a href="javascript:" id="tag_link"  class="Tags-link">{{ tag.name }}</a>
+                                                    <a href="javascript:" id="tag_link" class="Tags-link">{{ tag.name }}</a>
                                                 {% if not loop.last %}
                                                     ,
                                                 {% endif %}
@@ -126,7 +130,9 @@
                             <div class="Tabs-block" id="sellers" style="display: none;">
                                 <div class="Section-content">
                                     <div class="Orders" id="orders">
-                                        {% for product_seller in product_sellers %}
+                                        {% for seller in product_sellers %}
+                                            {% set product_seller = seller[0] %}
+                                            {% set price = seller[1] %}
                                             <div class="Order Order_anons">
                                                     <div class="Order-personal">
                                                         <div class="row">
@@ -173,10 +179,19 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="Order-info">
-                                                                    <div class="Order-infoType">Стоимость:
-                                                                    </div>
-                                                                    <div class="Order-infoContent"><span class="Order-price">{{ product_seller.price }} $</span>
-                                                                    </div>
+                                                                    {% if product_seller.price != price %}
+                                                                        <div class="Order-infoType">Стоимость:
+                                                                        </div>
+                                                                        <div class="Order-infoContent">
+                                                                            <s>{{ product_seller.price }} </s>
+                                                                            <span class="Order-price" style="color: #3cb878"> {{ price }} $</span>
+                                                                        </div>
+                                                                    {% else %}
+                                                                        <div class="Order-infoType">Стоимость:
+                                                                        </div>
+                                                                        <div class="Order-infoContent"><span class="Order-price">{{ price }} $</span>
+                                                                        </div>
+                                                                    {% endif %}
                                                                 </div><div class="Order-info">
                                                                     <div class="Order-infoType">В наличии
                                                                     </div>

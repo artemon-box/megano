@@ -5,7 +5,7 @@ from django.test import TestCase
 from cart_and_orders.models import Order, OrderProduct, DeliveryMethod, StatusOrder
 from cart_and_orders.services.orders import CompletedOrdersService
 
-from cart_and_orders.utils.get_total_price import get_total_price, get_total_price_delivery
+from cart_and_orders.utils.get_total_price import get_total_price_with_discount, get_total_delivery_price
 from shopapp.models import Seller, Product, ProductSeller, Category
 
 
@@ -147,13 +147,13 @@ class TotalPriceTestCase(SetUpClass):
     def SetUp(self):
         super().setUp()
 
-    def test_get_total_price(self):
-        total_price = get_total_price(self.order.id)
+    def test_get_total_price_with_discount(self):
+        total_price = get_total_price_with_discount(self.order.id)
         self.assertEqual(total_price, Decimal('3500'))
 
     def test_get_total_price_delivery(self):
-        total_price_delivery = get_total_price_delivery(self.order.id)
-        self.assertEqual(total_price_delivery, Decimal('3700'))
+        total_price_delivery = get_total_delivery_price(self.order.id)
+        self.assertEqual(total_price_delivery, Decimal('200'))
 
 
 class CompletedOrdersServiceTest(SetUpClass):

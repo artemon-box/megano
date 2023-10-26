@@ -19,7 +19,8 @@ def pay_order():
         else:
             response = {"status": "success", "message": "Оплата подтверждена"}
 
-        time.sleep(20)
+        time.sleep(5)
+
         print("flask-response:", response)
 
         return jsonify(response)

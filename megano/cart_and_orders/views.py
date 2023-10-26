@@ -5,11 +5,12 @@ from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.views import View
 from shopapp.forms import AddToCartForm
+from shopapp.services.discount import DiscountService
 
 from .forms import OrderForm
 from .models import DeliveryMethod, Order, OrderProduct
 from .services.cart import CartService
-from .utils.get_total_price import get_total_price, get_total_price_delivery
+from .utils.get_total_price import get_total_price_with_discount, get_total_delivery_price, get_total_price
 
 
 class CartView(View):
@@ -60,6 +61,7 @@ class OrderView(View):
     """
 
     cart = CartService()
+    discount = DiscountService()
 
     @classmethod
     def get_phone(cls, phone):
@@ -102,6 +104,7 @@ class OrderView(View):
         """
         order_form = OrderForm(request.POST)
         cart = self.cart.get_cart(request)
+
         user = request.user
 
         if order_form.is_valid():
@@ -131,17 +134,26 @@ class OrderView(View):
                 product_seller = item["product_seller"]
                 quantity = item["quantity"]
 
+                discounted_price, discounts = self.discount.calculate_discount_price_product(
+                    [item],
+                    product_seller.price,
+                )
+
                 order_item = OrderProduct.objects.create(
                     order=order,
                     product=product_seller.product,
                     seller=product_seller.seller,
                     quantity=quantity,
-                    price=product_seller.price,
+                    price=discounted_price,
                 )
 
                 order_item.save()
 
-            order.total_price = get_total_price_delivery(order.id)
+            total_price = get_total_price(order.id)
+            delivery_price = get_total_delivery_price(order.id)
+            discounts = self.discount.calculate_discount_price_product(cart, total_price)
+            order.total_price = discounts[0] + delivery_price
+
             order.save()
 
             request.session["current_order_id"] = order.id
@@ -171,15 +183,14 @@ class OrderConfirmView(View):
         """
         current_order_id = request.session.get("current_order_id")
         order = Order.objects.get(id=current_order_id)
-        total_price = get_total_price_delivery(current_order_id)
-        full_price = get_total_price(current_order_id)
-        product_seller = self.cart.get_cart(request)
+        order_products = OrderProduct.objects.filter(order_id=current_order_id)
+        delivery_price = get_total_delivery_price(current_order_id)
 
         context = {
             "order": order,
-            "order_price": total_price,
-            "full_price": full_price,
-            "cart": product_seller,
+            "order_products": order_products,
+            "order_price": order.total_price,
+            "delivery_price": delivery_price,
         }
 
         return render(request, "cart_and_orders/order_confirm.jinja2", context)
