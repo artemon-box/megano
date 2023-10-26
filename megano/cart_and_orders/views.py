@@ -134,10 +134,13 @@ class OrderView(View):
                 product_seller = item["product_seller"]
                 quantity = item["quantity"]
 
-                discounted_price, discounts = self.discount.calculate_discount_price_product(
-                    [item],
-                    product_seller.price,
-                )
+                try:
+                    discounted_price, discounts = self.discount.calculate_discount_price_product(
+                        [item],
+                        product_seller.price,
+                    )
+                except ValueError:
+                    discounted_price = product_seller.price
 
                 order_item = OrderProduct.objects.create(
                     order=order,
@@ -151,8 +154,14 @@ class OrderView(View):
 
             total_price = get_total_price(order.id)
             delivery_price = get_total_delivery_price(order.id)
-            discounts = self.discount.calculate_discount_price_product(cart, total_price)
-            order.total_price = discounts[0] + delivery_price
+            discounts = []
+
+            try:
+                discounted_price, discounts = self.discount.calculate_discount_price_product(cart, total_price)
+            except ValueError:
+                discounted_price = total_price
+
+            order.total_price = discounted_price + delivery_price
 
             order.save()
 
