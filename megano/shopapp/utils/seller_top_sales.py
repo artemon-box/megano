@@ -36,7 +36,8 @@ def seller_top_sales(seller):
         )
 
     if not top_products:
-        product_sellers = ProductSeller.objects.filter(seller=seller)[:10]
+        product_sellers = list(ProductSeller.objects.filter(seller=seller)[:10])
+        random.shuffle(product_sellers)
 
         for product_seller in product_sellers:
             top_products.append(
