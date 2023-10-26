@@ -1,0 +1,236 @@
+[
+{
+    "model": "shopapp.product",
+    "pk": 1,
+    "fields": {
+        "category": 1,
+        "name": "Xiaomi TV Q2 55\"",
+        "slug": "xiaomi-tv-q2-55",
+        "image": "products/image_xiaomi-tv-q2-55/xiaomi_q2_2_4U1RpTt.jpg",
+        "description": "Дисплей с технологией квантовых точек\r\nПревосходная цветопередача\r\nБлагодаря передовой технологии квантовых точек цвета на экране Xiaomi TV Q2 выглядят очень реалистично. Расширенный охват цветового пространства и дисплей с 1 млрд цветов позволяет насладиться захватывающим изображением в комфортных домашних условиях.",
+        "available": true,
+        "created_at": "2023-09-15T08:49:08.445Z"
+    }
+},
+{
+    "model": "shopapp.product",
+    "pk": 2,
+    "fields": {
+        "category": 1,
+        "name": "LG G3 OLED77G3RLA",
+        "slug": "lg-g3-oled77g3rla",
+        "image": "products/image_lg-g3-oled77g3rla/large01.jpg",
+        "description": "10 лет инноваций​\r\nЗа последние 10 лет телевизоры LG OLED evo отметили устойчивое развитие модельного ряда, в котором неизменно сочетается ослепительная яркость, невероятный реализм изображения и звука, а также набор самых передовых технологий, чтобы вы смогли получить незабываемые впечатления от просмотра.",
+        "available": true,
+        "created_at": "2023-09-15T08:49:33.779Z"
+    }
+},
+{
+    "model": "shopapp.product",
+    "pk": 3,
+    "fields": {
+        "category": 2,
+        "name": "Apple AirPods Pro 2",
+        "slug": "apple-airpods-pro-2",
+        "image": "products/image_apple-airpods-pro-2/20221007121024884_11.jpg",
+        "description": "Второе поколение внутриканальных наушников Apple AirPods Pro. Новый фирменный чип Apple H2 для более эффективной работы. Улучшенная система активного шумоподавления для полного погружения в музыку. Адаптивный режим прослушивания окружающего звука, чтобы ничего не пропустить. Адаптивный эквалайзер и поддержка пространственного звука Spatial Audio для более глубокого звучания.",
+        "available": true,
+        "created_at": "2023-09-15T08:50:00.080Z"
+    }
+},
+{
+    "model": "shopapp.product",
+    "pk": 4,
+    "fields": {
+        "category": 2,
+        "name": "Marshall Major IV",
+        "slug": "marshall-major-iv",
+        "image": "products/image_marshall-major-iv/6ec03419a2bc773bb690796531674672.jpg",
+        "description": "Наушники стоит выбирать как парфюм или галстук: желательно самим и не торопиться. Да, все устройства универсальны, однако перед покупкой нужно ответить как минимум на несколько вопросов: сколько вы готовы отдать за аксессуар, для чего он будет использоваться и что вы ожидаете услышать? В идеале перед покупкой послушать, особенно если это модель не из дешевых.",
+        "available": true,
+        "created_at": "2023-09-15T08:50:20.145Z"
+    }
+},
+{
+    "model": "shopapp.product",
+    "pk": 5,
+    "fields": {
+        "category": 3,
+        "name": "LG TW4V9BC9E",
+        "slug": "lg-tw4v9bc9e",
+        "image": "products/image_lg-tw4v9bc9e/54ec4463adb630d05737293fc13e7800.jpg",
+        "description": "Отдельностоящая, стирально-сушильная машина, с паром, загрузка до 12 кг, отжим 1400 об/мин, глубина 56.5 см (с люком 62 см), энергопотребление A, прямой привод, 14 программ, AI DD (LG)",
+        "available": true,
+        "created_at": "2023-09-15T08:50:39.936Z"
+    }
+},
+{
+    "model": "shopapp.product",
+    "pk": 6,
+    "fields": {
+        "category": 3,
+        "name": "BEKO WDB7425R2W",
+        "slug": "beko-wdb7425r2w",
+        "image": "products/image_beko-wdb7425r2w/1737098-beko-wdb7425r2w.jpg",
+        "description": "Отдельностоящая, стирально-сушильная машина, сушка: естественная конденсация, с паром, загрузка до 7 кг, отжим 1200 об/мин, глубина 50 см, энергопотребление B, 15 программ",
+        "available": true,
+        "created_at": "2023-09-15T08:51:00.214Z"
+    }
+},
+{
+    "model": "shopapp.product",
+    "pk": 7,
+    "fields": {
+        "category": 6,
+        "name": "Sony Alpha a7 III Body",
+        "slug": "sony-alpha-a7-iii-body",
+        "image": "products/image_sony-alpha-a7-iii-body/237493776.webp",
+        "description": "Беззеркальная камера, байонет Sony E, матрица Full frame (полный кадр) 24.2 Мп, без объектива (body), Wi-Fi, два слота для карт памяти",
+        "available": true,
+        "created_at": "2023-10-25T10:56:11.982Z"
+    }
+},
+{
+    "model": "shopapp.product",
+    "pk": 8,
+    "fields": {
+        "category": 6,
+        "name": "Canon EOS 4000D Kit 18-55mm III",
+        "slug": "canon-eos-4000d-kit-18-55mm-iii",
+        "image": "products/image_canon-eos-4000d-kit-18-55mm-iii/canon-eos-4000d-kit-18-55-iii-dc-850x850.jpg",
+        "description": "Зеркальная камера, байонет Canon EF-S, матрица APS-C (1.6 crop) 18 Мп, с объективом F3.5-5.6 18-55 мм, Wi-Fi",
+        "available": true,
+        "created_at": "2023-10-25T11:00:38.010Z"
+    }
+},
+{
+    "model": "shopapp.product",
+    "pk": 9,
+    "fields": {
+        "category": 7,
+        "name": "Boyard GL104GR/50/3",
+        "slug": "boyard-gl104gr503",
+        "image": "products/image_boyard-gl104gr503/gazovyj-lift-gl104gr-50-3-gl104gr-50-3-1.jpg",
+        "description": "BOYARD предлагает газовые лифты для мебели GL104 с возможностью фиксации фасада при открытии в каждой точке траектории движения. Механизмы рассчитаны на 60 000 циклов открывания. Шток нового лифта защищен от возможного попадания пыли и влаги дополнительной алюминиевой трубкой, а обновленная легкосъемная конструкция фиксаторов упрощает процесс монтажа/демонтажа механизмов.\r\nДля смягчения закрытия фасада на мебельных петлях без амортизации можно использовать упор-защелки AMF.",
+        "available": true,
+        "created_at": "2023-10-25T11:02:19.309Z"
+    }
+},
+{
+    "model": "shopapp.product",
+    "pk": 10,
+    "fields": {
+        "category": 7,
+        "name": "Пропуск кабельный GTV 60x60",
+        "slug": "propusk-kabelny-gtv-60x60",
+        "image": "products/image_propusk-kabelny-gtv-60x60/294454069_w300_h300_propusk-dlya-kabelya.webp",
+        "description": "Применение: мебель, круглая форма, длина 60 мм, цвет: матовый хром",
+        "available": true,
+        "created_at": "2023-10-25T11:03:39.356Z"
+    }
+},
+{
+    "model": "shopapp.product",
+    "pk": 11,
+    "fields": {
+        "category": 8,
+        "name": "Xiaomi 13T Pro 12GB/512GB",
+        "slug": "xiaomi-13t-pro-12gb512gb",
+        "image": "products/image_xiaomi-13t-pro-12gb512gb/xiaomi_13t_pro_alpiyskiy_siniy.jpg",
+        "description": "Смартфоны Xiaomi 13T и Xiaomi 13T Pro - предлагают высококачественные AMOLED-дисплеи, мощные аккумуляторы и тройные камеры от Leica. Младшая модель имеет более доступный процессор, быструю зарядку 67 Вт и поддержку Wi-Fi 6, ⚡️ в то время как старшая модель предлагает более мощный процессор, быструю зарядку 120 Вт и поддержку Wi-Fi 7, что делает ее отличным выбором для тех, кто ищет максимальную производительность и высокую скорость зарядки.",
+        "available": true,
+        "created_at": "2023-10-25T11:05:11.432Z"
+    }
+},
+{
+    "model": "shopapp.product",
+    "pk": 12,
+    "fields": {
+        "category": 8,
+        "name": "Apple iPhone 15 128GB",
+        "slug": "apple-iphone-15-128gb",
+        "image": "products/image_apple-iphone-15-128gb/898e71b111606b1aafb5b8d8b6437a9e.png",
+        "description": "Смартфон Apple iPhone 15 128GB (черный) – красивое сочетание передовой оптики, мощного процессора, ⚡️долгоиграющей батареи и запоминающегося дизайна. Стильный:\r\n- Минимальные рамки на передней панели, увеличивающие полезную площадь экрана.\r\n- Скругленные боковые грани для удобного и надежного удержания в руке.\r\n- Привычный квадратный блок камер на задней панели.",
+        "available": true,
+        "created_at": "2023-10-25T11:05:59.445Z"
+    }
+},
+{
+    "model": "shopapp.product",
+    "pk": 13,
+    "fields": {
+        "category": 9,
+        "name": "LG MS2042DB",
+        "slug": "lg-ms2042db",
+        "image": "products/image_lg-ms2042db/tovar68013.jpg",
+        "description": "Отдельностоящая, микроволны (соло), объем 20 л, выходная мощность микроволн 700 Вт, управление электронное, автоприготовление, авторазмораживание, цвет черный",
+        "available": true,
+        "created_at": "2023-10-25T11:07:50.732Z"
+    }
+},
+{
+    "model": "shopapp.product",
+    "pk": 14,
+    "fields": {
+        "category": 9,
+        "name": "BEKO MGB 25333 BG",
+        "slug": "beko-mgb-25333-bg",
+        "image": "products/image_beko-mgb-25333-bg/cq5dam.web.1280.1280.png",
+        "description": "Встраиваемая, микроволны и гриль, объем 25 л, выходная мощность микроволн 900 Вт, управление электронное, автоприготовление, авторазмораживание, цвет черный",
+        "available": true,
+        "created_at": "2023-10-25T11:08:53.356Z"
+    }
+},
+{
+    "model": "shopapp.product",
+    "pk": 15,
+    "fields": {
+        "category": 10,
+        "name": "GEFEST 6502-03 0242",
+        "slug": "gefest-6502-03-0242",
+        "image": "products/image_gefest-6502-03-0242/pge-6502_03-0242.jpg",
+        "description": "Газовая панель + электрический духовой шкаф, газ-контроль конфорок, поверхность: закаленное стекло, энергопотребление A, управление электронное, таймер электронный, размеры (ШхГхВ): 60x60x85 см, цвет белый",
+        "available": true,
+        "created_at": "2023-10-25T11:10:39.586Z"
+    }
+},
+{
+    "model": "shopapp.product",
+    "pk": 16,
+    "fields": {
+        "category": 10,
+        "name": "DeLonghi Autentica Cappuccino ETAM 29.660.SB",
+        "slug": "delonghi-autentica-cappuccino-etam-29660sb",
+        "image": "products/image_delonghi-autentica-cappuccino-etam-29660sb/delonghi_autentica_cappuccino_Pdq3TkZ.webp",
+        "description": "Кофемашина, 1450 Вт, корпус металл, капучинатор автоматический, используемый кофе: молотый/зерновой, цвет серебристый/черный",
+        "available": true,
+        "created_at": "2023-10-25T11:11:41.286Z"
+    }
+},
+{
+    "model": "shopapp.product",
+    "pk": 17,
+    "fields": {
+        "category": 11,
+        "name": "TK Lighting TKF5110",
+        "slug": "tk-lighting-tkf5110",
+        "image": "products/image_tk-lighting-tkf5110/tkf5110_tk_lighting_650ab4e598241.jpeg",
+        "description": "Расположение: напольное, высота 147 см",
+        "available": true,
+        "created_at": "2023-10-25T11:13:04.196Z"
+    }
+},
+{
+    "model": "shopapp.product",
+    "pk": 18,
+    "fields": {
+        "category": 11,
+        "name": "Camelion KD-795",
+        "slug": "camelion-kd-795",
+        "image": "products/image_camelion-kd-795/9909bcf58befbce218670fa7ca9cb9f0.jpg",
+        "description": "Светодиодная лампа, расположение: напольное, высота 150 см",
+        "available": true,
+        "created_at": "2023-10-25T11:14:05.512Z"
+    }
+}
+]

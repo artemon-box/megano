@@ -113,12 +113,16 @@ class ProductDetailView(View):
         page_obj = paginator.get_page(page_number)
 
         extra_images = product.extra_images.all()
+
         user = request.user
         tags = product.category.tags.all().union(product.tags.all())
         reviews_count = self.review_service.get_reviews_count(product=product)
 
         product_sellers = product.productseller_set.all()
-        minimum_price = round(ProductSeller.objects.aggregate(Min("price"))["price__min"], 2)
+        try:
+            minimum_price = round(ProductSeller.objects.filter(product=product).aggregate(Min("price"))["price__min"], 2)
+        except TypeError:
+            minimum_price = None
 
         if user.is_authenticated:
             self.recently_viewed_service.add_to_recently_viewed(user_id=user.id, product_slug=product_slug)
@@ -207,7 +211,14 @@ def catalog_list(request: HttpRequest):
             if free_delivery:
                 qs = qs.filter(free_delivery=True)  # фильтр по бесплатной доставке
             if tag:
-                qs = qs.filter(product__tags__name=tag)  # фильтр по популярным тегам
+                qs_by_tags = qs.filter(product__tags__name=tag)  # фильтр по популярным тегам
+                #qs = qs.filter(product__tags__name=tag)
+                if not qs_by_tags:
+                    qs_by_category_tags = qs.filter(product__category__name=tag) # фильтр по тегам категорий
+                    if qs_by_category_tags:
+                        qs = qs_by_category_tags
+                else:
+                    qs = qs_by_tags
             if category:
                 qs = qs.filter(product__category__name=category)
             cache.set("qs", qs, 300)
@@ -217,7 +228,7 @@ def catalog_list(request: HttpRequest):
 
     qs = cache.get("qs")
 
-    if request.method == "GET":
+    if request.method == "GET" and not request.GET.get("page"):
         # Сортировка
         if request.GET.get("sort") and qs:
             sort_param = request.GET.get("sort")

@@ -53,10 +53,8 @@ class PaymentView(View):
 
         card_number = request.POST["number"].replace(" ", "")
 
-        del request.session["current_order_id"]
-
         response = payment_service.initiate_payment(order.id, card_number, total_price)
-        request.session["task_id"] = response.get('task_id')
+        request.session["task_id"] = response.get("task_id")
 
         return redirect("paymentapp:progress_payment")
 
@@ -107,10 +105,8 @@ class PaymentSomeoneView(View):
 
         card_number = request.POST["number"].replace(" ", "")
 
-        del request.session["current_order_id"]
-
         response = payment_service.initiate_payment(order.id, card_number, total_price)
-        request.session["task_id"] = response.get('task_id')
+        request.session["task_id"] = response.get("task_id")
 
         return redirect("paymentapp:progress_payment")
 
@@ -129,9 +125,13 @@ class ProgressPaymentView(View):
         """
 
         task_id = request.session.get("task_id")
+        order_id = request.session.get("current_order_id")
+
+        del request.session["current_order_id"]
 
         context = {
-            "task_id": task_id
+            "task_id": task_id,
+            "order_id": order_id,
         }
 
         return render(request, "paymentapp/progress_payment.jinja2", context=context)
@@ -152,7 +152,7 @@ class CheckPaymentStatusView(View):
 
         payment_service = PaymentService()
 
-        task_id = request.GET.get('task_id')
+        task_id = request.GET.get("task_id")
 
         status = payment_service.get_payment_status(task_id)["status"]
 
