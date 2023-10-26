@@ -36,6 +36,7 @@ def import_json(data_tuples, email, seller_id, log_data):
         file, file_name = data_tuple
         path = os.path.join(settings.BASE_DIR, "json_to_import", file_name)
         Log.info(user=user, import_id=import_id, message=f"Начат импорт из файла: {file_name}")
+        destination_path = os.path.join(settings.BASE_DIR, "imported_files", "successful", file_name)
         try:
             for item in file:
                 category, category_result = Category.objects.get_or_create(name=item["product"]["category"])
@@ -67,16 +68,15 @@ def import_json(data_tuples, email, seller_id, log_data):
                     Log.info(user=user, import_id=import_id, message=f"Товар {product} импортирован успешно.")
                 else:
                     Log.info(user=user, import_id=import_id, message=f"Товар {product} уже есть.")
-            destination_path = os.path.join(settings.BASE_DIR, "imported_files", "successful", file_name)
-            shutil.move(path, destination_path)
             Log.info(user=user, import_id=import_id, message=f'Импорт из файла "{file_name}" выполнен.')
-            Log.info(user=user, import_id=import_id, message=f'Файл "{file_name}" перемещен в {destination_path}.')
         except Exception as err:
             destination_path = os.path.join(settings.BASE_DIR, "imported_files", "failed", file_name)
-            shutil.move(path, destination_path)
             error_list.append(err)
             Log.critical(user=user, import_id=import_id, message=f'Импорт из файла "{file_name}" НЕ выполнен!')
             Log.info(user=user, import_id=import_id, message=f'Файл "{file_name}" перемещен в {destination_path}.')
+        finally:
+            Log.info(user=user, import_id=import_id, message=f'Файл "{file_name}" перемещен в {destination_path}.')
+            shutil.move(path, destination_path)
 
     if email:
         send_import_notification.delay(result_list, error_list, email)
