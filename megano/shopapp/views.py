@@ -77,10 +77,13 @@ class SellerDetailView(View):
         for elem in top_products:
             product_seller = elem.get("seller_product")
             item = {"product_seller": product_seller, "quantity": 1}
-            discounted_price, discounts = self.discount_service.calculate_discount_price_product(
-                [item],
-                product_seller.price,
-            )
+            try:
+                discounted_price, discounts = self.discount.calculate_discount_price_product(
+                    [item],
+                    product_seller.price,
+                )
+            except ValueError:
+                discounted_price = product_seller.price
             products_list.append((product_seller, discounted_price, elem["total_quantity"]))
 
         context = {"seller": seller, "products_list": products_list}
@@ -140,10 +143,13 @@ class ProductDetailView(View):
 
         for product_seller in product_sellers:
             item = {"product_seller": product_seller, "quantity": 1}
-            discounted_price, discounts = self.discount_service.calculate_discount_price_product(
-                [item],
-                product_seller.price,
-            )
+            try:
+                discounted_price, discounts = self.discount_service.calculate_discount_price_product(
+                    [item],
+                    product_seller.price,
+                )
+            except ValueError:
+                discounted_price = product_seller.price
             if minimum_price and discounted_price < minimum_price:
                 minimum_price = discounted_price
             sellers.append([product_seller, discounted_price])
