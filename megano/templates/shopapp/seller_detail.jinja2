@@ -58,17 +58,20 @@
                             <div class="Tabs-block" id="products" style="display: none;">
                                 <div class="Section-content">
                                     <div class="Orders">
-                                        {% for item in top_products %}
+                                        {% for item in products_list %}
+                                            {% set seller_product = item[0] %}
+                                            {% set price = item[1] %}
+                                            {% set total_quantity = item[2] %}
                                                 <div class="Order Order_anons">
                                                         <div class="Order-personal">
                                                             <div class="row">
                                                                 <div class="row-block">
-                                                                    <a class="Order-title" href="{{ url( 'shopapp:product_detail', item.seller_product.product.slug) }}">
-                                                                        {{ item.seller_product.product.name }}
+                                                                    <a class="Order-title" href="{{ url( 'shopapp:product_detail', seller_product.product.slug) }}">
+                                                                        {{ seller_product.product.name }}
                                                                     </a>
                                                                     <div>
-                                                                        <a href="{{ url( 'shopapp:product_detail', item.seller_product.product.slug) }}">
-                                                                            <img src="{{ item.seller_product.product.image.url }}" alt="{{ item.seller_product.product.name }}"
+                                                                        <a href="{{ url( 'shopapp:product_detail', seller_product.product.slug) }}">
+                                                                            <img src="{{ seller_product.product.image.url }}" alt="{{ seller_product.product.name }}"
                                                                                  style="max-height: 200px;
                                                                                  max-width: 200px;
                                                                                  margin: 10px;
@@ -91,19 +94,23 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="Order-info">
+                                                                        {% if seller_product.price != price %}
                                                                         <div class="Order-infoType">Стоимость:
                                                                         </div>
-                                                                        <div class="Order-infoContent"><span class="Order-price">{{ item.seller_product.price }} $</span>
+                                                                        <div class="Order-infoContent">
+                                                                            <s>{{ seller_product.price }} </s>
+                                                                            <span class="Order-price" style="color: #3cb878"> {{ price }} $</span>
                                                                         </div>
+                                                                        {% else %}
+                                                                            <div class="Order-infoType">Стоимость:
+                                                                            </div>
+                                                                            <div class="Order-infoContent"><span class="Order-price">{{ price }} $</span>
+                                                                            </div>
+                                                                        {% endif %}
                                                                     </div><div class="Order-info">
                                                                         <div class="Order-infoType">В наличии
                                                                         </div>
-                                                                        <div class="Order-infoContent"><span class="Order-price">{{ item.seller_product.quantity }} шт.</span>
-                                                                        </div>
-                                                                    </div><div class="Order-info">
-                                                                        <div class="Order-infoType">Всего продано
-                                                                        </div>
-                                                                        <div class="Order-infoContent"><span class="Order-price">{{ item.total_quantity }} шт.</span>
+                                                                        <div class="Order-infoContent"><span class="Order-price">{{ seller_product.quantity }} шт.</span>
                                                                         </div>
                                                                     </div>
                                                                 </div>

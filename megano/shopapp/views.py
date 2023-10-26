@@ -59,6 +59,7 @@ class SellerDetailView(View):
 
     template_name = "shopapp/seller_detail.jinja2"
     model = Seller
+    discount_service = DiscountService()
 
     def get(self, request: HttpRequest, seller_slug: str) -> HttpResponse:
         """
@@ -68,11 +69,21 @@ class SellerDetailView(View):
         :param seller_slug: Уникальный идентификатор продавца в URL.
         :return: HTTP-ответ с детальной информацией о продавце.
         """
-
+        
         seller = Seller.objects.get(slug=seller_slug)
         top_products = seller_top_sales(seller)
+        products_list = []
 
-        context = {"seller": seller, "top_products": top_products}
+        for elem in top_products:
+            product_seller = elem.get("seller_product")
+            item = {"product_seller": product_seller, "quantity": 1}
+            discounted_price, discounts = self.discount_service.calculate_discount_price_product(
+                [item],
+                product_seller.price,
+            )
+            products_list.append((product_seller, discounted_price, elem["total_quantity"]))
+
+        context = {"seller": seller, "products_list": products_list}
 
         return render(request, self.template_name, context)
 
@@ -119,10 +130,23 @@ class ProductDetailView(View):
         reviews_count = self.review_service.get_reviews_count(product=product)
 
         product_sellers = product.productseller_set.all()
+
         try:
             minimum_price = round(ProductSeller.objects.filter(product=product).aggregate(Min("price"))["price__min"], 2)
         except TypeError:
             minimum_price = None
+
+        sellers = []
+
+        for product_seller in product_sellers:
+            item = {"product_seller": product_seller, "quantity": 1}
+            discounted_price, discounts = self.discount_service.calculate_discount_price_product(
+                [item],
+                product_seller.price,
+            )
+            if minimum_price and discounted_price < minimum_price:
+                minimum_price = discounted_price
+            sellers.append([product_seller, discounted_price])
 
         if user.is_authenticated:
             self.recently_viewed_service.add_to_recently_viewed(user_id=user.id, product_slug=product_slug)
@@ -132,7 +156,7 @@ class ProductDetailView(View):
         context = {
             "extra_images": extra_images,
             "product": product,
-            "product_sellers": product_sellers,
+            "product_sellers": sellers,
             "minimum_price": minimum_price,
             "tags": tags,
             "product_reviews": page_obj,
