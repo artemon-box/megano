@@ -73,7 +73,6 @@ def import_json(data_tuples, email, seller_id, log_data):
             destination_path = os.path.join(settings.BASE_DIR, "imported_files", "failed", file_name)
             error_list.append(err)
             Log.critical(user=user, import_id=import_id, message=f'Импорт из файла "{file_name}" НЕ выполнен!')
-            Log.info(user=user, import_id=import_id, message=f'Файл "{file_name}" перемещен в {destination_path}.')
         finally:
             Log.info(user=user, import_id=import_id, message=f'Файл "{file_name}" перемещен в {destination_path}.')
             shutil.move(path, destination_path)
