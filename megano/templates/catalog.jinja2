@@ -245,7 +245,19 @@
   localStorage.setItem('linkID', id);
     });
 });
-
+</script>
+<script>
+    setInterval(function() {
+      var linkID = localStorage.getItem('linkID');
+      var flagID = localStorage.getItem('flag');
+      if (flagID == 1) {
+        document.getElementById(linkID).classList.add('Sort-sortBy_dec');
+      } else if (flagID == 2) {
+        document.getElementById(linkID).classList.add('Sort-sortBy_inc');
+      }
+}, 10);
+    // Sort-sortBy_dec
+    // Sort-sortBy_inc
 </script>
 </div>
 {% endblock %}
