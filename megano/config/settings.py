@@ -17,9 +17,9 @@ from environs import Env
 env = Env()
 env.read_env()
 
-POSTGRES_DB = "megano"
-POSTGRES_USER = "postgres"
-POSTGRES_PASSWORD = "postgres"
+POSTGRES_DB = env.str("DB_NAME")
+POSTGRES_USER = env.str("DB_USER")
+POSTGRES_PASSWORD = env.str("DB_PASS")
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -140,21 +140,14 @@ CORS_ALLOW_ALL_ORIGINS = False
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": POSTGRES_DB,
-#         "USER": POSTGRES_USER,
-#         "PASSWORD": POSTGRES_PASSWORD,
-#         "HOST": "localhost",
-#         "PORT": 5432,
-#     }
-# }
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3.init',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": POSTGRES_DB,
+        "USER": POSTGRES_USER,
+        "PASSWORD": POSTGRES_PASSWORD,
+        "HOST": "localhost",
+        "PORT": 5432,
     }
 }
 
