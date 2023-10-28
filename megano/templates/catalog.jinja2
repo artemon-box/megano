@@ -72,10 +72,10 @@
                     <div class="Sort-title">Сортировать по:
                     </div>
                     <div class="Sort-variants">
-                        <a class="Sort-sortBy Sort-sortBy_dec" id="sort-popularity" onclick="viewAction()" href="">Популярности</a>
-                        <a class="Sort-sortBy" id="sort-price" onclick="viewAction()" href="">Цене</a>
-                        <a class="Sort-sortBy" id="sort-reviews" onclick="viewAction()" href="">Отзывам</a>
-                        <a class="Sort-sortBy Sort-sortBy_inc" id="sort-novelty" onclick="viewAction()" href="">Новизне</a>
+                        <a class="Sort-sortBy sortLink" id="sort-popularity" onclick="viewAction()" href="">Популярности</a>
+                        <a class="Sort-sortBy sortLink" id="sort-price" onclick="viewAction()" href="">Цене</a>
+                        <a class="Sort-sortBy sortLink" id="sort-reviews" onclick="viewAction()" href="">Отзывам</a>
+                        <a class="Sort-sortBy sortLink" id="sort-novelty" onclick="viewAction()" href="">Новизне</a>
                     </div>
                 </div>
                 <div class="Cards">
@@ -235,6 +235,16 @@
     } else {
         document.getElementById("available").checked=false;
     }
+
+</script>
+<script>
+  document.querySelectorAll(".sortLink").forEach(function(el) {
+  el.addEventListener("click", function(e) {
+  var id = e.target.getAttribute('id');
+  console.log("ID ссылки: " + id);
+  localStorage.setItem('linkID', id);
+    });
+});
 
 </script>
 </div>
