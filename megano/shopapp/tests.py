@@ -1,6 +1,8 @@
 import unittest
 from decimal import Decimal
 
+from cart_and_orders.models import DeliveryMethod, Order, OrderProduct, StatusOrder
+from config import settings
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
@@ -10,10 +12,14 @@ from django.test import TestCase
 from django.test.client import RequestFactory
 from django.urls import resolve
 from django.utils.text import slugify
-
-from cart_and_orders.models import Order, OrderProduct, DeliveryMethod, StatusOrder
-from config import settings
-from shopapp.models import Category, Discount, Product, ProductSeller, Seller, ProductReview
+from shopapp.models import (
+    Category,
+    Discount,
+    Product,
+    ProductReview,
+    ProductSeller,
+    Seller,
+)
 from shopapp.services.compared_products import ComparedProductsService
 from shopapp.services.discount import DiscountService
 from shopapp.services.product_review import ProductReviewService
@@ -32,9 +38,7 @@ class SetUpClass(TestCase):
     def setUp(self):
         # тестовый пользователь
         self.user = get_user_model().objects.create_user(
-            name='testuser',
-            password='testpassword',
-            email='321@skill.box'
+            name="testuser", password="testpassword", email="321@skill.box"
         )
         # продавцы
         self.seller1 = Seller.objects.create(
@@ -65,10 +69,7 @@ class SetUpClass(TestCase):
         ]
         # товары
         self.product1 = Product.objects.create(
-            category=self.category1,
-            name="kuhonnyj-tehnik",
-            slug="kuhonnyj-tehnik",
-            available=True
+            category=self.category1, name="kuhonnyj-tehnik", slug="kuhonnyj-tehnik", available=True
         )
         self.product2 = Product.objects.create(
             category=self.category2,
@@ -77,22 +78,13 @@ class SetUpClass(TestCase):
             slug="naushnik",
         )
         self.product3 = Product.objects.create(
-            category=self.category3,
-            name="mikrovolnovaya-pech",
-            slug="mikrovolnovaya-pech",
-            available=True
+            category=self.category3, name="mikrovolnovaya-pech", slug="mikrovolnovaya-pech", available=True
         )
         self.product4 = Product.objects.create(
-            category=self.category4,
-            name="mobilnyj-telefon",
-            slug="mobilnyj-telefon",
-            available=True
+            category=self.category4, name="mobilnyj-telefon", slug="mobilnyj-telefon", available=True
         )
         self.product5 = Product.objects.create(
-            category=self.category5,
-            name="televizor",
-            slug="televizor",
-            available=True
+            category=self.category5, name="televizor", slug="televizor", available=True
         )
         # активные продукты
         self.active_products = [
@@ -103,16 +95,8 @@ class SetUpClass(TestCase):
             self.product5,
         ]
         # тестовые отзывы
-        self.review1 = ProductReview.objects.create(
-            product=self.product1,
-            user=self.user,
-            text='Review 1'
-        )
-        self.review2 = ProductReview.objects.create(
-            product=self.product1,
-            user=self.user,
-            text='Review 2'
-        )
+        self.review1 = ProductReview.objects.create(product=self.product1, user=self.user, text="Review 1")
+        self.review2 = ProductReview.objects.create(product=self.product1, user=self.user, text="Review 2")
         # товары в корзине
         self.product_seller1 = ProductSeller.objects.create(product=self.product1, seller=self.seller2, price=300.0)
         self.product_seller2 = ProductSeller.objects.create(product=self.product2, seller=self.seller1, price=444.0)
@@ -128,9 +112,7 @@ class SetUpClass(TestCase):
         ]
         # способ доставки для заказа
         self.delivery_method = DeliveryMethod.objects.create(
-            name="Обычная",
-            price=Decimal('200'),
-            order_minimal_price=Decimal('2000')
+            name="Обычная", price=Decimal("200"), order_minimal_price=Decimal("2000")
         )
         # заказ со статусом delivered
         self.order = Order.objects.create(
@@ -138,8 +120,8 @@ class SetUpClass(TestCase):
             address="Address",
             delivery_method=self.delivery_method,
             payment_method="Online",
-            total_price=Decimal('2500'),
-            status=StatusOrder.DELIVERED
+            total_price=Decimal("2500"),
+            status=StatusOrder.DELIVERED,
         )
         # товар в заказе
         self.order_product = OrderProduct.objects.create(
@@ -147,7 +129,7 @@ class SetUpClass(TestCase):
             product=self.product_seller1.product,
             seller=self.product_seller1.seller,
             quantity=5,
-            price=self.product_seller1.price
+            price=self.product_seller1.price,
         )
         # стоимость всей корзины без скидок
         self.total_price = Decimal(2700.0)
@@ -377,7 +359,12 @@ class TestComparedProductsService(SetUpClass):
         self.compare_list.add_to_compared_products(self.product_seller2.id)
         self.assertEqual(self.compare_list.get_compared_products(), [1, 2])
         self.compare_list.remove_from_compared_products(self.product_seller1.id)
-        self.assertEqual(self.compare_list.get_compared_products(), [2, ])
+        self.assertEqual(
+            self.compare_list.get_compared_products(),
+            [
+                2,
+            ],
+        )
         self.compare_list.remove_from_compared_products(self.product_seller2.id)
         self.assertEqual(self.compare_list.get_compared_products(), [])
 
@@ -390,7 +377,6 @@ class TestComparedProductsService(SetUpClass):
 
 
 class TestComparedProductsView(SetUpClass):
-
     def test_add_to_comparison_view(self):
         response = self.client.get(reverse("shopapp:compare_add", kwargs={"product_id": self.product_seller1.id}))
         request = response.wsgi_request
@@ -435,6 +421,7 @@ class RandomActiveProductBannersTest(SetUpClass):
     """
     Тест для проверки формирования баннеров
     """
+
     def setUp(self):
         super().setUp()
 
@@ -461,6 +448,7 @@ class CachedActiveCategoriesTest(SetUpClass):
     """
     Тест для проверки кэширования категорий
     """
+
     def setUp(self):
         super().setUp()
 
@@ -507,6 +495,7 @@ class CachedProductBySlugTest(SetUpClass):
     """
     Проверка кэширования продукта по слагу
     """
+
     def setUp(self):
         super().setUp()
 
@@ -519,7 +508,7 @@ class CachedProductBySlugTest(SetUpClass):
 
     def test_get_cached_product_by_slug(self):
         # Получаем кэшированный продукт по слагу
-        cached_product = get_cached_product_by_slug('kuhonnyj-tehnik')
+        cached_product = get_cached_product_by_slug("kuhonnyj-tehnik")
 
         # Проверяем, что полученный продукт является экземпляром Product
         self.assertIsInstance(cached_product, Product)
@@ -534,12 +523,12 @@ class CachedProductBySlugTest(SetUpClass):
 
     def test_cache_timeout(self):
         # Устанавливаем кэшированный продукт с кастомным таймаутом
-        cached_product = get_cached_product_by_slug('naushnik')
+        cached_product = get_cached_product_by_slug("naushnik")
         cache_timeout = 3600  # 1 час (в секундах)
         cache.set("product_naushnik", cached_product, cache_timeout)
 
         # Получаем продукт из кэша
-        retrieved_product = get_cached_product_by_slug('naushnik')
+        retrieved_product = get_cached_product_by_slug("naushnik")
 
         # Проверяем, что продукт из кэша соответствует ожиданиям
         self.assertEqual(retrieved_product, self.product2)
@@ -549,6 +538,7 @@ class SellerTopSalesTest(SetUpClass):
     """
     Тест рейтинга топ товаров по продажам для продавца
     """
+
     def setUp(self):
         super().setUp()
 
@@ -567,6 +557,7 @@ class ProductReviewServiceTest(SetUpClass):
     """
     Тест сервиса отзывов
     """
+
     def setUp(self):
         super().setUp()
         # Создаем сервис отзывов
@@ -583,14 +574,14 @@ class ProductReviewServiceTest(SetUpClass):
 
     def test_add_review_for_product(self):
         # Добавляем новый отзыв к тестовому продукту
-        self.review_service.add_review_for_product(self.product1, user_id=self.user.id, review_text='Review 3')
+        self.review_service.add_review_for_product(self.product1, user_id=self.user.id, review_text="Review 3")
 
         # Получаем отзывы для тестового продукта
         reviews = self.review_service.get_reviews_for_product(self.product1)
 
         # Проверяем, что новый отзыв добавлен
         self.assertEqual(len(reviews), 3)
-        new_review = ProductReview.objects.get(text='Review 3')
+        new_review = ProductReview.objects.get(text="Review 3")
         self.assertIn(new_review, reviews)
 
     def test_get_reviews_count(self):

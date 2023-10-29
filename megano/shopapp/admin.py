@@ -1,5 +1,6 @@
 import json
 
+from accountapp.permissions_and_groups import GROUP_MODERATOR
 from django.contrib import admin
 from django.contrib.admin import forms
 from django.db.models import QuerySet
@@ -7,7 +8,6 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import path
 from taggit.models import Tag
-from accountapp.permissions_and_groups import GROUP_MODERATOR
 
 from .forms import FileImportForm, ProductFeatureForm
 from .models import (
