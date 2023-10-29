@@ -146,7 +146,7 @@ DATABASES = {
         "NAME": POSTGRES_DB,
         "USER": POSTGRES_USER,
         "PASSWORD": POSTGRES_PASSWORD,
-        "HOST": "localhost",
+        "HOST": "db",
         "PORT": 5432,
     }
 }
