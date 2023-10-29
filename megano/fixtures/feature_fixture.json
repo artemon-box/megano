@@ -1,0 +1,677 @@
+[
+  {
+    "model": "shopapp.feature",
+    "pk": 10,
+    "fields": {
+      "category": 1,
+      "features_group": null,
+      "name": "Тип экрана"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 11,
+    "fields": {
+      "category": 1,
+      "features_group": null,
+      "name": "Разрешение экрана"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 12,
+    "fields": {
+      "category": 1,
+      "features_group": null,
+      "name": "Smart TV"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 13,
+    "fields": {
+      "category": 1,
+      "features_group": null,
+      "name": "Операционная система (ОС)"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 14,
+    "fields": {
+      "category": 1,
+      "features_group": null,
+      "name": "Система динамиков"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 15,
+    "fields": {
+      "category": 1,
+      "features_group": null,
+      "name": "Выходная мощность динамиков"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 16,
+    "fields": {
+      "category": 1,
+      "features_group": null,
+      "name": "Диагональ экрана"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 17,
+    "fields": {
+      "category": 2,
+      "features_group": null,
+      "name": "Конструкция наушников"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 18,
+    "fields": {
+      "category": 2,
+      "features_group": null,
+      "name": "Подключение"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 19,
+    "fields": {
+      "category": 2,
+      "features_group": null,
+      "name": "Шумоподавление"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 20,
+    "fields": {
+      "category": 2,
+      "features_group": null,
+      "name": "Защита от влаги"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 21,
+    "fields": {
+      "category": 2,
+      "features_group": null,
+      "name": "Модуль связи Bluetooth"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 22,
+    "fields": {
+      "category": 2,
+      "features_group": null,
+      "name": "Микрофон"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 23,
+    "fields": {
+      "category": 2,
+      "features_group": null,
+      "name": "Управление наушниками"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 24,
+    "fields": {
+      "category": 3,
+      "features_group": null,
+      "name": "Тип загрузки"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 25,
+    "fields": {
+      "category": 3,
+      "features_group": null,
+      "name": "Загрузка"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 26,
+    "fields": {
+      "category": 3,
+      "features_group": null,
+      "name": "Количество программ стирки"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 27,
+    "fields": {
+      "category": 3,
+      "features_group": null,
+      "name": "Максимальная скорость отжима"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 28,
+    "fields": {
+      "category": 3,
+      "features_group": null,
+      "name": "Класс энергопотребления"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 29,
+    "fields": {
+      "category": 3,
+      "features_group": null,
+      "name": "Блокировка от детей"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 30,
+    "fields": {
+      "category": 3,
+      "features_group": null,
+      "name": "Отсрочка запуска"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 31,
+    "fields": {
+      "category": 6,
+      "features_group": null,
+      "name": "Тип"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 32,
+    "fields": {
+      "category": 6,
+      "features_group": null,
+      "name": "Фокусное расстояние"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 33,
+    "fields": {
+      "category": 6,
+      "features_group": null,
+      "name": "Диафрагма"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 34,
+    "fields": {
+      "category": 6,
+      "features_group": null,
+      "name": "Встроенная вспышка"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 35,
+    "fields": {
+      "category": 6,
+      "features_group": null,
+      "name": "Разрешение изображения"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 36,
+    "fields": {
+      "category": 6,
+      "features_group": null,
+      "name": "Разрешение видео"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 37,
+    "fields": {
+      "category": 6,
+      "features_group": null,
+      "name": "Емкость аккумулятора"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 38,
+    "fields": {
+      "category": 6,
+      "features_group": null,
+      "name": "Скорость съемки"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 39,
+    "fields": {
+      "category": 7,
+      "features_group": null,
+      "name": "Номинальное усилие"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 40,
+    "fields": {
+      "category": 7,
+      "features_group": null,
+      "name": "Тип открывания"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 41,
+    "fields": {
+      "category": 7,
+      "features_group": null,
+      "name": "Наличие амортизатора"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 42,
+    "fields": {
+      "category": 7,
+      "features_group": null,
+      "name": "Гарантированное количество циклов"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 43,
+    "fields": {
+      "category": 7,
+      "features_group": null,
+      "name": "Цвет изделия"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 44,
+    "fields": {
+      "category": 7,
+      "features_group": null,
+      "name": "Тип"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 45,
+    "fields": {
+      "category": 7,
+      "features_group": null,
+      "name": "Материал"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 46,
+    "fields": {
+      "category": 7,
+      "features_group": null,
+      "name": "Применение"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 47,
+    "fields": {
+      "category": 7,
+      "features_group": null,
+      "name": "Общий диаметр"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 48,
+    "fields": {
+      "category": 8,
+      "features_group": null,
+      "name": "Операционная система (ОС)"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 49,
+    "fields": {
+      "category": 8,
+      "features_group": null,
+      "name": "Разрешение экрана"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 50,
+    "fields": {
+      "category": 8,
+      "features_group": null,
+      "name": "Диагональ экрана"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 51,
+    "fields": {
+      "category": 8,
+      "features_group": null,
+      "name": "Тип процессора"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 52,
+    "fields": {
+      "category": 8,
+      "features_group": null,
+      "name": "Встроенная память (ROM)"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 53,
+    "fields": {
+      "category": 8,
+      "features_group": null,
+      "name": "Оперативная память (RAM)"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 54,
+    "fields": {
+      "category": 8,
+      "features_group": null,
+      "name": "Основная камера МПикс"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 55,
+    "fields": {
+      "category": 9,
+      "features_group": null,
+      "name": "Внутренний объем"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 56,
+    "fields": {
+      "category": 9,
+      "features_group": null,
+      "name": "Потребляемая мощность"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 57,
+    "fields": {
+      "category": 9,
+      "features_group": null,
+      "name": "Максимальная мощность микроволн"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 58,
+    "fields": {
+      "category": 9,
+      "features_group": null,
+      "name": "Тип"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 59,
+    "fields": {
+      "category": 9,
+      "features_group": null,
+      "name": "Режим разморозки"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 60,
+    "fields": {
+      "category": 9,
+      "features_group": null,
+      "name": "Кнопка быстрого разогрева"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 61,
+    "fields": {
+      "category": 9,
+      "features_group": null,
+      "name": "Вид управления"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 62,
+    "fields": {
+      "category": 9,
+      "features_group": null,
+      "name": "Время таймера"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 63,
+    "fields": {
+      "category": 10,
+      "features_group": null,
+      "name": "Тип"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 64,
+    "fields": {
+      "category": 10,
+      "features_group": null,
+      "name": "Объем резервуара для воды"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 65,
+    "fields": {
+      "category": 10,
+      "features_group": null,
+      "name": "Давление помпы"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 66,
+    "fields": {
+      "category": 10,
+      "features_group": null,
+      "name": "Используемый кофе"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 67,
+    "fields": {
+      "category": 10,
+      "features_group": null,
+      "name": "Тип управления"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 68,
+    "fields": {
+      "category": 10,
+      "features_group": null,
+      "name": "Дисплей"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 69,
+    "fields": {
+      "category": 10,
+      "features_group": null,
+      "name": "Мощность"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 70,
+    "fields": {
+      "category": 10,
+      "features_group": null,
+      "name": "Число газовых конфорок"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 71,
+    "fields": {
+      "category": 10,
+      "features_group": null,
+      "name": "Тип духовки"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 72,
+    "fields": {
+      "category": 10,
+      "features_group": null,
+      "name": "Объем духовки"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 73,
+    "fields": {
+      "category": 10,
+      "features_group": null,
+      "name": "Гриль"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 74,
+    "fields": {
+      "category": 11,
+      "features_group": null,
+      "name": "Тип"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 75,
+    "fields": {
+      "category": 11,
+      "features_group": null,
+      "name": "Цвет освещения"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 76,
+    "fields": {
+      "category": 11,
+      "features_group": null,
+      "name": "Температура цвета (в K)"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 77,
+    "fields": {
+      "category": 11,
+      "features_group": null,
+      "name": "Тип выключателя"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 78,
+    "fields": {
+      "category": 11,
+      "features_group": null,
+      "name": "Высота торшера (см)"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 79,
+    "fields": {
+      "category": 11,
+      "features_group": null,
+      "name": "Длина шнура питания (см)"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 80,
+    "fields": {
+      "category": 11,
+      "features_group": null,
+      "name": "Количество плафонов"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 81,
+    "fields": {
+      "category": 11,
+      "features_group": null,
+      "name": "Цоколь"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 82,
+    "fields": {
+      "category": 11,
+      "features_group": null,
+      "name": "Расположение"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 83,
+    "fields": {
+      "category": 11,
+      "features_group": null,
+      "name": "Плавная регулировка яркости (диммер)"
+    }
+  },
+  {
+    "model": "shopapp.feature",
+    "pk": 84,
+    "fields": {
+      "category": 11,
+      "features_group": null,
+      "name": "Пульт Д/У"
+    }
+  }
+]

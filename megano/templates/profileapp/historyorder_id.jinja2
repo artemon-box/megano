@@ -90,26 +90,29 @@
                             </div>
                         </div>
                         <div class="Cart Cart_order">
-                            {% for item in cart %}
+                            {% for item in order_products %}
                             <div class="Cart-product">
                                 <div class="Cart-block Cart-block_row">
                                     <div class="Cart-block Cart-block_pict"><a class="Cart-pict" href="#"><img
-                                            class="Cart-img" src="{{ item.product_seller.product.image.url }}"
+                                            class="Cart-img" src="{{ item.product.image.url }}"
                                             alt="card.jpg"></a>
                                     </div>
                                     <div class="Cart-block Cart-block_info"><a class="Cart-title"
                                                                                href="#">{{
-                                        item.product_seller.product.name }}</a>
+                                        item.product.name }}</a>
                                         <div class="Cart-desc">
-                                            {% if item.product_seller.product.description|length > 200 %}
-                                            {{ item.product_seller.product.description[:200] }}...
+                                            {% if item.product.description|length > 200 %}
+                                            {{ item.product.description[:200] }}...
                                             {% else %}
-                                            {{ item.product_seller.product.description }}
+                                            {{ item.product.description }}
                                             {% endif %}
+                                        </div>
+                                        <div class="Cart-desc" style="font-size: 15px; color: #191b1f">
+                                            Продавец: {{ item.seller.name }}
                                         </div>
                                     </div>
                                     <div class="Cart-block Cart-block_price">
-                                        <div class="Cart-price">{{ item.product_seller.price }}$
+                                        <div class="Cart-price">{{ item.price }}$
                                         </div>
                                     </div>
                                 </div>
@@ -121,7 +124,7 @@
                             {% endfor %}
                             <div class="Cart-total">
                                 <div class="Cart-block Cart-block_total">
-                                    <strong class="Cart-title">Итого:<span class="Cart-price">{{ order_price }}$</span>
+                                    <strong class="Cart-title">Итого:<span class="Cart-price">{{ order.total_price }}$</span>
                                     </strong>
                                 </div>
                                 {% if order.status == STATUS_ORDER.FAILED %}

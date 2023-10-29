@@ -7,52 +7,18 @@
                     </h2>
                     <div class="Section-control">
                         <div class="Slider-navigate">
-                            <button class="slick-prev slick-arrow" aria-label="Previous" type="button" style="">
-                                Previous
-                            </button>
-                            <button class="slick-next slick-arrow" aria-label="Next" type="button" style="">Next
-                            </button>
-                            <ul class="slick-dots" role="tablist" style="">
-                                <li class="slick-active" role="presentation">
-                                    <button type="button" role="tab" id="slick-slide-control10"
-                                            aria-controls="slick-slide10" aria-label="1 of 2" tabindex="0"
-                                            aria-selected="true">1
-                                    </button>
-                                </li>
-                                <li role="presentation">
-                                    <button type="button" role="tab" id="slick-slide-control11"
-                                            aria-controls="slick-slide12" aria-label="2 of 2" tabindex="-1">2
-                                    </button>
-                                </li>
-                                <li role="presentation">
-                                    <button type="button" role="tab" id="slick-slide-control12"
-                                            aria-controls="slick-slide14" aria-label="3 of 2" tabindex="-1">3
-                                    </button>
-                                </li>
-                                <li role="presentation">
-                                    <button type="button" role="tab" id="slick-slide-control13"
-                                            aria-controls="slick-slide16" aria-label="4 of 2" tabindex="-1">4
-                                    </button>
-                                </li>
-                            </ul>
                         </div>
                     </div>
                 </header>
-                <div class="Slider-box Cards slick-initialized slick-slider slick-dotted">
-                    <div class="slick-list draggable">
-                        <div class="slick-track"
-                             style="opacity: 1; width: 8200px; transform: translate3d(-1640px, 0px, 0px);">
+                <div class="Slider-box Cards">
                             {% for product_seller in limited_edition %}
-                                <div class="Slider-item slick-slide slick-cloned" tabindex="-1" role="tabpanel" id=""
-                                     aria-describedby="slick-slide-control12" style="width: 410px;"
-                                     data-slick-index="-4"
-                                     aria-hidden="true">
+                                <div class="Slider-item">
                                     <div class="Slider-content">
-                                        <div class="Card">
-                                            <a class="Card-picture"
+                                        <div class="Card" style="min-height: 600px;">
+                                            <a class="Card-picture"  style="max-height: 350px"
                                                href="{{ url('shopapp:product_detail', product_slug=product_seller.product.slug) }}"><img
                                                     src="{{ product_seller.product.image.url }}"
-                                                    alt="{{ product_seller.product.name }}"></a>
+                                                    alt="{{ product_seller.product.name }}" style="width: 100%; object-fit: contain; object-position: center; height: 100%;"></a>
                                             <div class="Card-content">
                                                 <strong class="Card-title"><a
                                                         href="{{ url('shopapp:product_detail', product_slug=product_seller.product.slug) }}">{{ product_seller.product.name }}</a>
@@ -82,8 +48,6 @@
                                     </div>
                                 </div>
                             {% endfor %}
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
