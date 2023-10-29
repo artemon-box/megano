@@ -72,10 +72,10 @@
                     <div class="Sort-title">Сортировать по:
                     </div>
                     <div class="Sort-variants">
-                        <a class="Sort-sortBy Sort-sortBy_dec" id="sort-popularity" onclick="viewAction()" href="">Популярности</a>
-                        <a class="Sort-sortBy" id="sort-price" onclick="viewAction()" href="">Цене</a>
-                        <a class="Sort-sortBy" id="sort-reviews" onclick="viewAction()" href="">Отзывам</a>
-                        <a class="Sort-sortBy Sort-sortBy_inc" id="sort-novelty" onclick="viewAction()" href="">Новизне</a>
+                        <a class="Sort-sortBy sortLink" id="sort-popularity" onclick="viewAction()" href="">Популярности</a>
+                        <a class="Sort-sortBy sortLink" id="sort-price" onclick="viewAction()" href="">Цене</a>
+                        <a class="Sort-sortBy sortLink" id="sort-reviews" onclick="viewAction()" href="">Отзывам</a>
+                        <a class="Sort-sortBy sortLink" id="sort-novelty" onclick="viewAction()" href="">Новизне</a>
                     </div>
                 </div>
                 <div class="Cards">
@@ -236,6 +236,28 @@
         document.getElementById("available").checked=false;
     }
 
+</script>
+<script>
+  document.querySelectorAll(".sortLink").forEach(function(el) {  // ищем все ссылки с классом sortLink
+  el.addEventListener("click", function(e) {  // ставим слушателя на клик по ним
+  var id = e.target.getAttribute('id');  // определеяем id ссылки по которой кликнули
+  console.log("ID ссылки: " + id);  // это чисто чтоб в консоли проверить
+  localStorage.setItem('linkID', id);  // записываем в сторедж
+    });
+});
+</script>
+<script>
+    setInterval(function() {  // выполняем скрипт каждые 10 мс
+      var linkID = localStorage.getItem('linkID'); // берем id
+      var flagID = localStorage.getItem('flag');  // берем состояние флага (1 или 2 раза нажали на ссылку)
+      if (flagID == 1) {
+        document.getElementById(linkID).classList.add('Sort-sortBy_dec');  // добавляем класс элементу стрелка вниз
+      } else if (flagID == 2) {
+        document.getElementById(linkID).classList.add('Sort-sortBy_inc');  // добавляем класс элементу стрелка вверх
+      }
+}, 10); // интервал выполнения скрипта 10 мс
+    // Sort-sortBy_dec
+    // Sort-sortBy_inc
 </script>
 </div>
 {% endblock %}
