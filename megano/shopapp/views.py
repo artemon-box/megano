@@ -69,7 +69,7 @@ class SellerDetailView(View):
         :param seller_slug: Уникальный идентификатор продавца в URL.
         :return: HTTP-ответ с детальной информацией о продавце.
         """
-        
+
         seller = Seller.objects.get(slug=seller_slug)
         top_products = seller_top_sales(seller)
         products_list = []
@@ -135,7 +135,9 @@ class ProductDetailView(View):
         product_sellers = product.productseller_set.all()
 
         try:
-            minimum_price = round(ProductSeller.objects.filter(product=product).aggregate(Min("price"))["price__min"], 2)
+            minimum_price = round(
+                ProductSeller.objects.filter(product=product).aggregate(Min("price"))["price__min"], 2
+            )
         except TypeError:
             minimum_price = None
 
@@ -242,9 +244,9 @@ def catalog_list(request: HttpRequest):
                 qs = qs.filter(free_delivery=True)  # фильтр по бесплатной доставке
             if tag:
                 qs_by_tags = qs.filter(product__tags__name=tag)  # фильтр по популярным тегам
-                #qs = qs.filter(product__tags__name=tag)
+                # qs = qs.filter(product__tags__name=tag)
                 if not qs_by_tags:
-                    qs_by_category_tags = qs.filter(product__category__name=tag) # фильтр по тегам категорий
+                    qs_by_category_tags = qs.filter(product__category__name=tag)  # фильтр по тегам категорий
                     if qs_by_category_tags:
                         qs = qs_by_category_tags
                 else:
