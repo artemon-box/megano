@@ -238,24 +238,24 @@
 
 </script>
 <script>
-  document.querySelectorAll(".sortLink").forEach(function(el) {
-  el.addEventListener("click", function(e) {
-  var id = e.target.getAttribute('id');
-  console.log("ID ссылки: " + id);
-  localStorage.setItem('linkID', id);
+  document.querySelectorAll(".sortLink").forEach(function(el) {  // ищем все ссылки с классом sortLink
+  el.addEventListener("click", function(e) {  // ставим слушателя на клик по ним
+  var id = e.target.getAttribute('id');  // определеяем id ссылки по которой кликнули
+  console.log("ID ссылки: " + id);  // это чисто чтоб в консоли проверить
+  localStorage.setItem('linkID', id);  // записываем в сторедж
     });
 });
 </script>
 <script>
-    setInterval(function() {
-      var linkID = localStorage.getItem('linkID');
-      var flagID = localStorage.getItem('flag');
+    setInterval(function() {  // выполняем скрипт каждые 10 мс
+      var linkID = localStorage.getItem('linkID'); // берем id
+      var flagID = localStorage.getItem('flag');  // берем состояние флага (1 или 2 раза нажали на ссылку)
       if (flagID == 1) {
-        document.getElementById(linkID).classList.add('Sort-sortBy_dec');
+        document.getElementById(linkID).classList.add('Sort-sortBy_dec');  // добавляем класс элементу стрелка вниз
       } else if (flagID == 2) {
-        document.getElementById(linkID).classList.add('Sort-sortBy_inc');
+        document.getElementById(linkID).classList.add('Sort-sortBy_inc');  // добавляем класс элементу стрелка вверх
       }
-}, 10);
+}, 10); // интервал выполнения скрипта 10 мс
     // Sort-sortBy_dec
     // Sort-sortBy_inc
 </script>
