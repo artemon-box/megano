@@ -1,0 +1,50 @@
+[
+  {
+    "model": "shopapp.seller",
+    "pk": 1,
+    "fields": {
+      "user": 2,
+      "name": "A-Group",
+      "slug": "agroup",
+      "image": "sellers/image_agroup/b71e87fd14923b3896f70d313aaca459.png",
+      "delivery_method": "Обычная",
+      "payment_method": "Онлайн",
+      "description": "Большой ассортимент телевизоров и электроники, а также компьютерной, бытовой и климатической техники. Стоимость доставки по РБ указана до подъезда. Подъем в квартиру / на этаж оплачивается согласно тарифам курьерской службы.",
+      "email": "seller@skill.box",
+      "phone": "375296667788",
+      "address": "Проспект независимости 10"
+    }
+  },
+  {
+    "model": "shopapp.seller",
+    "pk": 2,
+    "fields": {
+      "user": 1,
+      "name": "X-Core",
+      "slug": "xcore",
+      "image": "sellers/image_xcore/dec276530db03af6f19f64e1af7e4385.png",
+      "delivery_method": "Обычная",
+      "payment_method": "Онлайн",
+      "description": "У нас нет 759 000 позиций в наличии и 58-ми летнего опыта работы, как и лишних затрат, обмана и боли. Поэтому у нас низкие цены, хорошая гарантия. С любовью и благодарностью!",
+      "email": "seller@skill.box",
+      "phone": "375446668877",
+      "address": "Ул. Красная 23"
+    }
+  },
+  {
+    "model": "shopapp.seller",
+    "pk": 3,
+    "fields": {
+      "user": 3,
+      "name": "Стрела",
+      "slug": "strela",
+      "image": "sellers/image_strela/f84fd2ccc3eb706c90486b8fcec56ceb_uMn2XL2.jpeg",
+      "delivery_method": "Обычная",
+      "payment_method": "Онлайн",
+      "description": "Товары в наличии и под заказ! Доставка до 5 рабочих дней! Магазины в Минске, Могилеве, Горках, Витебске и Полоцке! Рассрочка от магазина и банков! Кредит, карты рассрочек! Безналичный расчет для юрлиц. Стрела - лучший выбор!",
+      "email": "seller@skill.box",
+      "phone": "375446668877",
+      "address": "Ул. Скилбоксная 234"
+    }
+  }
+]

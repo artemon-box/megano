@@ -1,0 +1,194 @@
+[
+{
+    "model": "taggit.tag",
+    "pk": 29,
+    "fields": {
+        "name": "Торшеры",
+        "slug": "торшеры"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 30,
+    "fields": {
+        "name": "Кухонная техника",
+        "slug": "кухонная-техника"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 31,
+    "fields": {
+        "name": "Микроволновые печи",
+        "slug": "микроволновые-печи"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 32,
+    "fields": {
+        "name": "Мобильные телефоны",
+        "slug": "мобильные-телефоны"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 33,
+    "fields": {
+        "name": "Фурнитура",
+        "slug": "фурнитура"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 34,
+    "fields": {
+        "name": "Фотоаппараты",
+        "slug": "фотоаппараты"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 35,
+    "fields": {
+        "name": "Электроника",
+        "slug": "электроника"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 36,
+    "fields": {
+        "name": "Скидки",
+        "slug": "скидки"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 37,
+    "fields": {
+        "name": "Стиральные машины",
+        "slug": "стиральные-машины"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 38,
+    "fields": {
+        "name": "Наушники",
+        "slug": "наушники"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 39,
+    "fields": {
+        "name": "Телевизоры",
+        "slug": "телевизоры"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 40,
+    "fields": {
+        "name": "Apple",
+        "slug": "apple"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 41,
+    "fields": {
+        "name": "BEKO",
+        "slug": "beko"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 42,
+    "fields": {
+        "name": "Boyard",
+        "slug": "boyard"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 43,
+    "fields": {
+        "name": "Camelion",
+        "slug": "camelion"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 44,
+    "fields": {
+        "name": "Canon",
+        "slug": "canon"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 45,
+    "fields": {
+        "name": "DeLonghi",
+        "slug": "delonghi"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 46,
+    "fields": {
+        "name": "Gefest",
+        "slug": "gefest"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 47,
+    "fields": {
+        "name": "LG",
+        "slug": "lg"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 48,
+    "fields": {
+        "name": "Marshall",
+        "slug": "marshall"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 49,
+    "fields": {
+        "name": "Sony",
+        "slug": "sony"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 50,
+    "fields": {
+        "name": "TK Lightning",
+        "slug": "tk-lightning"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 51,
+    "fields": {
+        "name": "Xiaomi",
+        "slug": "xiaomi"
+    }
+},
+{
+    "model": "taggit.tag",
+    "pk": 52,
+    "fields": {
+        "name": "GTV",
+        "slug": "gtv"
+    }
+}
+]

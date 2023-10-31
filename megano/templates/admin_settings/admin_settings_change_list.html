@@ -1,0 +1,22 @@
+{% extends "admin/change_list.html" %}
+
+
+{% block object-tools %}
+
+    <h3>Cache reset</h3>
+    <div style="margin-bottom: 20px; display: flex">
+        <form method="post">
+            {% csrf_token %}
+            <input value="Reset all cache" type="submit" formaction="{% url 'admin_settings:reset_all_cache' %}" style="margin-right: 10px;">
+            <input value="Reset catalog cache" type="button" onclick="#" style="margin-right: 10px;">
+            <input value="Reset cart cache" type="submit" formaction="{% url 'admin_settings:reset_cart_cache' %}" style="margin-right: 10px;">
+            <input value="Reset orders cache" type="button" onclick="#" style="margin-right: 10px;">
+            <input value="Reset compare cache" type="button" onclick="#" style="margin-right: 10px;">
+            <input value="Reset payment cache" type="button" onclick="#" style="margin-right: 10px;">
+        </form>
+    </div>
+
+    {{ block.super }}
+
+
+{% endblock %}

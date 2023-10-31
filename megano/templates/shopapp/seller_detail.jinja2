@@ -1,0 +1,132 @@
+{% extends 'base.jinja2' %}
+
+<script src="{{ static('assets/js/scripts.js') }}"></script>
+
+{% block content %}
+
+    <div class="Middle Middle_top">
+        <div class="Section">
+            <div class="wrap">
+                <div class="Product">
+                    <div class="ProductCard">
+                        <div class="ProductCard-look">
+                            <div class="ProductCard-photo">
+                                <img src="{{ seller.image.url }}" alt="{{ seller.name }}" />
+                            </div>
+                            <div class="ProductCard-picts">
+                                <a class="ProductCard-pict ProductCard-pict_ACTIVE" href="{{ seller.image.url }}" >
+                                    <img src="{{ seller.image.url }}" alt="{{ seller.name }}" />
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ProductCard-desc">
+                            <div class="ProductCard-header">
+                                <h2 class="ProductCard-title">{{ seller.name }}
+                                </h2>
+                                <div class="ProductCard-info">
+                                </div>
+                            </div>
+                            <div class="ProductCard-text">
+                                <p>
+                                    {{ seller.description }}
+                                </p>
+                            </div>
+                            <div class="ProductCard-text">
+                                <p>
+                                    Телефон: +{{ seller.phone }}
+                                </p>
+                            </div>
+                            <div class="ProductCard-text" style="margin-top: 10px">
+                                <p>
+                                    Адрес: {{ seller.address }}
+                                </p>
+                            </div>
+                            <div class="ProductCard-text" style="margin-top: 10px">
+                                <p>
+                                    Почта: {{ seller.email }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="Tabs Tabs_default">
+                        <div class="Tabs-links">
+                            <a class="Tabs-link" id="show_products" href="#products">
+                                <span>Популярные Товары</span>
+                            </a>
+                        </div>
+                        <div class="Tabs-wrap" id="tabs">
+                            <div class="Tabs-block" id="products" style="display: none;">
+                                <div class="Section-content">
+                                    <div class="Orders">
+                                        {% for item in products_list %}
+                                            {% set seller_product = item[0] %}
+                                            {% set price = item[1] %}
+                                            {% set total_quantity = item[2] %}
+                                                <div class="Order Order_anons">
+                                                        <div class="Order-personal">
+                                                            <div class="row">
+                                                                <div class="row-block">
+                                                                    <a class="Order-title" href="{{ url( 'shopapp:product_detail', seller_product.product.slug) }}">
+                                                                        {{ seller_product.product.name }}
+                                                                    </a>
+                                                                    <div>
+                                                                        <a href="{{ url( 'shopapp:product_detail', seller_product.product.slug) }}">
+                                                                            <img src="{{ seller_product.product.image.url }}" alt="{{ seller_product.product.name }}"
+                                                                                 style="max-height: 200px;
+                                                                                 max-width: 200px;
+                                                                                 margin: 10px;
+                                                                                 border: 1px solid #e0e0e0;
+                                                                                 padding: 10px">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row-block">
+                                                                    <div class="Order-info Order-info_delivery">
+                                                                        <div class="Order-infoType">Тип доставки:
+                                                                        </div>
+                                                                        <div class="Order-infoContent">Обычная доставка
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="Order-info Order-info_pay">
+                                                                        <div class="Order-infoType">Оплата:
+                                                                        </div>
+                                                                        <div class="Order-infoContent">Онлайн картой
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="Order-info">
+                                                                        {% if seller_product.price != price %}
+                                                                        <div class="Order-infoType">Стоимость:
+                                                                        </div>
+                                                                        <div class="Order-infoContent">
+                                                                            <s>{{ seller_product.price }} </s>
+                                                                            <span class="Order-price" style="color: #3cb878"> {{ price }} $</span>
+                                                                        </div>
+                                                                        {% else %}
+                                                                            <div class="Order-infoType">Стоимость:
+                                                                            </div>
+                                                                            <div class="Order-infoContent"><span class="Order-price">{{ price }} $</span>
+                                                                            </div>
+                                                                        {% endif %}
+                                                                    </div><div class="Order-info">
+                                                                        <div class="Order-infoType">В наличии
+                                                                        </div>
+                                                                        <div class="Order-infoContent"><span class="Order-price">{{ seller_product.quantity }} шт.</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+{% endblock %}

@@ -1,0 +1,30 @@
+<div class="Section-content">
+    <header class="Section-header">
+        <h2 class="Section-title">Популярные товары</h2>
+    </header>
+    <div class="Cards">
+        {% for top_product in top_products %}
+            <div class="Card">
+                <a class="Card-picture"
+                   href="{{ url('shopapp:product_detail', product_slug=top_product.product.slug) }}"><img
+                        src="{{ top_product.product.image.url }}" alt="{{ top_product.product.name }}"></a>
+                <div class="Card-content">
+                    <strong class="Card-title"><a
+                            href="{{ url('shopapp:product_detail', product_slug=top_product.product.slug) }}">{{ top_product.product.name }}</a></strong>
+                    <div class="Card-description">
+                        <div class="Card-cost"><span class="Card-price">${{ top_product.price }}</span></div>
+                        <div class="Card-category">{{ top_product.product.category.name }}</div>
+                        <div class="Card-hover">
+                            <a class="Card-btn" href="{{ url('cart_and_orders:add_to_cart', product_id=top_product.id) }}" title="Добавить в корзину">
+                                <img src="{{ static('assets/img/icons/card/cart.svg') }}" alt="Добавить в корзину"/>
+                            </a>
+                            <a class="Card-btn" href="{{ url('shopapp:compare_add', product_id=top_product.id) }}" title="Добавить в список сравнения">
+                                <img src="{{ static('assets/img/icons/card/compare.svg') }}" alt="Сравнение"/>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

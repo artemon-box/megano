@@ -1,0 +1,530 @@
+[
+{
+    "model": "shopapp.productseller",
+    "pk": 16,
+    "fields": {
+        "product": 3,
+        "seller": 1,
+        "price": "500.00",
+        "quantity": 500,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 17,
+    "fields": {
+        "product": 3,
+        "seller": 2,
+        "price": "460.00",
+        "quantity": 300,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 18,
+    "fields": {
+        "product": 3,
+        "seller": 3,
+        "price": "600.00",
+        "quantity": 1000,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 19,
+    "fields": {
+        "product": 12,
+        "seller": 1,
+        "price": "1000.00",
+        "quantity": 200,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 20,
+    "fields": {
+        "product": 12,
+        "seller": 2,
+        "price": "1100.00",
+        "quantity": 400,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 21,
+    "fields": {
+        "product": 12,
+        "seller": 3,
+        "price": "999.00",
+        "quantity": 100,
+        "free_delivery": true,
+        "is_limited_edition": true
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 22,
+    "fields": {
+        "product": 14,
+        "seller": 1,
+        "price": "400.00",
+        "quantity": 200,
+        "free_delivery": true,
+        "is_limited_edition": true
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 23,
+    "fields": {
+        "product": 14,
+        "seller": 2,
+        "price": "300.00",
+        "quantity": 200,
+        "free_delivery": true,
+        "is_limited_edition": true
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 24,
+    "fields": {
+        "product": 14,
+        "seller": 3,
+        "price": "550.00",
+        "quantity": 300,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 25,
+    "fields": {
+        "product": 6,
+        "seller": 1,
+        "price": "300.00",
+        "quantity": 400,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 26,
+    "fields": {
+        "product": 6,
+        "seller": 3,
+        "price": "599.00",
+        "quantity": 200,
+        "free_delivery": false,
+        "is_limited_edition": true
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 27,
+    "fields": {
+        "product": 9,
+        "seller": 1,
+        "price": "40.00",
+        "quantity": 500,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 28,
+    "fields": {
+        "product": 9,
+        "seller": 2,
+        "price": "45.00",
+        "quantity": 50,
+        "free_delivery": false,
+        "is_limited_edition": true
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 29,
+    "fields": {
+        "product": 9,
+        "seller": 3,
+        "price": "60.00",
+        "quantity": 1000,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 30,
+    "fields": {
+        "product": 18,
+        "seller": 1,
+        "price": "200.00",
+        "quantity": 300,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 31,
+    "fields": {
+        "product": 18,
+        "seller": 3,
+        "price": "400.00",
+        "quantity": 300,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 32,
+    "fields": {
+        "product": 8,
+        "seller": 1,
+        "price": "1000.00",
+        "quantity": 100,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 33,
+    "fields": {
+        "product": 8,
+        "seller": 2,
+        "price": "1300.00",
+        "quantity": 400,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 34,
+    "fields": {
+        "product": 16,
+        "seller": 1,
+        "price": "1000.00",
+        "quantity": 400,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 35,
+    "fields": {
+        "product": 16,
+        "seller": 2,
+        "price": "1500.00",
+        "quantity": 1000,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 36,
+    "fields": {
+        "product": 16,
+        "seller": 3,
+        "price": "1200.00",
+        "quantity": 1000,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 37,
+    "fields": {
+        "product": 15,
+        "seller": 1,
+        "price": "200.00",
+        "quantity": 100,
+        "free_delivery": true,
+        "is_limited_edition": true
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 38,
+    "fields": {
+        "product": 15,
+        "seller": 2,
+        "price": "250.00",
+        "quantity": 700,
+        "free_delivery": true,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 39,
+    "fields": {
+        "product": 15,
+        "seller": 3,
+        "price": "400.00",
+        "quantity": 300,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 40,
+    "fields": {
+        "product": 2,
+        "seller": 1,
+        "price": "4000.00",
+        "quantity": 500,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 41,
+    "fields": {
+        "product": 2,
+        "seller": 2,
+        "price": "3999.00",
+        "quantity": 555,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 42,
+    "fields": {
+        "product": 13,
+        "seller": 2,
+        "price": "600.00",
+        "quantity": 300,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 43,
+    "fields": {
+        "product": 13,
+        "seller": 3,
+        "price": "400.00",
+        "quantity": 1000,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 44,
+    "fields": {
+        "product": 5,
+        "seller": 1,
+        "price": "1000.00",
+        "quantity": 1000,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 45,
+    "fields": {
+        "product": 5,
+        "seller": 3,
+        "price": "390.00",
+        "quantity": 1000,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 46,
+    "fields": {
+        "product": 4,
+        "seller": 1,
+        "price": "1000.00",
+        "quantity": 1000,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 47,
+    "fields": {
+        "product": 4,
+        "seller": 2,
+        "price": "999.00",
+        "quantity": 1000,
+        "free_delivery": true,
+        "is_limited_edition": true
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 48,
+    "fields": {
+        "product": 4,
+        "seller": 3,
+        "price": "890.00",
+        "quantity": 500,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 49,
+    "fields": {
+        "product": 7,
+        "seller": 1,
+        "price": "1900.00",
+        "quantity": 1000,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 50,
+    "fields": {
+        "product": 7,
+        "seller": 3,
+        "price": "1200.00",
+        "quantity": 500,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 51,
+    "fields": {
+        "product": 17,
+        "seller": 1,
+        "price": "100.00",
+        "quantity": 500,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 52,
+    "fields": {
+        "product": 17,
+        "seller": 2,
+        "price": "500.00",
+        "quantity": 100,
+        "free_delivery": true,
+        "is_limited_edition": true
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 53,
+    "fields": {
+        "product": 11,
+        "seller": 1,
+        "price": "500.00",
+        "quantity": 500,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 54,
+    "fields": {
+        "product": 11,
+        "seller": 3,
+        "price": "399.00",
+        "quantity": 100,
+        "free_delivery": true,
+        "is_limited_edition": true
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 55,
+    "fields": {
+        "product": 1,
+        "seller": 1,
+        "price": "1000.00",
+        "quantity": 1000,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 56,
+    "fields": {
+        "product": 1,
+        "seller": 2,
+        "price": "1000.00",
+        "quantity": 1000,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 57,
+    "fields": {
+        "product": 1,
+        "seller": 3,
+        "price": "999.00",
+        "quantity": 500,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 58,
+    "fields": {
+        "product": 10,
+        "seller": 1,
+        "price": "50.00",
+        "quantity": 5000,
+        "free_delivery": true,
+        "is_limited_edition": true
+    }
+},
+{
+    "model": "shopapp.productseller",
+    "pk": 59,
+    "fields": {
+        "product": 10,
+        "seller": 3,
+        "price": "20.00",
+        "quantity": 1000,
+        "free_delivery": false,
+        "is_limited_edition": false
+    }
+}
+]

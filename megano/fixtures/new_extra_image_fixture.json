@@ -1,0 +1,250 @@
+[
+{
+    "model": "shopapp.extraimage",
+    "pk": 1,
+    "fields": {
+        "product": 3,
+        "image": "products/image_apple-airpods-pro-2/extra_images/P1054788s-scaled_Sz162e9.jpg"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 2,
+    "fields": {
+        "product": 3,
+        "image": "products/image_apple-airpods-pro-2/extra_images/1_177770_4qUgHEm.jpg"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 3,
+    "fields": {
+        "product": 3,
+        "image": "products/image_apple-airpods-pro-2/extra_images/airpods-pro-2-05-600x600_FRDvtrb.jpg"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 4,
+    "fields": {
+        "product": 12,
+        "image": "products/image_apple-iphone-15-128gb/extra_images/400180824_w640_h640_smartfon-apple-ip_AXdfGGE.webp"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 5,
+    "fields": {
+        "product": 14,
+        "image": "products/image_beko-mgb-25333-bg/extra_images/orig_sccEutj.webp"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 6,
+    "fields": {
+        "product": 14,
+        "image": "products/image_beko-mgb-25333-bg/extra_images/550_KtKxemE.webp"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 7,
+    "fields": {
+        "product": 6,
+        "image": "products/image_beko-wdb7425r2w/extra_images/11-600x315_ECAH7Nm.jpg"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 8,
+    "fields": {
+        "product": 6,
+        "image": "products/image_beko-wdb7425r2w/extra_images/q93_26c3e5cc37ead5e692b885837726ed0fb38c9e99_5dCbZm0.jpg"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 9,
+    "fields": {
+        "product": 6,
+        "image": "products/image_beko-wdb7425r2w/extra_images/q93_97f4a273625fc85dc9337007e54aacaafaf31949_TSqJ40u.jpg"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 10,
+    "fields": {
+        "product": 9,
+        "image": "products/image_boyard-gl104gr503/extra_images/27383dc57f3262c268443004f1e09dbf_Q7A8dsG.jpg"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 11,
+    "fields": {
+        "product": 18,
+        "image": "products/image_camelion-kd-795/extra_images/kd_795_COnUTXr.jpg"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 12,
+    "fields": {
+        "product": 8,
+        "image": "products/image_canon-eos-4000d-kit-18-55mm-iii/extra_images/canon-eos-4000d-kit-18-55-ii_gzjoyfw.jpg"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 13,
+    "fields": {
+        "product": 16,
+        "image": "products/image_delonghi-autentica-cappuccino-etam-29660sb/extra_images/tovar45622_9_1XZHHpI.jpg"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 14,
+    "fields": {
+        "product": 16,
+        "image": "products/image_delonghi-autentica-cappuccino-etam-29660sb/extra_images/delonghi-etam-296_zofwesa.jpg"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 15,
+    "fields": {
+        "product": 15,
+        "image": "products/image_gefest-6502-03-0242/extra_images/2d4c14018b043c75e55569312b21d310_Nj3CGRc.webp"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 16,
+    "fields": {
+        "product": 15,
+        "image": "products/image_gefest-6502-03-0242/extra_images/300x400_oMlrKHf.webp"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 17,
+    "fields": {
+        "product": 2,
+        "image": "products/image_lg-g3-oled77g3rla/extra_images/63481940_5OEz8mv.webp"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 18,
+    "fields": {
+        "product": 2,
+        "image": "products/image_lg-g3-oled77g3rla/extra_images/9094.970_XMhYsZz.jpg"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 19,
+    "fields": {
+        "product": 2,
+        "image": "products/image_lg-g3-oled77g3rla/extra_images/51NoseNi6L._SL1500__NPc7GU1.jpg"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 20,
+    "fields": {
+        "product": 5,
+        "image": "products/image_lg-tw4v9bc9e/extra_images/aiddtw4v9bc9e_lg_62d5199060ce7_CDh2rL3.jpeg"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 21,
+    "fields": {
+        "product": 5,
+        "image": "products/image_lg-tw4v9bc9e/extra_images/afa3598af1f4554fb1dd0b9a050de69a_2jJWzrK.jpg"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 22,
+    "fields": {
+        "product": 5,
+        "image": "products/image_lg-tw4v9bc9e/extra_images/ffcc4e49c95052859309023bcc110e52_soSulUQ.jpg"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 23,
+    "fields": {
+        "product": 4,
+        "image": "products/image_marshall-major-iv/extra_images/uga8foxgkmwfknlvoxea7xvcwd29b8id_9U12U0z.jpg"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 24,
+    "fields": {
+        "product": 4,
+        "image": "products/image_marshall-major-iv/extra_images/tps_1335_503936_November38924-503936_kANuPEB.jpg"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 25,
+    "fields": {
+        "product": 4,
+        "image": "products/image_marshall-major-iv/extra_images/1005773_RlwJ8t5.jpg"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 26,
+    "fields": {
+        "product": 7,
+        "image": "products/image_sony-alpha-a7-iii-body/extra_images/pasted-image-0_XO2Mldm.png"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 27,
+    "fields": {
+        "product": 11,
+        "image": "products/image_xiaomi-13t-pro-12gb512gb/extra_images/xiaomi_13t_pro_9-1200x800_JRGLkoF.jpg"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 28,
+    "fields": {
+        "product": 1,
+        "image": "products/image_xiaomi-tv-q2-55/extra_images/840_560_Kjn96oT.jpeg"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 29,
+    "fields": {
+        "product": 1,
+        "image": "products/image_xiaomi-tv-q2-55/extra_images/xiaomi_q2_6_V7FqCsO.jpg"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 30,
+    "fields": {
+        "product": 1,
+        "image": "products/image_xiaomi-tv-q2-55/extra_images/aez1dv99o2w2z9bl7j0071z0d65sxn0g_mQttkCK.jpg"
+    }
+},
+{
+    "model": "shopapp.extraimage",
+    "pk": 31,
+    "fields": {
+        "product": 10,
+        "image": "products/image_propusk-kabelny-gtv-60x60/extra_images/shema-propuska-pryamoug_zM0ir3S.JPG"
+    }
+}
+]

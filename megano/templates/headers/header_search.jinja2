@@ -1,0 +1,65 @@
+ <div class="Header-searchWrap">
+        <div class="wrap">
+        {# Категории добавлены (Фёдор) #}
+            <div class="Header-categories">
+                <div class="CategoriesButton">
+                    <div class="CategoriesButton-title">
+                        <div class="CategoriesButton-icon"><img src="{{ static('assets/img/icons/allDep.svg') }}" alt="allDep.svg" /></div>
+                        <span class="CategoriesButton-text">Все категории</span>
+                        <div class="CategoriesButton-arrow"></div>
+                    </div>
+                    <div class="CategoriesButton-content">
+                    <form action="{{ url('shopapp:catalog_list') }}" id="catalog_form" method="post">
+                        {% csrf_token %}
+                        {% for category in active_categories %}
+                            <div class="CategoriesButton-link">
+                                <a href="javascript:;" class="Category-Link">
+                                <div class="CategoriesButton-icon"><img src="{{ static('assets/img/icons/departments/' ~ category.id ~ '.svg') }}" alt="{{ category.id ~ '.svg' }}" /></div>
+                                <span class="CategoriesButton-text">{{ category.name }}</span>
+                                </a>
+                            </div>
+                        {% endfor %}
+                        <input type="hidden" name="category" id="category_value" value="">
+                        <input type="hidden" id="price" name="price" value="1;100000">
+                    </form>
+                    </div>
+                </div>
+            </div>
+        {# Окончание категорий (Фёдор) #}
+            <div class="Header-searchLink"><img src="{{ static('assets/img/icons/search.svg') }}" alt="search.svg" />
+            </div>
+            <div class="Header-search">
+                <div class="search">
+                    <form class="form form_search" action="{{ url('shopapp:catalog_list') }}" method="post">
+                        {% csrf_token %}
+{#                        <input class="search-input" id="query" name="query" type="text" placeholder="NVIDIA GeForce RTX 3060" />#}
+                        <input class="search-input" id="product_title_2" name="title" type="text" value="" placeholder="NVIDIA GeForce RTX 3060" />
+                        <input type="hidden" id="price" name="price" value="1;100000">
+                        <button class="search-button" type="submit" name="search" id="search"><img src="{{ static('assets/img/icons/search.svg') }}" alt="search.svg" />Поиск
+                        </button>
+{#                            <input type="hidden" id="product_title" name="title" value="">#}
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script>
+              document.querySelectorAll('.Category-Link').forEach((link) => link.addEventListener('click', (event)=>{
+              event.preventDefault();  // отменяем дефолтное событие на клик ссылки
+              document.getElementById('category_value').value = link.querySelector('.CategoriesButton-text').textContent;
+              document.getElementById('catalog_form').submit();  // отправляем форму по нажатию на ссылку
+                localStorage.setItem('price', '1;10000'); // установить макс. ценовой диапазон
+                localStorage.setItem('product_title', ''); // сделать инпут пустым
+                localStorage.setItem('fd', '0'); // обнуляем чек-бокс бесплатной доставки
+                localStorage.setItem('av', '0'); // обнуляем чек-бокс "товар в наличии"
+              }));
+        </script>
+        <script> //
+            let title2 = document.getElementById('product_title_2');
+            document.querySelectorAll('.search-button').forEach((button) => button.addEventListener('click', (event)=> {
+                localStorage.setItem('price', '1;10000'); // установить макс. ценовой диапазон
+                localStorage.setItem('product_title', title2.value); //
+                localStorage.setItem('fd', '0'); // обнуляем чек-бокс бесплатной доставки
+                localStorage.setItem('av', '0'); // обнуляем чек-бокс "товар в наличии"
+            }));
+        </script>
+    </div>

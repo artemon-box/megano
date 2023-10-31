@@ -1,0 +1,1010 @@
+[
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 16,
+    "fields": {
+      "category": 1,
+      "feature": 10,
+      "value": 16
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 17,
+    "fields": {
+      "category": 1,
+      "feature": 11,
+      "value": 17
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 18,
+    "fields": {
+      "category": 1,
+      "feature": 12,
+      "value": 18
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 19,
+    "fields": {
+      "category": 1,
+      "feature": 13,
+      "value": 19
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 20,
+    "fields": {
+      "category": 1,
+      "feature": 14,
+      "value": 20
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 21,
+    "fields": {
+      "category": 1,
+      "feature": 15,
+      "value": 21
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 22,
+    "fields": {
+      "category": 1,
+      "feature": 16,
+      "value": 22
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 23,
+    "fields": {
+      "category": 1,
+      "feature": 10,
+      "value": 23
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 24,
+    "fields": {
+      "category": 1,
+      "feature": 16,
+      "value": 24
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 25,
+    "fields": {
+      "category": 1,
+      "feature": 13,
+      "value": 25
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 26,
+    "fields": {
+      "category": 1,
+      "feature": 14,
+      "value": 26
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 27,
+    "fields": {
+      "category": 1,
+      "feature": 15,
+      "value": 27
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 28,
+    "fields": {
+      "category": 2,
+      "feature": 17,
+      "value": 28
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 29,
+    "fields": {
+      "category": 2,
+      "feature": 18,
+      "value": 29
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 30,
+    "fields": {
+      "category": 2,
+      "feature": 19,
+      "value": 30
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 31,
+    "fields": {
+      "category": 2,
+      "feature": 20,
+      "value": 31
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 32,
+    "fields": {
+      "category": 2,
+      "feature": 21,
+      "value": 32
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 33,
+    "fields": {
+      "category": 2,
+      "feature": 22,
+      "value": 33
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 34,
+    "fields": {
+      "category": 2,
+      "feature": 23,
+      "value": 34
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 35,
+    "fields": {
+      "category": 2,
+      "feature": 17,
+      "value": 35
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 36,
+    "fields": {
+      "category": 2,
+      "feature": 20,
+      "value": 36
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 37,
+    "fields": {
+      "category": 2,
+      "feature": 21,
+      "value": 37
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 38,
+    "fields": {
+      "category": 2,
+      "feature": 23,
+      "value": 38
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 39,
+    "fields": {
+      "category": 2,
+      "feature": 19,
+      "value": 39
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 40,
+    "fields": {
+      "category": 3,
+      "feature": 24,
+      "value": 40
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 41,
+    "fields": {
+      "category": 3,
+      "feature": 25,
+      "value": 41
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 42,
+    "fields": {
+      "category": 3,
+      "feature": 26,
+      "value": 42
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 43,
+    "fields": {
+      "category": 3,
+      "feature": 27,
+      "value": 43
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 44,
+    "fields": {
+      "category": 3,
+      "feature": 28,
+      "value": 44
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 45,
+    "fields": {
+      "category": 3,
+      "feature": 29,
+      "value": 45
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 46,
+    "fields": {
+      "category": 3,
+      "feature": 30,
+      "value": 46
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 47,
+    "fields": {
+      "category": 3,
+      "feature": 25,
+      "value": 47
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 48,
+    "fields": {
+      "category": 3,
+      "feature": 29,
+      "value": 48
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 49,
+    "fields": {
+      "category": 3,
+      "feature": 28,
+      "value": 49
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 50,
+    "fields": {
+      "category": 3,
+      "feature": 26,
+      "value": 50
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 51,
+    "fields": {
+      "category": 3,
+      "feature": 27,
+      "value": 51
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 52,
+    "fields": {
+      "category": 6,
+      "feature": 31,
+      "value": 52
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 53,
+    "fields": {
+      "category": 6,
+      "feature": 32,
+      "value": 53
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 54,
+    "fields": {
+      "category": 6,
+      "feature": 33,
+      "value": 54
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 55,
+    "fields": {
+      "category": 6,
+      "feature": 34,
+      "value": 55
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 56,
+    "fields": {
+      "category": 6,
+      "feature": 35,
+      "value": 56
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 57,
+    "fields": {
+      "category": 6,
+      "feature": 36,
+      "value": 57
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 58,
+    "fields": {
+      "category": 6,
+      "feature": 37,
+      "value": 58
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 59,
+    "fields": {
+      "category": 6,
+      "feature": 34,
+      "value": 59
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 60,
+    "fields": {
+      "category": 6,
+      "feature": 37,
+      "value": 60
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 61,
+    "fields": {
+      "category": 6,
+      "feature": 36,
+      "value": 61
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 62,
+    "fields": {
+      "category": 6,
+      "feature": 35,
+      "value": 62
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 63,
+    "fields": {
+      "category": 6,
+      "feature": 31,
+      "value": 63
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 64,
+    "fields": {
+      "category": 6,
+      "feature": 38,
+      "value": 64
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 65,
+    "fields": {
+      "category": 7,
+      "feature": 39,
+      "value": 65
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 66,
+    "fields": {
+      "category": 7,
+      "feature": 40,
+      "value": 66
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 67,
+    "fields": {
+      "category": 7,
+      "feature": 41,
+      "value": 67
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 68,
+    "fields": {
+      "category": 7,
+      "feature": 42,
+      "value": 68
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 69,
+    "fields": {
+      "category": 7,
+      "feature": 43,
+      "value": 69
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 70,
+    "fields": {
+      "category": 7,
+      "feature": 44,
+      "value": 70
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 71,
+    "fields": {
+      "category": 7,
+      "feature": 45,
+      "value": 71
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 72,
+    "fields": {
+      "category": 7,
+      "feature": 46,
+      "value": 72
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 73,
+    "fields": {
+      "category": 7,
+      "feature": 43,
+      "value": 73
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 74,
+    "fields": {
+      "category": 7,
+      "feature": 47,
+      "value": 74
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 75,
+    "fields": {
+      "category": 8,
+      "feature": 48,
+      "value": 75
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 76,
+    "fields": {
+      "category": 8,
+      "feature": 49,
+      "value": 76
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 77,
+    "fields": {
+      "category": 8,
+      "feature": 50,
+      "value": 77
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 78,
+    "fields": {
+      "category": 8,
+      "feature": 51,
+      "value": 78
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 79,
+    "fields": {
+      "category": 8,
+      "feature": 52,
+      "value": 79
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 80,
+    "fields": {
+      "category": 8,
+      "feature": 53,
+      "value": 80
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 81,
+    "fields": {
+      "category": 8,
+      "feature": 54,
+      "value": 81
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 82,
+    "fields": {
+      "category": 8,
+      "feature": 52,
+      "value": 82
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 83,
+    "fields": {
+      "category": 8,
+      "feature": 50,
+      "value": 83
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 84,
+    "fields": {
+      "category": 8,
+      "feature": 53,
+      "value": 84
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 85,
+    "fields": {
+      "category": 8,
+      "feature": 48,
+      "value": 85
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 86,
+    "fields": {
+      "category": 8,
+      "feature": 54,
+      "value": 86
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 87,
+    "fields": {
+      "category": 8,
+      "feature": 49,
+      "value": 87
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 88,
+    "fields": {
+      "category": 8,
+      "feature": 51,
+      "value": 88
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 89,
+    "fields": {
+      "category": 9,
+      "feature": 55,
+      "value": 89
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 90,
+    "fields": {
+      "category": 9,
+      "feature": 56,
+      "value": 90
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 91,
+    "fields": {
+      "category": 9,
+      "feature": 57,
+      "value": 91
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 92,
+    "fields": {
+      "category": 9,
+      "feature": 58,
+      "value": 92
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 93,
+    "fields": {
+      "category": 9,
+      "feature": 59,
+      "value": 93
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 94,
+    "fields": {
+      "category": 9,
+      "feature": 60,
+      "value": 94
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 95,
+    "fields": {
+      "category": 9,
+      "feature": 61,
+      "value": 95
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 96,
+    "fields": {
+      "category": 9,
+      "feature": 58,
+      "value": 96
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 97,
+    "fields": {
+      "category": 9,
+      "feature": 61,
+      "value": 97
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 98,
+    "fields": {
+      "category": 9,
+      "feature": 55,
+      "value": 98
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 99,
+    "fields": {
+      "category": 9,
+      "feature": 57,
+      "value": 99
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 100,
+    "fields": {
+      "category": 9,
+      "feature": 56,
+      "value": 100
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 101,
+    "fields": {
+      "category": 9,
+      "feature": 62,
+      "value": 101
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 102,
+    "fields": {
+      "category": 10,
+      "feature": 63,
+      "value": 102
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 103,
+    "fields": {
+      "category": 10,
+      "feature": 64,
+      "value": 103
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 104,
+    "fields": {
+      "category": 10,
+      "feature": 65,
+      "value": 104
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 105,
+    "fields": {
+      "category": 10,
+      "feature": 66,
+      "value": 105
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 106,
+    "fields": {
+      "category": 10,
+      "feature": 67,
+      "value": 106
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 107,
+    "fields": {
+      "category": 10,
+      "feature": 68,
+      "value": 107
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 108,
+    "fields": {
+      "category": 10,
+      "feature": 69,
+      "value": 108
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 109,
+    "fields": {
+      "category": 10,
+      "feature": 63,
+      "value": 109
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 110,
+    "fields": {
+      "category": 10,
+      "feature": 70,
+      "value": 110
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 111,
+    "fields": {
+      "category": 10,
+      "feature": 71,
+      "value": 111
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 112,
+    "fields": {
+      "category": 10,
+      "feature": 72,
+      "value": 112
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 113,
+    "fields": {
+      "category": 10,
+      "feature": 73,
+      "value": 113
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 114,
+    "fields": {
+      "category": 10,
+      "feature": 67,
+      "value": 114
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 115,
+    "fields": {
+      "category": 11,
+      "feature": 74,
+      "value": 115
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 116,
+    "fields": {
+      "category": 11,
+      "feature": 75,
+      "value": 116
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 117,
+    "fields": {
+      "category": 11,
+      "feature": 76,
+      "value": 117
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 118,
+    "fields": {
+      "category": 11,
+      "feature": 77,
+      "value": 118
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 119,
+    "fields": {
+      "category": 11,
+      "feature": 78,
+      "value": 119
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 120,
+    "fields": {
+      "category": 11,
+      "feature": 79,
+      "value": 120
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 121,
+    "fields": {
+      "category": 11,
+      "feature": 80,
+      "value": 121
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 122,
+    "fields": {
+      "category": 11,
+      "feature": 78,
+      "value": 122
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 123,
+    "fields": {
+      "category": 11,
+      "feature": 74,
+      "value": 123
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 124,
+    "fields": {
+      "category": 11,
+      "feature": 81,
+      "value": 124
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 125,
+    "fields": {
+      "category": 11,
+      "feature": 82,
+      "value": 125
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 126,
+    "fields": {
+      "category": 11,
+      "feature": 83,
+      "value": 126
+    }
+  },
+  {
+    "model": "shopapp.allowedrelation",
+    "pk": 127,
+    "fields": {
+      "category": 11,
+      "feature": 84,
+      "value": 127
+    }
+  }
+]

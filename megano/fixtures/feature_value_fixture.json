@@ -1,0 +1,898 @@
+[
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 16,
+    "fields": {
+      "feature": 10,
+      "value": "4K OLED"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 17,
+    "fields": {
+      "feature": 11,
+      "value": "4K Ultra HD (3840 x 2160)"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 18,
+    "fields": {
+      "feature": 12,
+      "value": "да"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 19,
+    "fields": {
+      "feature": 13,
+      "value": "webOS 23"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 20,
+    "fields": {
+      "feature": 14,
+      "value": "4.2"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 21,
+    "fields": {
+      "feature": 15,
+      "value": "60 Вт"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 22,
+    "fields": {
+      "feature": 16,
+      "value": "77''"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 23,
+    "fields": {
+      "feature": 10,
+      "value": "QLED"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 24,
+    "fields": {
+      "feature": 16,
+      "value": "55\""
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 25,
+    "fields": {
+      "feature": 13,
+      "value": "Android TV™"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 26,
+    "fields": {
+      "feature": 14,
+      "value": "2.0"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 27,
+    "fields": {
+      "feature": 15,
+      "value": "30 Вт"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 28,
+    "fields": {
+      "feature": 17,
+      "value": "Внутриканальные"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 29,
+    "fields": {
+      "feature": 18,
+      "value": "Беспроводное"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 30,
+    "fields": {
+      "feature": 19,
+      "value": "Активное"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 31,
+    "fields": {
+      "feature": 20,
+      "value": "Да"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 32,
+    "fields": {
+      "feature": 21,
+      "value": "5,3"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 33,
+    "fields": {
+      "feature": 22,
+      "value": "Да"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 34,
+    "fields": {
+      "feature": 23,
+      "value": "Сенсорное"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 35,
+    "fields": {
+      "feature": 17,
+      "value": "Накладные"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 36,
+    "fields": {
+      "feature": 20,
+      "value": "Нет"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 37,
+    "fields": {
+      "feature": 21,
+      "value": "5,0"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 38,
+    "fields": {
+      "feature": 23,
+      "value": "Кнопочное"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 39,
+    "fields": {
+      "feature": 19,
+      "value": "Пассивное"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 40,
+    "fields": {
+      "feature": 24,
+      "value": "фронтальная"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 41,
+    "fields": {
+      "feature": 25,
+      "value": "7 кг"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 42,
+    "fields": {
+      "feature": 26,
+      "value": "15"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 43,
+    "fields": {
+      "feature": 27,
+      "value": "1200 об/мин"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 44,
+    "fields": {
+      "feature": 28,
+      "value": "B"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 45,
+    "fields": {
+      "feature": 29,
+      "value": "Нет"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 46,
+    "fields": {
+      "feature": 30,
+      "value": "Есть"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 47,
+    "fields": {
+      "feature": 25,
+      "value": "12 кг"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 48,
+    "fields": {
+      "feature": 29,
+      "value": "Есть"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 49,
+    "fields": {
+      "feature": 28,
+      "value": "A"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 50,
+    "fields": {
+      "feature": 26,
+      "value": "14"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 51,
+    "fields": {
+      "feature": 27,
+      "value": "1400 об/мин"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 52,
+    "fields": {
+      "feature": 31,
+      "value": "зеркальный фотоаппарат"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 53,
+    "fields": {
+      "feature": 32,
+      "value": "18-55 мм"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 54,
+    "fields": {
+      "feature": 33,
+      "value": "f/3.5-5.6"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 55,
+    "fields": {
+      "feature": 34,
+      "value": "Есть"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 56,
+    "fields": {
+      "feature": 35,
+      "value": "720х480, 1920х1280, 2592х1728, 3456х2304, 5184х3456"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 57,
+    "fields": {
+      "feature": 36,
+      "value": "Full HD (1920 x 1080)"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 58,
+    "fields": {
+      "feature": 37,
+      "value": "860 мА*ч"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 59,
+    "fields": {
+      "feature": 34,
+      "value": "Нет"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 60,
+    "fields": {
+      "feature": 37,
+      "value": "2280 мА*ч"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 61,
+    "fields": {
+      "feature": 36,
+      "value": "3840x2160"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 62,
+    "fields": {
+      "feature": 35,
+      "value": "6000x4000"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 63,
+    "fields": {
+      "feature": 31,
+      "value": "беззеркальная камера"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 64,
+    "fields": {
+      "feature": 38,
+      "value": "10 кадр./сек"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 65,
+    "fields": {
+      "feature": 39,
+      "value": "50N"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 66,
+    "fields": {
+      "feature": 40,
+      "value": "Открытие вверх с промежуточной фиксацией"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 67,
+    "fields": {
+      "feature": 41,
+      "value": "Нет"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 68,
+    "fields": {
+      "feature": 42,
+      "value": "60 000"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 69,
+    "fields": {
+      "feature": 43,
+      "value": "GR - Серый"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 70,
+    "fields": {
+      "feature": 44,
+      "value": "пропуск кабельный"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 71,
+    "fields": {
+      "feature": 45,
+      "value": "металл"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 72,
+    "fields": {
+      "feature": 46,
+      "value": "мебель"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 73,
+    "fields": {
+      "feature": 43,
+      "value": "матовый хром"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 74,
+    "fields": {
+      "feature": 47,
+      "value": "60 мм"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 75,
+    "fields": {
+      "feature": 48,
+      "value": "iOS 17"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 76,
+    "fields": {
+      "feature": 49,
+      "value": "2556x1179"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 77,
+    "fields": {
+      "feature": 50,
+      "value": "6.1\""
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 78,
+    "fields": {
+      "feature": 51,
+      "value": "A16 Bionic"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 79,
+    "fields": {
+      "feature": 52,
+      "value": "128 ГБ"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 80,
+    "fields": {
+      "feature": 53,
+      "value": "6 ГБ"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 81,
+    "fields": {
+      "feature": 54,
+      "value": "48/12"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 82,
+    "fields": {
+      "feature": 52,
+      "value": "512 ГБ"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 83,
+    "fields": {
+      "feature": 50,
+      "value": "6.67\""
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 84,
+    "fields": {
+      "feature": 53,
+      "value": "12 ГБ"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 85,
+    "fields": {
+      "feature": 48,
+      "value": "Android 13"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 86,
+    "fields": {
+      "feature": 54,
+      "value": "50.3"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 87,
+    "fields": {
+      "feature": 49,
+      "value": "2712x1220"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 88,
+    "fields": {
+      "feature": 51,
+      "value": "MediaTek Dimensity 9200+"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 89,
+    "fields": {
+      "feature": 55,
+      "value": "25 л"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 90,
+    "fields": {
+      "feature": 56,
+      "value": "1450 Вт"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 91,
+    "fields": {
+      "feature": 57,
+      "value": "900 Вт"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 92,
+    "fields": {
+      "feature": 58,
+      "value": "встраиваемая микроволновая печь"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 93,
+    "fields": {
+      "feature": 59,
+      "value": "Есть"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 94,
+    "fields": {
+      "feature": 60,
+      "value": "Есть"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 95,
+    "fields": {
+      "feature": 61,
+      "value": "поворотный механизм, сенсор"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 96,
+    "fields": {
+      "feature": 58,
+      "value": "микроволновая печь"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 97,
+    "fields": {
+      "feature": 61,
+      "value": "сенсор"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 98,
+    "fields": {
+      "feature": 55,
+      "value": "20 л"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 99,
+    "fields": {
+      "feature": 57,
+      "value": "700 Вт"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 100,
+    "fields": {
+      "feature": 56,
+      "value": "1000 Вт"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 101,
+    "fields": {
+      "feature": 62,
+      "value": "99 мин"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 102,
+    "fields": {
+      "feature": 63,
+      "value": "кофемашина автоматическая"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 103,
+    "fields": {
+      "feature": 64,
+      "value": "1.4 л"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 104,
+    "fields": {
+      "feature": 65,
+      "value": "15 Бар"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 105,
+    "fields": {
+      "feature": 66,
+      "value": "зерновой, молотый"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 106,
+    "fields": {
+      "feature": 67,
+      "value": "электронный"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 107,
+    "fields": {
+      "feature": 68,
+      "value": "Есть"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 108,
+    "fields": {
+      "feature": 69,
+      "value": "1450 Вт"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 109,
+    "fields": {
+      "feature": 63,
+      "value": "плита комбинированная"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 110,
+    "fields": {
+      "feature": 70,
+      "value": "4 шт"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 111,
+    "fields": {
+      "feature": 71,
+      "value": "электрическая"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 112,
+    "fields": {
+      "feature": 72,
+      "value": "52 л"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 113,
+    "fields": {
+      "feature": 73,
+      "value": "Есть"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 114,
+    "fields": {
+      "feature": 67,
+      "value": "поворотный механизм, сенсор"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 115,
+    "fields": {
+      "feature": 74,
+      "value": "Светодиодный торшер"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 116,
+    "fields": {
+      "feature": 75,
+      "value": "Нейтральный белый"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 117,
+    "fields": {
+      "feature": 76,
+      "value": "4000"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 118,
+    "fields": {
+      "feature": 77,
+      "value": "Сенсорный"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 119,
+    "fields": {
+      "feature": 78,
+      "value": "От 120 до 150"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 120,
+    "fields": {
+      "feature": 79,
+      "value": "175"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 121,
+    "fields": {
+      "feature": 80,
+      "value": "1"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 122,
+    "fields": {
+      "feature": 78,
+      "value": "147"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 123,
+    "fields": {
+      "feature": 74,
+      "value": "торшер"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 124,
+    "fields": {
+      "feature": 81,
+      "value": "E27"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 125,
+    "fields": {
+      "feature": 82,
+      "value": "напольное"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 126,
+    "fields": {
+      "feature": 83,
+      "value": "Нет"
+    }
+  },
+  {
+    "model": "shopapp.featurevalue",
+    "pk": 127,
+    "fields": {
+      "feature": 84,
+      "value": "Нет"
+    }
+  }
+]
