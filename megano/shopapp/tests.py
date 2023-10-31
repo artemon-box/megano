@@ -69,16 +69,26 @@ class SetUpClass(TestCase):
         ]
         # товары
         self.product1 = Product.objects.create(
-            category=self.category1, name="kuhonnyj-tehnik", slug="kuhonnyj-tehnik", available=True
+            category=self.category1,
+            name="kuhonnyj-tehnik",
+            slug="kuhonnyj-tehnik",
+            available=True,
+            image='megano/media/products/image_apple-airpods-pro-2/20221007121024884_11.jpg',
         )
         self.product2 = Product.objects.create(
             category=self.category2,
             name="naushnik",
             available=True,
             slug="naushnik",
+            image='megano/media/products/image_apple-airpods-pro-2/20221007121024884_11.jpg',
+
         )
         self.product3 = Product.objects.create(
-            category=self.category3, name="mikrovolnovaya-pech", slug="mikrovolnovaya-pech", available=True
+            category=self.category3,
+            name="mikrovolnovaya-pech",
+            slug="mikrovolnovaya-pech",
+            available=True,
+            image='megano/media/products/image_apple-airpods-pro-2/20221007121024884_11.jpg',
         )
         self.product4 = Product.objects.create(
             category=self.category4, name="mobilnyj-telefon", slug="mobilnyj-telefon", available=True
@@ -88,11 +98,11 @@ class SetUpClass(TestCase):
         )
         # активные продукты
         self.active_products = [
-            self.product1,
-            self.product2,
-            self.product3,
-            self.product4,
-            self.product5,
+            self.product1.name,
+            self.product2.name,
+            self.product3.name,
+            self.product4.name,
+            self.product5.name,
         ]
         # тестовые отзывы
         self.review1 = ProductReview.objects.create(product=self.product1, user=self.user, text="Review 1")
@@ -437,7 +447,7 @@ class RandomActiveProductBannersTest(SetUpClass):
         self.assertTrue(len(banners) <= 3)
 
         for banner in banners:
-            self.assertIn(banner, self.active_products)
+            self.assertIn(banner.name, self.active_products)
 
         cache_key = "random_product_banners"
         cached_banners = cache.get(cache_key)
