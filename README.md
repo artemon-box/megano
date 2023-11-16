@@ -39,7 +39,7 @@
 ## Установка проекта
 1. Для установки исходника интернет магазина необходимо ввести следующую команду:
 ```
-git clone https://gitlab.skillbox.ru/kurator_skillbox/python_django_team30.git
+git clone https://github.com/artemon-box/megano.git
 ```
 
 2. Необходимо создать и заполнить файл виртуального окружения `.env` по образцу `env.template`.
